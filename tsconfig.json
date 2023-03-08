@@ -4,11 +4,9 @@
       "noImplicitAny": true,
       "module": "es6",
       "target": "es6",
-      "jsx": "react",
-      "allowJs": true,
       "moduleResolution": "node",
       "downlevelIteration": true,
       "strictNullChecks": true,
-      "baseUrl": "./src",
+      "baseUrl": "./src/ts",
     }
   }

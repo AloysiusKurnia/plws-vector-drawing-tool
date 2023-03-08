@@ -4,11 +4,11 @@ const TerserPlugin = require('terser-webpack-plugin');
 const SOURCE_CODE_URL = '<not set>'
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: './src/ts/index.ts',
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        test: /\.ts$/,
         use: 'ts-loader',
         exclude: /node_modules/,
       },

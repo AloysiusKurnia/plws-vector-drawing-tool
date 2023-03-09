@@ -71,3 +71,40 @@ export class PathWrapper extends SVGWrapper<SVGPathElement> {
         this.setAttribute("d", d);
     }
 }
+
+export class BezierWrapper extends PathWrapper {
+    constructor(
+        private endpoint0: [number, number],
+        private controlPoint0: [number, number],
+        private controlPoint1: [number, number],
+        private endpoint1: [number, number]
+    ) {
+        super();
+        this.update();
+    }
+
+    update() {
+        this.setD(
+            `M ${this.endpoint0[0]} ${this.endpoint0[1]}
+            C ${this.controlPoint0[0]} ${this.controlPoint0[1]}
+              ${this.controlPoint1[0]} ${this.controlPoint1[1]}
+              ${this.endpoint1[0]} ${this.endpoint1[1]}`
+        );
+    }
+
+    setEndpoint0(x: number, y: number) {
+        this.endpoint0 = [x, y];
+    }
+
+    setControlPoint0(x: number, y: number) {
+        this.controlPoint0 = [x, y];
+    }
+
+    setControlPoint1(x: number, y: number) {
+        this.controlPoint1 = [x, y];
+    }
+
+    setEndpoint1(x: number, y: number) {
+        this.endpoint1 = [x, y];
+    }
+}

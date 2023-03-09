@@ -17,9 +17,10 @@ export abstract class SVGWrapper<E extends SVGElement> {
         this.element.setAttribute(name, value);
     }
 
-    setStroke(color: string, width: number) {
+    setStroke(color: string, width: number | null = null) {
         this.setAttribute("stroke", color);
-        this.setAttribute("stroke-width", `${width}`);
+        if (width !== null)
+            this.setAttribute("stroke-width", `${width}`);
     }
 
     setFill(color: string) {
@@ -28,6 +29,13 @@ export abstract class SVGWrapper<E extends SVGElement> {
 
     getBoundingBox() {
         return this.element.getBoundingClientRect();
+    }
+
+    addEvent<T extends keyof SVGElementEventMap>(
+        eventName: T,
+        listener: (ev: SVGElementEventMap[T]) => void
+    ) {
+        this.element.addEventListener(eventName, listener);
     }
 }
 
@@ -38,8 +46,10 @@ export class SVGGroup extends SVGWrapper<SVGGElement> {
 }
 
 export class CircleWrapper extends SVGWrapper<SVGCircleElement> {
-    constructor() {
+    constructor(x = 0, y = 0, r = 0) {
         super(createSVGFromTag("circle"));
+        this.setCenter(x, y);
+        this.setRadius(r);
     }
 
     setCenter(x: number, y: number) {

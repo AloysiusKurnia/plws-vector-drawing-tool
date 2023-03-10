@@ -8,5 +8,6 @@
       "downlevelIteration": true,
       "strictNullChecks": true,
       "baseUrl": "./src/ts",
+      "noImplicitOverride": true
     }
   }

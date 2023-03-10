@@ -1,5 +1,5 @@
 import { Selectable } from "selection-manager/selectable";
-import { SVGWrapper } from "util/svg";
+import { SVGWrapper } from "util/wrapper";
 
 export abstract class Element<T extends SVGWrapper<SVGElement>> implements Selectable {
     constructor(protected readonly element: T) {

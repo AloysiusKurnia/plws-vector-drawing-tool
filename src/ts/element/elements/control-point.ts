@@ -1,8 +1,8 @@
-import { CircleWrapper, SVGWrapper } from "util/svg";
+import { CircleWrapper, SVGWrapper } from "util/wrapper";
 import { Element } from "../element";
 
 const RED = '#FF0000';
-const BRIGHT_RED = '#FFAAAA';
+const YELLOW = '#FFFF00';
 const BLACK = 'black';
 const BRIGHT_BLACK = '#AAAAAA';
 
@@ -15,7 +15,7 @@ export class ControlPoint extends Element<CircleWrapper> {
     }
 
     updateGraphicsToSelected(): void {
-        this.element.setFill(BRIGHT_RED);
+        this.element.setFill(YELLOW);
         this.element.setStroke(BRIGHT_BLACK, 1);
     }
 

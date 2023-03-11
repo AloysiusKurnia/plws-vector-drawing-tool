@@ -1,4 +1,5 @@
-import { Element } from "element/element";
+import { DrawingElement } from "element/element";
+import { EventManager } from "observer/event-manager";
 import { Pair, Quadruple } from "util/utility-types";
 import { BezierWrapper, PathWrapper } from "util/wrapper";
 import { ControlPoint } from "./control-point";
@@ -13,7 +14,7 @@ function fourthRootDot(x1: number, y1: number, x2: number, y2: number) {
     return Math.sqrt(Math.hypot(dx, dy));
 }
 
-export class SplineSegment extends Element<BezierWrapper> {
+export class SplineSegment extends DrawingElement<BezierWrapper> {
     constructor(
         private p0: ControlPoint | null,
         private p1: ControlPoint,
@@ -25,11 +26,11 @@ export class SplineSegment extends Element<BezierWrapper> {
         this.element.setStroke(BLACK, 1);
     }
 
-    updateGraphicsToSelected(): void {
+    updateGraphicsToHovered(): void {
         this.element.setStroke(DARK_YELLOW, 1);
     }
 
-    updateGraphicsToDeselected(): void {
+    updateGraphicsToUnhovered(): void {
         this.element.setStroke(BLACK, 1);
     }
 
@@ -88,6 +89,12 @@ export class SplineSegment extends Element<BezierWrapper> {
     }
 
     drag(dx: number, dy: number): void {
+        // TODO: implement
+    }
 
+    registerEventManager(eventManager: EventManager): void {
+        this.addOnMouseDown(() => {
+            eventManager.onSegmentClick(this);
+        });
     }
 }

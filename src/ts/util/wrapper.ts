@@ -2,10 +2,10 @@ function createSVGFromTag<T extends keyof SVGElementTagNameMap>(tag: T): SVGElem
     return document.createElementNS("http://www.w3.org/2000/svg", tag);
 }
 
-export abstract class SVGWrapper<E extends SVGElement> {
+export abstract class ElementWrapper<E extends SVGElement> {
     constructor(private element: E) { }
 
-    appendTo(parent: SVGWrapper<SVGElement>) {
+    appendTo(parent: ElementWrapper<SVGElement>) {
         parent.element.appendChild(this.element);
     }
 
@@ -39,13 +39,13 @@ export abstract class SVGWrapper<E extends SVGElement> {
     }
 }
 
-export class SVGGroup extends SVGWrapper<SVGGElement> {
+export class SVGGroup extends ElementWrapper<SVGGElement> {
     constructor() {
         super(createSVGFromTag("g"));
     }
 }
 
-export class CircleWrapper extends SVGWrapper<SVGCircleElement> {
+export class CircleWrapper extends ElementWrapper<SVGCircleElement> {
     constructor(x = 0, y = 0, r = 0) {
         super(createSVGFromTag("circle"));
         this.setCenter(x, y);
@@ -62,7 +62,7 @@ export class CircleWrapper extends SVGWrapper<SVGCircleElement> {
     }
 }
 
-export class PathWrapper extends SVGWrapper<SVGPathElement> {
+export class PathWrapper extends ElementWrapper<SVGPathElement> {
     constructor() {
         super(createSVGFromTag("path"));
     }

@@ -1,4 +1,4 @@
-import { EventManager } from "observer/event-manager";
+import { ControlManager } from "observer/event-manager";
 import { Selectable } from "selection-manager/selectable";
 import { SVGWrapper } from "util/wrapper";
 import { ControlPoint } from "./elements/control-point";
@@ -15,7 +15,7 @@ export abstract class DrawingElement<T extends SVGWrapper<SVGElement> = SVGWrapp
     abstract updateGraphicsToUnhovered(): void;
     abstract drag(dx: number, dy: number): void;
 
-    abstract registerEventManager(eventManager: EventManager): void;
+    abstract registerEventManager(eventManager: ControlManager): void;
 
     protected addOnMouseDown(callback: (event: MouseEvent) => void) {
         this.element.addEvent('mousedown', callback);
@@ -23,7 +23,7 @@ export abstract class DrawingElement<T extends SVGWrapper<SVGElement> = SVGWrapp
 }
 
 export class ElementFactory {
-    constructor(private readonly eventManager: EventManager) {}
+    constructor(private readonly eventManager: ControlManager) {}
 
     createControlPoint(x: number, y: number): DrawingElement {
         const elem = new ControlPoint(x, y);

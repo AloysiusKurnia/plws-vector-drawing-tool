@@ -1,11 +1,13 @@
-import { EventManager } from "observer/event-manager";
+import { ControlPoint } from "element/elements/control-point";
+import { SplineSegment } from "element/elements/spline-segment";
+import { ControlManager } from "observer/event-manager";
+import { IdleState } from "./states/idle";
 
 type MaybeAppState = AppState | undefined;
 
 export abstract class AppState {
-    protected readonly eventManager: EventManager;
     onControlPointClick(point: ControlPoint): MaybeAppState { return undefined; }
-    onSegmentClick(segment: CurveSegment): MaybeAppState { return undefined; }
+    onSegmentClick(segment: SplineSegment): MaybeAppState { return undefined; }
     onMouseMove(x: number, y: number): MaybeAppState { return undefined; }
     onEscape(): MaybeAppState { return undefined; }
     onSpace(): MaybeAppState { return undefined; }
@@ -21,8 +23,8 @@ export abstract class AppState {
 
 export class StateTracker {
     private currentState: AppState;
-    constructor(eventManager: EventManager) {
-        this.currentState = new IdleState(eventManager);
+    constructor() {
+        this.currentState = new IdleState();
     }
 
     private changeStateIfNecessary(newState: MaybeAppState) {
@@ -35,7 +37,7 @@ export class StateTracker {
         this.changeStateIfNecessary(this.currentState.onControlPointClick(point));
     }
 
-    onSegmentClick(segment: CurveSegment) {
+    onSegmentClick(segment: SplineSegment) {
         this.changeStateIfNecessary(this.currentState.onSegmentClick(segment));
     }
 

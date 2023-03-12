@@ -1,4 +1,4 @@
-import { EventManager } from "observer/event-manager";
+import { ControlManager } from "observer/event-manager";
 import { CircleWrapper } from "util/wrapper";
 import { DrawingElement } from "../element";
 
@@ -39,7 +39,7 @@ export class ControlPoint extends DrawingElement<CircleWrapper> {
         this.element.setCenter(this.x, this.y);
     }
 
-    registerEventManager(eventManager: EventManager): void {
+    registerEventManager(eventManager: ControlManager): void {
         this.addOnMouseDown(() => {
             eventManager.onControlPointClick(this);
         })

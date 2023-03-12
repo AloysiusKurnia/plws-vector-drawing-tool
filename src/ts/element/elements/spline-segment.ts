@@ -1,5 +1,5 @@
 import { DrawingElement } from "element/element";
-import { EventManager } from "observer/event-manager";
+import { ControlManager } from "observer/event-manager";
 import { Pair, Quadruple } from "util/utility-types";
 import { BezierWrapper, PathWrapper } from "util/wrapper";
 import { ControlPoint } from "./control-point";
@@ -92,7 +92,7 @@ export class SplineSegment extends DrawingElement<BezierWrapper> {
         // TODO: implement
     }
 
-    registerEventManager(eventManager: EventManager): void {
+    registerEventManager(eventManager: ControlManager): void {
         this.addOnMouseDown(() => {
             eventManager.onSegmentClick(this);
         });

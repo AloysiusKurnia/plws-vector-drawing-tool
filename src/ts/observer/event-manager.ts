@@ -4,7 +4,7 @@ import { Selectable } from "selection-manager/selectable";
 import { StateTracker } from "state/state";
 import { ZoomManager } from "./zoom";
 
-export class EventManager {
+export class ControlManager {
     private stateTracker: StateTracker;
     private zoomManager: ZoomManager;
 

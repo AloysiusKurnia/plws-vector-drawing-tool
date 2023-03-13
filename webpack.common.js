@@ -1,7 +1,4 @@
 const path = require('path');
-const TerserPlugin = require('terser-webpack-plugin');
-
-const SOURCE_CODE_URL = '<not set>'
 
 module.exports = {
   entry: './src/ts/index.ts',
@@ -20,22 +17,13 @@ module.exports = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    modules: [
+      path.resolve(__dirname, 'src/ts'),
+      'node_modules',
+    ],
   },
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
-  },
-  optimization: {
-    minimize: true,
-    minimizer: [
-      new TerserPlugin({
-        terserOptions: {
-          mangle: { properties: true },
-          format: {
-            preamble: `/* Copyright (c) 2023 PseudoLW - Source code is available at ${SOURCE_CODE_URL} */`,
-          }
-        }
-      }),
-    ],
   },
 };

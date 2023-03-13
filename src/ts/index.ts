@@ -1,4 +1,7 @@
-import { SomeClass } from "./class-test";
+import { App } from "app";
 
-const someClass = new SomeClass();
-someClass.someMethod();
+function main() {
+    const app = new App(document.body);
+}
+
+main();

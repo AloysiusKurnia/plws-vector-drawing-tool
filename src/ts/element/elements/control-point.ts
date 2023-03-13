@@ -1,5 +1,5 @@
 import { ControlManager } from "observer/event-manager";
-import { CircleWrapper } from "util/wrapper";
+import { CircleWrapper } from "util/svg-wrapper";
 import { DrawingElement } from "../element";
 
 const RED = '#FF0000';

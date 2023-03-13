@@ -1,6 +1,6 @@
 import { ControlManager } from "observer/event-manager";
 import { Selectable } from "selection-manager/selectable";
-import { ElementWrapper } from "util/wrapper";
+import { ElementWrapper } from "util/svg-wrapper";
 import { ControlPoint } from "./elements/control-point";
 
 export abstract class DrawingElement<T extends ElementWrapper<SVGElement> = ElementWrapper<SVGElement>> implements Selectable {

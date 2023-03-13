@@ -1,7 +1,7 @@
 import { DrawingElement } from "element/element";
 import { ControlManager } from "observer/event-manager";
 import { Pair, Quadruple } from "util/utility-types";
-import { BezierWrapper, PathWrapper } from "util/wrapper";
+import { BezierWrapper, PathWrapper } from "util/svg-wrapper";
 import { ControlPoint } from "./control-point";
 
 const DARK_YELLOW = '#AAAA00';

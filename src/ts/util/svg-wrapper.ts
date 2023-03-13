@@ -6,7 +6,11 @@ export abstract class ElementWrapper<E extends SVGElement> {
     constructor(private element: E) { }
 
     appendTo(parent: ElementWrapper<SVGElement>) {
-        parent.element.appendChild(this.element);
+        this.appendToElement(parent.element);
+    }
+
+    appendToElement(parent: SVGElement | HTMLElement) {
+        parent.appendChild(this.element);
     }
 
     remove() {
@@ -39,9 +43,13 @@ export abstract class ElementWrapper<E extends SVGElement> {
     }
 }
 
-export class SVGGroup extends ElementWrapper<SVGGElement> {
+export class GroupWrapper extends ElementWrapper<SVGGElement> {
     constructor() {
         super(createSVGFromTag("g"));
+    }
+
+    add(...children: ElementWrapper<SVGElement>[]) {
+        children.forEach(child => child.appendTo(this));
     }
 }
 
@@ -106,5 +114,28 @@ export class BezierWrapper extends PathWrapper {
     setEndpoint1(x: number, y: number) {
         this.otherPoints[4] = x;
         this.otherPoints[5] = y;
+    }
+}
+
+export class SVGWrapper extends ElementWrapper<SVGSVGElement> {
+    constructor() {
+        super(createSVGFromTag("svg"));
+    }
+
+    setViewBox(x: number, y: number, width: number, height: number) {
+        this.setAttribute("viewBox", `${x} ${y} ${width} ${height}`);
+    }
+
+    setWidth(width: number) {
+        this.setAttribute("width", width.toString());
+    }
+
+    setHeight(height: number) {
+        this.setAttribute("height", height.toString());
+    }
+
+    fillParent() {
+        this.setAttribute("width", "100%");
+        this.setAttribute("height", "100%");
     }
 }

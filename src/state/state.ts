@@ -7,8 +7,11 @@ export abstract class AppState {
         this.stateTracker.setCurrentState(state);
     }
 
+    // These are to be overridden by the child classes. By default, they do nothing.
+
     onControlPointClick(point: ControlPoint) { }
     onSegmentClick(segment: SplineSegment) { }
+    onEmptyClick(x: number, y: number) { }
     onMouseMove(x: number, y: number) { }
     onEscape() { }
     onSpace() { }

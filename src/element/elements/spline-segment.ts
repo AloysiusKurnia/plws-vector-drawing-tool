@@ -1,7 +1,6 @@
 import { DrawingElement } from "element/element";
-import { ControlManager } from "observer/control-manager";
+import { BezierWrapper } from "util/svg-wrapper";
 import { Pair, Quadruple } from "util/utility-types";
-import { BezierWrapper, PathWrapper } from "util/svg-wrapper";
 import { ControlPoint } from "./control-point";
 
 const DARK_YELLOW = '#AAAA00';
@@ -90,11 +89,5 @@ export class SplineSegment extends DrawingElement<BezierWrapper> {
 
     drag(dx: number, dy: number): void {
         // TODO: implement
-    }
-
-    registerEventManager(eventManager: ControlManager): void {
-        this.addOnMouseDown(() => {
-            eventManager.onSegmentClick(this);
-        });
     }
 }

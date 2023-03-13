@@ -38,10 +38,4 @@ export class ControlPoint extends DrawingElement<CircleWrapper> {
         this.y += dy;
         this.element.setCenter(this.x, this.y);
     }
-
-    registerEventManager(eventManager: ControlManager): void {
-        this.addOnMouseDown(() => {
-            eventManager.onControlPointClick(this);
-        })
-    }
 }

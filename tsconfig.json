@@ -7,7 +7,7 @@
       "moduleResolution": "node",
       "downlevelIteration": true,
       "strictNullChecks": true,
-      "baseUrl": "./src/ts",
+      "baseUrl": "./src",
       "noImplicitOverride": true
     }
   }

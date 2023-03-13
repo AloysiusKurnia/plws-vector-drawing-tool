@@ -125,17 +125,4 @@ export class SVGWrapper extends ElementWrapper<SVGSVGElement> {
     setViewBox(x: number, y: number, width: number, height: number) {
         this.setAttribute("viewBox", `${x} ${y} ${width} ${height}`);
     }
-
-    setWidth(width: number) {
-        this.setAttribute("width", width.toString());
-    }
-
-    setHeight(height: number) {
-        this.setAttribute("height", height.toString());
-    }
-
-    fillParent() {
-        this.setAttribute("width", "100%");
-        this.setAttribute("height", "100%");
-    }
 }

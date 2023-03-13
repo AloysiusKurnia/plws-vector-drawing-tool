@@ -5,9 +5,6 @@ export class Canvas extends SVGWrapper {
     private controlPointGroup: GroupWrapper;
     constructor(parent: HTMLElement) {
         super();
-        this.setAttribute("width", "100%");
-        this.setAttribute("height", "100%");
-        
         this.segmentGroup = new GroupWrapper();
         this.controlPointGroup = new GroupWrapper();
         this.segmentGroup.appendTo(this);

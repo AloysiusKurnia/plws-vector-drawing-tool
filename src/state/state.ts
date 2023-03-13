@@ -5,6 +5,11 @@ import { ControlManager } from "observer/event-manager";
 type MaybeAppState = AppState | undefined;
 
 export abstract class AppState {
+    constructor(private stateTracker: StateTracker) {}
+    protected changeState(state: AppState) {
+        this.stateTracker.setCurrentState(state);
+    }
+
     onControlPointClick(point: ControlPoint): MaybeAppState { return undefined; }
     onSegmentClick(segment: SplineSegment): MaybeAppState { return undefined; }
     onMouseMove(x: number, y: number): MaybeAppState { return undefined; }
@@ -18,4 +23,9 @@ export abstract class AppState {
     onNumber2(): MaybeAppState { return undefined; }
     onNumber3(): MaybeAppState { return undefined; }
     onNumber4(): MaybeAppState { return undefined; }
+}
+
+export interface StateTracker {
+    getCurrentState(): AppState;
+    setCurrentState(state: AppState): void;
 }

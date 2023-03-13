@@ -1,6 +1,6 @@
 import { ControlPoint } from "element/elements/control-point";
 import { SplineSegment } from "element/elements/spline-segment";
-import { ControlManager } from "observer/event-manager";
+import { ControlManager } from "observer/control-manager";
 
 type MaybeAppState = AppState | undefined;
 

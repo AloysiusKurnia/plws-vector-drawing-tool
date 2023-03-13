@@ -1,4 +1,4 @@
-import { ControlManager } from "observer/event-manager";
+import { ControlManager } from "observer/control-manager";
 import { CircleWrapper } from "util/svg-wrapper";
 import { DrawingElement } from "../element";
 

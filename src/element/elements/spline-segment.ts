@@ -1,5 +1,5 @@
 import { DrawingElement } from "element/element";
-import { ControlManager } from "observer/event-manager";
+import { ControlManager } from "observer/control-manager";
 import { Pair, Quadruple } from "util/utility-types";
 import { BezierWrapper, PathWrapper } from "util/svg-wrapper";
 import { ControlPoint } from "./control-point";

@@ -1,4 +1,5 @@
-import { Pair, Quadruple } from "util/utility-types";
+import { SVGWrapper } from "util/svg-wrapper";
+import { Pair } from "util/utility-types";
 
 export class ZoomManager {
     private scalePower = 1;
@@ -7,13 +8,13 @@ export class ZoomManager {
     private readonly BASE = 1.2;
     private readonly STANDARD_VIEWBOX_WIDTH = 300;
 
-    toViewBox(): Quadruple<number> {
-        return [
+    applyViewBoxTo(wrapper: SVGWrapper): void {
+        wrapper.setViewBox(
             this.centerX - this.viewBoxWidth / 2,
             this.centerY - this.viewBoxWidth / 2,
             this.viewBoxWidth,
             this.viewBoxWidth
-        ];
+        );
     }
 
     private get viewBoxWidth(): number {

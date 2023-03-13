@@ -2,7 +2,7 @@ import { Canvas } from "canvas";
 import { ControlPoint } from "element/elements/control-point";
 import { SplineSegment } from "element/elements/spline-segment";
 import { AppState, StateTracker } from "state/state";
-import { ElementWrapper } from "util/svg-wrapper";
+import { ElementWrapper, SVGWrapper } from "util/svg-wrapper";
 import { ZoomManager } from "./zoom";
 
 export class ControlManager {
@@ -14,6 +14,7 @@ export class ControlManager {
     constructor(
         stateTracker: StateTracker,
         zoomManager: ZoomManager,
+        canvas: SVGWrapper
     ) {
         this.stateTracker = stateTracker;
         this.zoomManager = zoomManager;
@@ -42,8 +43,10 @@ export class ControlManager {
             const key = event.key;
             if (key in this.stateKeyMapping) {
                 this.stateKeyMapping[key](this.getCurrentState());
+                
             } else if (key in this.miscKeyMapping) {
                 this.miscKeyMapping[key]();
+                zoomManager.applyViewBoxTo(canvas);
             }
         });
 

@@ -9,7 +9,7 @@ export class ControlManager {
     private stateTracker: StateTracker;
     private zoomManager: ZoomManager;
     private stateKeyMapping: Record<string, (state: AppState) => void>;
-    private miscKeyMapping: Record<string, () => void>;
+    private zoomKeyMapping: Record<string, () => void>;
     private amplification = 0;
     private miscPressedKeys: Record<string, boolean> = {};
     private toBeDoneOnEveryFrame: Record<number, () => void> = {};
@@ -34,7 +34,7 @@ export class ControlManager {
             "4": state => state.onNumber4()
         };
 
-        this.miscKeyMapping = {
+        this.zoomKeyMapping = {
             "a": () => this.zoomManager.pan(-10, 0),
             "d": () => this.zoomManager.pan(10, 0),
             "w": () => this.zoomManager.pan(0, -10),
@@ -42,9 +42,6 @@ export class ControlManager {
             "q": () => this.zoomManager.zoomIn(),
             "e": () => this.zoomManager.zoomOut(),
         };
-        for (const key in this.miscKeyMapping) {
-            this.miscPressedKeys[key] = false;
-        }
 
         document.addEventListener("keydown", (event) => {
             const key = event.key;
@@ -53,8 +50,8 @@ export class ControlManager {
 
                 this.stateKeyMapping[key](this.getCurrentState());
 
-            } else if (key in this.miscKeyMapping) {
-                this.miscKeyMapping[key]();
+            } else if (key in this.zoomKeyMapping) {
+                this.zoomKeyMapping[key]();
                 zoomManager.applyViewBoxTo(canvas);
                 this.miscPressedKeys[key] = true;
             }

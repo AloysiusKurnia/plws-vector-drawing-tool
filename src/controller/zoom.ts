@@ -1,12 +1,19 @@
 import { SVGWrapper } from "util/svg-wrapper";
 import { Pair } from "util/utility-types";
 
+export interface ZoomAnimationController {
+    addOnEveryFrame(callback: () => void): void;
+    removeOnEveryFrame(callback: () => void): void;
+}
+
 export class ZoomManager {
     private scalePower = 1;
     private centerX = 0;
     private centerY = 0;
     private readonly BASE = 1.2;
     private readonly STANDARD_VIEWBOX_WIDTH = 300;
+
+    constructor(private animationController: ZoomAnimationController) { }
 
     applyViewBoxTo(wrapper: SVGWrapper): void {
         wrapper.setViewBox(

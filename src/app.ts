@@ -1,6 +1,6 @@
 import { Canvas } from "canvas";
 import { ControlPoint } from "element/elements/control-point";
-import { ZoomManager } from "observer/zoom";
+import { ZoomManager } from "controller/zoom";
 import { AppState, StateTracker } from "state/state";
 import { IdleState } from "state/states/idle";
 

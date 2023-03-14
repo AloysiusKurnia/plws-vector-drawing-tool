@@ -1,8 +1,8 @@
 import { ControlManager } from "controller/event-controller";
 import { Selectable } from "selection-manager/selectable";
 import { ElementWrapper } from "util/svg-wrapper";
-import { ControlPoint } from "./elements/control-point";
-import { SplineSegment } from "./elements/spline-segment";
+import { ControlPoint } from "./components/control-point";
+import { SplineSegment } from "./components/spline-segment";
 
 export abstract class DrawingElement<T extends ElementWrapper<SVGElement> = ElementWrapper<SVGElement>> implements Selectable {
     constructor(

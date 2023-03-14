@@ -1,4 +1,4 @@
-import { DrawingElement } from "element/element";
+import { DrawingElement } from "views/element";
 import { BezierWrapper } from "util/svg-wrapper";
 import { Pair, Quadruple } from "util/utility-types";
 import { ControlPoint } from "./control-point";

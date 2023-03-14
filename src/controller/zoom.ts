@@ -1,22 +1,43 @@
 import { SVGWrapper } from "util/svg-wrapper";
 import { Pair } from "util/utility-types";
+import { AnimationFrameController } from "./animation-frame-controller";
 
-export interface ZoomAnimationController {
-    addOnEveryFrame(callback: () => void): void;
-    removeOnEveryFrame(callback: () => void): void;
-}
-
-export class ZoomManager {
+export class ZoomController {
     private scalePower = 1;
     private centerX = 0;
     private centerY = 0;
+
     private readonly BASE = 1.2;
     private readonly STANDARD_VIEWBOX_WIDTH = 300;
+    private readonly PAN_AMOUNT_PER_FRAME = 10;
+    private readonly ZOOM_AMOUNT_PER_FRAME = 0.1;
 
-    constructor(private animationController: ZoomAnimationController) { }
+    private dx = 0;
+    private dy = 0;
+    private dZoom = 0;
+    constructor(
+        private animationController: AnimationFrameController,
+        private svg: SVGWrapper,
+    ) {
+        this.animationController.register(() => this.update());
+    }
 
-    applyViewBoxTo(wrapper: SVGWrapper): void {
-        wrapper.setViewBox(
+    addForce(
+        dx: -1 | 0 | 1,
+        dy: -1 | 0 | 1,
+        dZoom: -1 | 0 | 1,
+    ) {
+        this.dx += dx;
+        this.dy += dy;
+        this.dZoom += dZoom;
+    }
+
+    private update() {
+        this.centerX += this.dx * this.PAN_AMOUNT_PER_FRAME;
+        this.centerY += this.dy * this.PAN_AMOUNT_PER_FRAME;
+        this.scalePower += this.dZoom * this.ZOOM_AMOUNT_PER_FRAME;
+
+        this.svg.setViewBox(
             this.centerX - this.viewBoxWidth / 2,
             this.centerY - this.viewBoxWidth / 2,
             this.viewBoxWidth,
@@ -29,10 +50,6 @@ export class ZoomManager {
         return this.STANDARD_VIEWBOX_WIDTH * scale;
     }
 
-    pan(dx: number, dy: number) {
-        this.centerX += dx;
-        this.centerY += dy;
-    }
 
     translatePosition(
         clientX: number, clientY: number,

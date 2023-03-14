@@ -1,22 +1,31 @@
-import { Canvas } from "canvas";
-import { ControlPoint } from "element/elements/control-point";
-import { SplineSegment } from "element/elements/spline-segment";
 import { AppState, StateTracker } from "state/state";
-import { ElementWrapper, SVGWrapper } from "util/svg-wrapper";
-import { ZoomManager } from "./zoom";
+import { SVGWrapper } from "util/svg-wrapper";
+import { Triple } from "util/utility-types";
+import { Canvas } from "views/canvas";
+import { ControlPoint } from "views/components/control-point";
+import { SplineSegment } from "views/components/spline-segment";
+import { ZoomController } from "./zoom";
 
 export class ControlManager {
     private stateTracker: StateTracker;
-    private zoomManager: ZoomManager;
+    private zoomManager: ZoomController;
     private stateKeyMapping: Record<string, (state: AppState) => void>;
-    private zoomKeyMapping: Record<string, () => void>;
+    private zoomForceMapping: Record<string, Triple<-1 | 0 | 1>> = {
+        "a": [1, 0, 0],
+        "d": [-1, 0, 0],
+        "w": [0, 1, 0],
+        "s": [0, -1, 0],
+        "q": [0, 0, 1],
+        "e": [0, 0, -1]
+    };
+
     private amplification = 0;
     private miscPressedKeys: Record<string, boolean> = {};
     private toBeDoneOnEveryFrame: Record<number, () => void> = {};
 
     constructor(
         stateTracker: StateTracker,
-        zoomManager: ZoomManager,
+        zoomManager: ZoomController,
         canvas: SVGWrapper
     ) {
         this.stateTracker = stateTracker;
@@ -34,26 +43,14 @@ export class ControlManager {
             "4": state => state.onNumber4()
         };
 
-        this.zoomKeyMapping = {
-            "a": () => this.zoomManager.pan(-10, 0),
-            "d": () => this.zoomManager.pan(10, 0),
-            "w": () => this.zoomManager.pan(0, -10),
-            "s": () => this.zoomManager.pan(0, 10),
-            "q": () => this.zoomManager.zoomIn(),
-            "e": () => this.zoomManager.zoomOut(),
-        };
-
         document.addEventListener("keydown", (event) => {
+            if (event.repeat) { return; }
             const key = event.key;
             if (key in this.stateKeyMapping) {
-                if (event.repeat) { return; }
-
                 this.stateKeyMapping[key](this.getCurrentState());
-
-            } else if (key in this.zoomKeyMapping) {
-                this.zoomKeyMapping[key]();
-                zoomManager.applyViewBoxTo(canvas);
-                this.miscPressedKeys[key] = true;
+            } else if (key in this.zoomForceMapping) {
+                const [dx, dy, dZoom] = this.zoomForceMapping[key];
+                this.zoomManager.addForce(dx, dy, dZoom);
             }
         });
 
@@ -69,19 +66,6 @@ export class ControlManager {
                 this.toBeDoneOnEveryFrame[key]();
             }
         });
-    }
-
-    registerOnEveryFrame(callback: () => void): number {
-        let token = 0;
-        while (token in this.toBeDoneOnEveryFrame) {
-            token++;
-        }
-        this.toBeDoneOnEveryFrame[token] = callback;
-        return token;
-    }
-
-    unregisterOnEveryFrame(token: number) {
-        delete this.toBeDoneOnEveryFrame[token];
     }
 
 

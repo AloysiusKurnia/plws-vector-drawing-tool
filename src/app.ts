@@ -1,11 +1,11 @@
-import { Canvas } from "canvas";
-import { ControlPoint } from "element/elements/control-point";
-import { ZoomManager } from "controller/zoom";
+import { Canvas } from "views/canvas";
+import { ControlPoint } from "views/components/control-point";
+import { ZoomController } from "controller/zoom";
 import { AppState, StateTracker } from "state/state";
 import { IdleState } from "state/states/idle";
 
 export class App implements StateTracker {
-    private zoomManager = new ZoomManager();
+    private zoomManager = new ZoomController();
     private currentState: AppState;
     private canvas: Canvas;
 

@@ -1,4 +1,4 @@
-import { BezierWrapper, GroupWrapper, SVGWrapper } from "util/svg-wrapper";
+import { BezierWrapper, CircleWrapper, GroupWrapper, SVGWrapper } from "util/svg-wrapper";
 
 export class Canvas extends SVGWrapper {
     private segmentGroup: GroupWrapper;
@@ -17,7 +17,7 @@ export class Canvas extends SVGWrapper {
         segment.appendTo(this.segmentGroup);
     }
 
-    addControlPoint(point: BezierWrapper) {
+    addControlPoint(point: CircleWrapper) {
         point.appendTo(this.controlPointGroup);
     }
 }

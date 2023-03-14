@@ -16,7 +16,7 @@ export class App implements StateTracker {
 
     addNewPoint(x: number, y: number) {
         const point = new ControlPoint(x, y);
-        this.canvas.addControlPoint(point);
+        this.canvas.addControlPoint(point.getElement());
     }
 
     getCurrentState(): AppState {

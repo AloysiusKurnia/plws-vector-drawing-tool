@@ -10,6 +10,9 @@ export class ControlManager {
     private zoomManager: ZoomManager;
     private stateKeyMapping: Record<string, (state: AppState) => void>;
     private miscKeyMapping: Record<string, () => void>;
+    private amplification = 0;
+    private miscPressedKeys: Record<string, boolean> = {};
+    private toBeDoneOnEveryFrame: Record<number, () => void> = {};
 
     constructor(
         stateTracker: StateTracker,
@@ -30,6 +33,7 @@ export class ControlManager {
             "3": state => state.onNumber3(),
             "4": state => state.onNumber4()
         };
+
         this.miscKeyMapping = {
             "a": () => this.zoomManager.pan(-10, 0),
             "d": () => this.zoomManager.pan(10, 0),
@@ -38,15 +42,21 @@ export class ControlManager {
             "q": () => this.zoomManager.zoomIn(),
             "e": () => this.zoomManager.zoomOut(),
         };
+        for (const key in this.miscKeyMapping) {
+            this.miscPressedKeys[key] = false;
+        }
 
         document.addEventListener("keydown", (event) => {
             const key = event.key;
             if (key in this.stateKeyMapping) {
+                if (event.repeat) { return; }
+
                 this.stateKeyMapping[key](this.getCurrentState());
-                
+
             } else if (key in this.miscKeyMapping) {
                 this.miscKeyMapping[key]();
                 zoomManager.applyViewBoxTo(canvas);
+                this.miscPressedKeys[key] = true;
             }
         });
 
@@ -56,7 +66,27 @@ export class ControlManager {
                 this.getCurrentState().onReleaseR();
             }
         });
+
+        requestAnimationFrame(() => {
+            for (const key in this.toBeDoneOnEveryFrame) {
+                this.toBeDoneOnEveryFrame[key]();
+            }
+        });
     }
+
+    registerOnEveryFrame(callback: () => void): number {
+        let token = 0;
+        while (token in this.toBeDoneOnEveryFrame) {
+            token++;
+        }
+        this.toBeDoneOnEveryFrame[token] = callback;
+        return token;
+    }
+
+    unregisterOnEveryFrame(token: number) {
+        delete this.toBeDoneOnEveryFrame[token];
+    }
+
 
     registerControlPointClick(point: ControlPoint) {
         point.getElement().addEvent("mousedown",

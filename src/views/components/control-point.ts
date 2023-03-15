@@ -11,6 +11,7 @@ export class ControlPoint extends DrawingElement<CircleWrapper> {
         super(new CircleWrapper());
         this.element.setFill(RED);
         this.element.setStroke(BLACK, 1);
+        this.element.setRadius(5);
         this.element.setCenter(x, y);
     }
 

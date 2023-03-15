@@ -1,21 +1,19 @@
 import { Procedure } from "util/utility-types";
 
 export class AnimationFrameController {
-    private procedureMap: Map<Procedure, number> = new Map();
-
+    private procedureMap = new Map<Procedure, Procedure>();
     public register(procedure: Procedure): void {
-        const id = requestAnimationFrame(() => {
+        const loop = () => {
+            if (!this.procedureMap.has(procedure)) { return; }
+
             procedure();
-            this.procedureMap.delete(procedure);
-        });
-        this.procedureMap.set(procedure, id);
+            requestAnimationFrame(loop);
+        };
+        this.procedureMap.set(procedure, loop);
+        requestAnimationFrame(loop);
     }
 
     public unregister(procedure: Procedure): void {
-        const id = this.procedureMap.get(procedure);
-        if (id) {
-            cancelAnimationFrame(id);
-            this.procedureMap.delete(procedure);
-        }
+        this.procedureMap.delete(procedure);
     }
 }

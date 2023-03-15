@@ -23,9 +23,9 @@ export class ZoomController {
     }
 
     addForce(
-        dx: -1 | 0 | 1,
-        dy: -1 | 0 | 1,
-        dZoom: -1 | 0 | 1,
+        dx: number,
+        dy: number,
+        dZoom: number,
     ) {
         this.dx += dx;
         this.dy += dy;

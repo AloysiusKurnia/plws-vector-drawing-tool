@@ -10,13 +10,13 @@ export class ControlManager {
     private stateTracker: StateTracker;
     private zoomManager: ZoomController;
     private stateKeyMapping: Record<string, (state: AppState) => void>;
-    private zoomForceMapping: Record<string, Triple<-1 | 0 | 1>> = {
-        "a": [1, 0, 0],
-        "d": [-1, 0, 0],
-        "w": [0, 1, 0],
-        "s": [0, -1, 0],
-        "q": [0, 0, 1],
-        "e": [0, 0, -1]
+    private zoomForceMapping: Record<string, Triple<number>> = {
+        "a": [-1, 0, 0],
+        "d": [1, 0, 0],
+        "w": [0, -1, 0],
+        "s": [0, 1, 0],
+        "q": [0, 0, -1],
+        "e": [0, 0, 1]
     };
 
     private amplification = 0;
@@ -58,6 +58,9 @@ export class ControlManager {
             const key = event.key;
             if (key === "r") {
                 this.getCurrentState().onReleaseR();
+            } else if (key in this.zoomForceMapping) {
+                const [dx, dy, dZoom] = this.zoomForceMapping[key];
+                this.zoomManager.addForce(-dx, -dy, -dZoom);
             }
         });
 

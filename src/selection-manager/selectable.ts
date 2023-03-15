@@ -1,5 +1,5 @@
 export interface Selectable {
     updateGraphicsToHovered(): void;
-    updateGraphicsToUnhovered(): void;
+    updateGraphicsToDefault(): void;
     drag(dx: number, dy: number): void;
 }

@@ -35,6 +35,10 @@ export abstract class ElementWrapper<E extends SVGElement> {
         return this.element.getBoundingClientRect();
     }
 
+    get style() {
+        return this.element.style;
+    }
+
     addEvent<T extends keyof SVGElementEventMap>(
         eventName: T,
         listener: (ev: SVGElementEventMap[T]) => void

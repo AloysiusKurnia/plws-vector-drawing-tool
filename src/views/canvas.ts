@@ -1,3 +1,4 @@
+import { COLOR } from "util/colors";
 import { BezierWrapper, CircleWrapper, GroupWrapper, SVGWrapper } from "util/svg-wrapper";
 
 export class Canvas extends SVGWrapper {
@@ -19,5 +20,13 @@ export class Canvas extends SVGWrapper {
 
     addControlPoint(point: CircleWrapper) {
         point.appendTo(this.controlPointGroup);
+    }
+
+    darken() {
+        this.style.backgroundColor = COLOR.darkWhite;
+    }
+
+    lighten() {
+        this.style.backgroundColor = COLOR.white;
     }
 }

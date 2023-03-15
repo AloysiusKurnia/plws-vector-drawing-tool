@@ -15,7 +15,7 @@ export class SelectionManager {
         const selectedSet = this.selected;
         if (selectedSet.has(selectable)) {
             selectedSet.add(selectable);
-            selectable.updateGraphicsToUnhovered();
+            selectable.updateGraphicsToDefault();
         }
     }
 }

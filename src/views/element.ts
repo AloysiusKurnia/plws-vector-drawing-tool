@@ -6,11 +6,11 @@ export abstract class DrawingElement<T extends ElementWrapper<SVGElement> = Elem
         protected readonly element: T
     ) {
         element.addEvent('mouseenter', () => this.updateGraphicsToHovered());
-        element.addEvent('mouseleave', () => this.updateGraphicsToUnhovered());
+        element.addEvent('mouseleave', () => this.updateGraphicsToDefault());
     }
 
     abstract updateGraphicsToHovered(): void;
-    abstract updateGraphicsToUnhovered(): void;
+    abstract updateGraphicsToDefault(): void;
     abstract drag(dx: number, dy: number): void;
 
     protected addOnMouseDown(callback: (event: MouseEvent) => void) {

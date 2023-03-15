@@ -29,7 +29,7 @@ export class SplineSegment extends DrawingElement<BezierWrapper> {
         this.element.setStroke(DARK_YELLOW, 1);
     }
 
-    updateGraphicsToUnhovered(): void {
+    updateGraphicsToDefault(): void {
         this.element.setStroke(BLACK, 1);
     }
 

@@ -9,7 +9,7 @@ export class ZoomController {
 
     private readonly BASE = 1.2;
     private readonly STANDARD_VIEWBOX_WIDTH = 300;
-    private readonly PAN_AMOUNT_PER_FRAME = 10;
+    private readonly PAN_AMOUNT_PER_FRAME = 7;
     private readonly ZOOM_AMOUNT_PER_FRAME = 0.1;
 
     private dx = 0;
@@ -33,8 +33,9 @@ export class ZoomController {
     }
 
     private update() {
-        this.centerX += this.dx * this.PAN_AMOUNT_PER_FRAME;
-        this.centerY += this.dy * this.PAN_AMOUNT_PER_FRAME;
+        const scale = this.BASE ** this.scalePower;
+        this.centerX += this.dx * this.PAN_AMOUNT_PER_FRAME * scale;
+        this.centerY += this.dy * this.PAN_AMOUNT_PER_FRAME * scale;
         this.scalePower += this.dZoom * this.ZOOM_AMOUNT_PER_FRAME;
 
         this.svg.setViewBox(

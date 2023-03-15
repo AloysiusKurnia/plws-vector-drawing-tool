@@ -1,8 +1,8 @@
-import { ControlPoint } from "element/elements/control-point";
-import { SplineSegment } from "element/elements/spline-segment";
+import { ControlPoint } from "views/components/control-point";
+import { SplineSegment } from "views/components/spline-segment";
 
 export abstract class AppState {
-    constructor(private stateTracker: StateTracker) { }
+    constructor(protected readonly stateTracker: StateTracker) { }
     protected changeState(state: AppState) {
         this.stateTracker.setCurrentState(state);
     }

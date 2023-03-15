@@ -4,15 +4,15 @@ import { BezierWrapper, CircleWrapper, GroupWrapper, SVGWrapper } from "util/svg
 export class Canvas extends SVGWrapper {
     private segmentGroup: GroupWrapper;
     private controlPointGroup: GroupWrapper;
-    private constructor() {
+    constructor(parent: HTMLElement) {
         super();
         this.segmentGroup = new GroupWrapper();
         this.controlPointGroup = new GroupWrapper();
         this.segmentGroup.appendTo(this);
         this.controlPointGroup.appendTo(this);
-    }
 
-    static readonly instance = new Canvas();
+        this.appendToElement(parent);
+    }
 
     addSplineSegment(segment: BezierWrapper) {
         segment.appendTo(this.segmentGroup);

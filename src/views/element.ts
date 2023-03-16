@@ -19,4 +19,8 @@ export abstract class DrawingElement<T extends ElementWrapper<SVGElement> = Elem
     getElement(): T {
         return this.element;
     }
+
+    remove() {
+        this.element.remove();
+    }
 }

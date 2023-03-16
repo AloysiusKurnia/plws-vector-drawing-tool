@@ -22,6 +22,7 @@ export class DrawInitState extends AppState {
     }
 
     override onEmptyClick(x: number, y: number): void {
-        this.app.addNewPoint(x, y);
+        this.app.lightenCanvas();
+        this.stateTracker.setCurrentState(this.factory.drawing(x, y));
     }
 }

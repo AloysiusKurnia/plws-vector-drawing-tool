@@ -21,6 +21,7 @@ export class Canvas extends SVGWrapper {
     addControlPoint(point: CircleWrapper) {
         point.appendTo(this.controlPointGroup);
     }
+    
 
     darken() {
         this.style.backgroundColor = COLOR.darkWhite;

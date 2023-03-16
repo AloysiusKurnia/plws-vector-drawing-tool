@@ -6,6 +6,7 @@ import { StateFactory } from "state/state-factory";
 import { IdleState } from "state/states/idle";
 import { Canvas } from "views/canvas";
 import { ControlPoint } from "views/components/control-point";
+import { DrawingElement } from "views/element";
 import { ElementFactory } from "views/element-factory";
 
 export class App implements StateTracker {
@@ -50,6 +51,10 @@ export class App implements StateTracker {
 
     lightenCanvas() {
         this.canvas.lighten();
+    }
+
+    remove(element: DrawingElement) {
+        element.remove();
     }
 
     getCurrentState(): AppState {

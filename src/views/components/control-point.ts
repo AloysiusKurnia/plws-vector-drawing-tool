@@ -32,8 +32,8 @@ export class ControlPoint extends DrawingElement<CircleWrapper> {
         this.element.setCenter(this.x, this.y);
     }
 
-    moveTo(x: number, y: number): void {
-        this.x = x;
-        this.y = y;
+    move(dx: number, dy: number): void {
+        this.x += dx;
+        this.y += dy;
     }
 }

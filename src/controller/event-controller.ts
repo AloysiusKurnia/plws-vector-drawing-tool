@@ -21,6 +21,8 @@ export class ControlManager {
 
     private toBeDoneOnEveryFrame: Record<number, () => void> = {};
 
+    private readonly lastMousePosition = { x: 0, y: 0 };
+
     constructor(
         stateTracker: StateTracker,
         zoomManager: ZoomController,
@@ -77,11 +79,14 @@ export class ControlManager {
         });
 
         canvas.addEvent('mousemove', (event: MouseEvent) => {
-            const elemX = event.movementX
-            const elemY = event.movementY
+            const elemX = event.offsetX
+            const elemY = event.offsetY
             const { width, height } = canvas.getBoundingBox();
-            const [canvasX, canvasY] = this.zoomManager.translateMovement(elemX, elemY, width, height);
+            const [canvasX, canvasY] = this.zoomManager.translatePosition(elemX, elemY, width, height);
             this.getCurrentState().onMouseMove(canvasX, canvasY);
+
+            this.lastMousePosition.x = canvasX;
+            this.lastMousePosition.y = canvasY;
         });
     }
 

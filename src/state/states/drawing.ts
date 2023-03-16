@@ -28,8 +28,8 @@ export class DrawingState extends AppState {
             null);
     }
 
-    override onMouseMove(dx: number, dy: number): void {
-        this.currentPoint.move(dx, dy);
+    override onMouseMove(x: number, y: number): void {
+        this.currentPoint.moveTo(x, y);
         this.currentPoint.updateTransform();
         this.currentSegment.updateTransform();
         this.previousSegment?.updateTransform();

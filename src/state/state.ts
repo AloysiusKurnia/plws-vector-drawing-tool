@@ -17,7 +17,7 @@ export abstract class AppState {
     onControlPointClick(point: ControlPoint) { }
     onSegmentClick(segment: SplineSegment) { }
     onEmptyClick(x: number, y: number) { }
-    onMouseMove(dx: number, dy: number) { }
+    onMouseMove(x: number, y: number) { }
     onEscape() { }
     onSpace() { }
     onLetterB() { }

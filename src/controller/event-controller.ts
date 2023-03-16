@@ -75,6 +75,14 @@ export class ControlManager {
             const [canvasX, canvasY] = this.zoomManager.translatePosition(elemX, elemY, width, height);
             this.getCurrentState().onEmptyClick(canvasX, canvasY);
         });
+
+        canvas.addEvent('mousemove', (event: MouseEvent) => {
+            const elemX = event.movementX
+            const elemY = event.movementY
+            const { width, height } = canvas.getBoundingBox();
+            const [canvasX, canvasY] = this.zoomManager.translateMovement(elemX, elemY, width, height);
+            this.getCurrentState().onMouseMove(canvasX, canvasY);
+        });
     }
 
 

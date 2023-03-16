@@ -7,10 +7,12 @@ const DARK_YELLOW = '#AAAA00';
 const BLACK = 'black';
 const NO_FILL = 'none';
 
-function fourthRootDot(x1: number, y1: number, x2: number, y2: number) {
+function getLengthFactor(x1: number, y1: number, x2: number, y2: number) {
     const dx = x2 - x1;
     const dy = y2 - y1;
-    return Math.sqrt(Math.hypot(dx, dy));
+    // return 1                                 // Use for uniform CR splines
+    // return Math.sqrt(Math.hypot(dx, dy));    // Use for centripetal CR splines
+    return Math.hypot(dx, dy);               // Use for chordal CR splines
 }
 
 export class SplineSegment extends DrawingElement<BezierWrapper> {
@@ -65,9 +67,9 @@ export class SplineSegment extends DrawingElement<BezierWrapper> {
         // Calculate Bezier curve control points given four points
         // according to centripetal Catmull-Rom splines
 
-        const l0 = fourthRootDot(x0, y0, x1, y1);
-        const l1 = fourthRootDot(x1, y1, x2, y2);
-        const l2 = fourthRootDot(x2, y2, x3, y3);
+        const l0 = getLengthFactor(x0, y0, x1, y1);
+        const l1 = getLengthFactor(x1, y1, x2, y2);
+        const l2 = getLengthFactor(x2, y2, x3, y3);
         const l01 = l0 + l1;
         const l12 = l1 + l2;
 

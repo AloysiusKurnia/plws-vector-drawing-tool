@@ -87,7 +87,7 @@ export class SplineSegment extends DrawingElement<BezierWrapper> {
         this.element.update();
     }
 
-    drag(dx: number, dy: number): void {
-        // TODO: implement
+    updateTransform(): void {
+        this.update();
     }
 }

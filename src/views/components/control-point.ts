@@ -28,9 +28,12 @@ export class ControlPoint extends DrawingElement<CircleWrapper> {
         this.element.setStroke(COLOR.black, 1);
     }
 
-    drag(dx: number, dy: number): void {
-        this.x += dx;
-        this.y += dy;
+    updateTransform(): void {
         this.element.setCenter(this.x, this.y);
+    }
+
+    moveTo(x: number, y: number): void {
+        this.x = x;
+        this.y = y;
     }
 }

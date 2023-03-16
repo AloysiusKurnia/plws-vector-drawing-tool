@@ -1,7 +1,6 @@
-import { Selectable } from "selection-manager/selectable";
 import { ElementWrapper } from "util/svg-wrapper";
 
-export abstract class DrawingElement<T extends ElementWrapper<SVGElement> = ElementWrapper<SVGElement>> implements Selectable {
+export abstract class DrawingElement<T extends ElementWrapper<SVGElement> = ElementWrapper<SVGElement>> {
     constructor(
         protected readonly element: T
     ) {
@@ -11,7 +10,7 @@ export abstract class DrawingElement<T extends ElementWrapper<SVGElement> = Elem
 
     abstract updateGraphicsToHovered(): void;
     abstract updateGraphicsToDefault(): void;
-    abstract drag(dx: number, dy: number): void;
+    abstract updateTransform(): void;
 
     protected addOnMouseDown(callback: (event: MouseEvent) => void) {
         this.element.addEvent('mousedown', callback);

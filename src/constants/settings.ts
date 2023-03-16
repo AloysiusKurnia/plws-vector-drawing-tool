@@ -3,8 +3,8 @@ export const COLOR = {
     lightBlack: "#333",
     white: "#fff",
     darkWhite: "#ddd",
-    point: "#ff0",
-    pointHover: "#ff3",
+    point: "#f00",
+    pointHover: "#fcc",
     pointSelected: "#aaa",
     segmentSelected: "#888",
 } as const;

@@ -20,6 +20,7 @@ export class DrawingState extends AppState {
         super(tracker, factory);
         this.previousPoint = this.app.addNewPoint(pointX, pointY);
         this.currentPoint = this.app.addNewPoint(pointX, pointY);
+        this.currentPoint.makeIntangible();
         this.currentSegment = this.app.addNewSegment(
             null,
             this.previousPoint,
@@ -39,7 +40,10 @@ export class DrawingState extends AppState {
         this.previousPoint = this.currentPoint;
         this.previousSegment = this.currentSegment;
 
+        this.previousPoint.makeTangible();
+
         this.currentPoint = this.app.addNewPoint(x, y);
+        this.currentPoint.makeIntangible();
         this.previousSegment.setNextPoint(this.currentPoint);
 
         this.currentSegment = this.app.addNewSegment(

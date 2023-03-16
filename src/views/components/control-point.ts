@@ -36,4 +36,14 @@ export class ControlPoint extends DrawingElement<CircleWrapper> {
         this.x += dx;
         this.y += dy;
     }
+
+    makeIntangible(): void {
+        this.element.style.pointerEvents = 'none';
+        this.element.style.opacity = '0.5';
+    }
+
+    makeTangible(): void {
+        this.element.style.pointerEvents = 'auto';
+        this.element.style.opacity = '1';
+    }
 }

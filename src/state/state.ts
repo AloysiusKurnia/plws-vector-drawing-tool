@@ -1,8 +1,13 @@
 import { ControlPoint } from "views/components/control-point";
 import { SplineSegment } from "views/components/spline-segment";
+import { StateFactory } from "./state-factory";
 
 export abstract class AppState {
-    constructor(protected readonly stateTracker: StateTracker) { }
+    constructor(
+        protected readonly stateTracker: StateTracker,
+        protected readonly factory: StateFactory
+    ) { }
+
     protected changeState(state: AppState) {
         this.stateTracker.setCurrentState(state);
     }

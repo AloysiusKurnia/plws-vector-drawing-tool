@@ -2,6 +2,7 @@ import { AnimationFrameController } from "controller/animation-frame-controller"
 import { ControlManager } from "controller/event-controller";
 import { ZoomController } from "controller/zoom";
 import { AppState, StateTracker } from "state/state";
+import { StateFactory } from "state/state-factory";
 import { IdleState } from "state/states/idle";
 import { Canvas } from "views/canvas";
 import { ControlPoint } from "views/components/control-point";
@@ -15,13 +16,15 @@ export class App implements StateTracker {
     private controlManager: ControlManager;
 
     private elementFactory: ElementFactory;
+    private stateFactory: StateFactory;
 
     constructor(parent: HTMLElement) {
         this.canvas = new Canvas(parent);
         this.zoomManager = new ZoomController(this.animationController, this.canvas);
         this.controlManager = new ControlManager(this, this.zoomManager, this.canvas);
         this.elementFactory = new ElementFactory(this.controlManager);
-        this.currentState = new IdleState(this);
+        this.stateFactory = new StateFactory(this, this.canvas);
+        this.currentState = this.stateFactory.idle();
     }
 
     addNewPoint(x: number, y: number) {

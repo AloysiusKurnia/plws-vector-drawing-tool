@@ -12,7 +12,7 @@ export class IdleState extends AppState {
         } else if (this.selected instanceof ControlPoint) {
             // TODO: Drag the selected control point
         } else {
-            const newState = new DrawInitState(this.stateTracker);
+            const newState = this.factory.drawInit();
             this.changeState(newState);
         }
     }

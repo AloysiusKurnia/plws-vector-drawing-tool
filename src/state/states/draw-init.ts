@@ -1,15 +1,15 @@
 import { AppState, StateTracker } from "state/state";
+import { StateFactory } from "state/state-factory";
 import { Canvas } from "views/canvas";
-import { IdleState } from "./idle";
 
 export class DrawInitState extends AppState {
-    constructor(tracker: StateTracker, private canvas: Canvas) {
-        super(tracker);
+    constructor(tracker: StateTracker, factory: StateFactory, private canvas: Canvas) {
+        super(tracker, factory);
         canvas.darken();
     }
 
     override onEscape(): void {
         this.canvas.lighten();
-        this.stateTracker.setCurrentState(new IdleState(this.stateTracker));
+        this.stateTracker.setCurrentState(this.factory.idle());
     }
 }

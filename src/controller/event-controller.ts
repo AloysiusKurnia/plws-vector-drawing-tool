@@ -19,8 +19,6 @@ export class ControlManager {
         "e": [0, 0, 1]
     };
 
-    private amplification = 0;
-    private miscPressedKeys: Record<string, boolean> = {};
     private toBeDoneOnEveryFrame: Record<number, () => void> = {};
 
     constructor(
@@ -68,6 +66,14 @@ export class ControlManager {
             for (const key in this.toBeDoneOnEveryFrame) {
                 this.toBeDoneOnEveryFrame[key]();
             }
+        });
+
+        canvas.addEvent('mousedown', (event: MouseEvent) => {
+            const elemX = event.offsetX;
+            const elemY = event.offsetY;
+            const { width, height } = canvas.getBoundingBox();
+            const [canvasX, canvasY] = this.zoomManager.translatePosition(elemX, elemY, width, height);
+            this.getCurrentState().onEmptyClick(canvasX, canvasY);
         });
     }
 

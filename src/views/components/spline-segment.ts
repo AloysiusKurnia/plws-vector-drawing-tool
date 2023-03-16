@@ -71,17 +71,17 @@ export class SplineSegment extends DrawingElement<BezierWrapper> {
         const a1 = (l1 - l0) / l0 + 3;
         const a2 = l0 / l01;
 
-        const b0 = l1 * l1 / (l12 * l2);
+        const b0 = -l1 * l1 / (l12 * l2);
         const b1 = (l1 - l2) / l2 + 3;
         const b2 = l2 / l12;
 
         const z0x = (x0 * a0 + x1 * a1 + x2 * a2) / 3;
         const z0y = (y0 * a0 + y1 * a1 + y2 * a2) / 3;
-        const z1x = (x1 * b0 + x2 * b1 + x3 * b2) / 3;
-        const z1y = (y1 * b0 + y2 * b1 + y3 * b2) / 3;
+        const z1x = (x3 * b0 + x2 * b1 + x1 * b2) / 3;
+        const z1y = (y3 * b0 + y2 * b1 + y1 * b2) / 3;
 
-        this.element.setEndpoint0(x0, y0);
-        this.element.setEndpoint1(x3, y3);
+        this.element.setEndpoint0(x1, y1);
+        this.element.setEndpoint1(x2, y2);
         this.element.setControlPoint0(z0x, z0y);
         this.element.setControlPoint1(z1x, z1y);
         this.element.update();

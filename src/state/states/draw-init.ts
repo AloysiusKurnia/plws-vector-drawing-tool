@@ -1,15 +1,27 @@
+import { App } from "app";
 import { AppState, StateTracker } from "state/state";
 import { StateFactory } from "state/state-factory";
-import { Canvas } from "views/canvas";
 
 export class DrawInitState extends AppState {
-    constructor(tracker: StateTracker, factory: StateFactory, private canvas: Canvas) {
+    constructor(tracker: StateTracker, factory: StateFactory, private app: App) {
         super(tracker, factory);
-        canvas.darken();
+        app.darkenCanvas();
     }
 
     override onEscape(): void {
-        this.canvas.lighten();
+        this.cancel();
+    }
+
+    private cancel(): void {
+        this.app.lightenCanvas();
         this.stateTracker.setCurrentState(this.factory.idle());
+    }
+
+    override onSpace(): void {
+        this.cancel();
+    }
+
+    override onEmptyClick(x: number, y: number): void {
+        this.app.addNewPoint(x, y);
     }
 }

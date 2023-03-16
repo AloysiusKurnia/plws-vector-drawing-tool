@@ -23,7 +23,7 @@ export class App implements StateTracker {
         this.zoomManager = new ZoomController(this.animationController, this.canvas);
         this.controlManager = new ControlManager(this, this.zoomManager, this.canvas);
         this.elementFactory = new ElementFactory(this.controlManager);
-        this.stateFactory = new StateFactory(this, this.canvas);
+        this.stateFactory = new StateFactory(this, this);
         this.currentState = this.stateFactory.idle();
     }
 
@@ -42,6 +42,14 @@ export class App implements StateTracker {
         const segment = this.elementFactory.createSplineSegment(p0, p1, p2, p3);
         this.canvas.addSplineSegment(segment.getElement());
         return segment;
+    }
+
+    darkenCanvas() {
+        this.canvas.darken();
+    }
+
+    lightenCanvas() {
+        this.canvas.lighten();
     }
 
     getCurrentState(): AppState {

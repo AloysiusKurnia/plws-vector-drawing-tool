@@ -1,4 +1,4 @@
-import { Canvas } from "views/canvas";
+import { App } from "app";
 import { AppState, StateTracker } from "./state";
 import { DrawInitState } from "./states/draw-init";
 import { IdleState } from "./states/idle";
@@ -6,7 +6,7 @@ import { IdleState } from "./states/idle";
 export class StateFactory {
     constructor(
         private tracker: StateTracker,
-        private canvas: Canvas
+        private app: App,
     ) { }
 
     idle(): AppState {
@@ -14,6 +14,6 @@ export class StateFactory {
     }
 
     drawInit(): AppState {
-        return new DrawInitState(this.tracker, this, this.canvas);
+        return new DrawInitState(this.tracker, this, this.app);
     }
 }

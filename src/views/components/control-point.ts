@@ -1,4 +1,4 @@
-import { COLOR } from "util/colors";
+import { COLOR, DIMENSION } from "constants/settings";
 import { CircleWrapper } from "util/svg-wrapper";
 import { DrawingElement } from "../element";
 
@@ -6,7 +6,7 @@ export class ControlPoint extends DrawingElement<CircleWrapper> {
     constructor(private x: number, private y: number) {
         super(new CircleWrapper());
         this.updateGraphicsToDefault();
-        this.element.setRadius(5);
+        this.element.setRadius(DIMENSION.defaultPointRadius);
         this.element.setCenter(x, y);
     }
 
@@ -25,7 +25,7 @@ export class ControlPoint extends DrawingElement<CircleWrapper> {
 
     updateGraphicsToDefault(): void {
         this.element.setFill(COLOR.point);
-        this.element.setStroke(COLOR.black, 1);
+        this.element.setStroke(COLOR.black, DIMENSION.defaultPointStrokeWidth);
     }
 
     updateTransform(): void {

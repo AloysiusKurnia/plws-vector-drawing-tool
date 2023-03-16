@@ -1,4 +1,4 @@
-import { COLOR } from "util/colors";
+import { COLOR } from "constants/settings";
 import { BezierWrapper, CircleWrapper, GroupWrapper, SVGWrapper } from "util/svg-wrapper";
 
 export class Canvas extends SVGWrapper {

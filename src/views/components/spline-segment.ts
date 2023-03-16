@@ -2,6 +2,7 @@ import { DrawingElement } from "views/element";
 import { BezierWrapper } from "util/svg-wrapper";
 import { Pair, Quadruple } from "util/utility-types";
 import { ControlPoint } from "./control-point";
+import { COLOR, DIMENSION } from "constants/settings";
 
 const DARK_YELLOW = '#AAAA00';
 const BLACK = 'black';
@@ -24,15 +25,15 @@ export class SplineSegment extends DrawingElement<BezierWrapper> {
     ) {
         super(new BezierWrapper());
         this.element.setFill(NO_FILL);
-        this.element.setStroke(BLACK, 1);
+        this.updateGraphicsToDefault();
     }
 
     updateGraphicsToHovered(): void {
-        this.element.setStroke(DARK_YELLOW, 1);
+        this.element.setStroke(COLOR.lightBlack, DIMENSION.defaultSegmentWidth);
     }
 
     updateGraphicsToDefault(): void {
-        this.element.setStroke(BLACK, 1);
+        this.element.setStroke(COLOR.black, DIMENSION.defaultSegmentWidth);
     }
 
     setNextPoint(point: ControlPoint | null) {

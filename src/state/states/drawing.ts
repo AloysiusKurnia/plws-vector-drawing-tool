@@ -40,6 +40,8 @@ export class DrawingState extends AppState {
         this.previousSegment = this.currentSegment;
 
         this.currentPoint = this.app.addNewPoint(x, y);
+        this.previousSegment.setNextPoint(this.currentPoint);
+
         this.currentSegment = this.app.addNewSegment(
             prepreviousPoint,
             this.previousPoint,
@@ -48,6 +50,8 @@ export class DrawingState extends AppState {
     }
 
     private finish(): void {
+        this.previousSegment?.setNextPoint(null);
+        this.previousSegment?.updateTransform();
         this.app.remove(this.currentPoint);
         this.app.remove(this.currentSegment);
     }

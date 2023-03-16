@@ -33,6 +33,10 @@ export class SplineSegment extends DrawingElement<BezierWrapper> {
         this.element.setStroke(BLACK, 1);
     }
 
+    setNextPoint(point: ControlPoint | null) {
+        this.p3 = point;
+    }
+
     private getControlPointCoordinates(): Quadruple<Pair<number>> {
         return [
             this.p0 ? this.p0.getCoordinate() : this.p2.getCoordinateReflectedTo(this.p1),

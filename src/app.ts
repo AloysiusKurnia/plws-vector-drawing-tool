@@ -3,7 +3,6 @@ import { ControlManager } from "controller/event-controller";
 import { ZoomController } from "controller/zoom";
 import { AppState, StateTracker } from "state/state";
 import { StateFactory } from "state/state-factory";
-import { IdleState } from "state/states/idle";
 import { Canvas } from "views/canvas";
 import { ControlPoint } from "views/components/control-point";
 import { DrawingElement } from "views/element";

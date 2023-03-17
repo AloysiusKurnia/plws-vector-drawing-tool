@@ -15,18 +15,18 @@ function getLengthFactor(x1: number, y1: number, x2: number, y2: number) {
 }
 
 function reflectThroughBisector(
-    [px, py]: Pair<number>,
+    [p3x, p3y]: Pair<number>,
     [p1x, p1y]: Pair<number>,
     [p2x, p2y]: Pair<number>
 ): Pair<number> {
-    const dx = p2x - p1x;
-    const dy = p2y - p1y;
-    const vx = px - p1x;
-    const vy = py - p1y;
-    const projectionScalar = (vx * dx + vy * dy) / (dx * dx + dy * dy);
+    const vx = p2x - p1x;
+    const vy = p2y - p1y;
+    const rx = p3x - p2x;
+    const ry = p3y - p2y;
+    const projectionScalar = (rx * vx + ry * vy) / (vx * vx + vy * vy);
     return [
-        p1x + vx - 2 * projectionScalar * dx,
-        p1y + vy - 2 * projectionScalar * dy
+        p1x + rx - 2 * projectionScalar * vx,
+        p1y + ry - 2 * projectionScalar * vy
     ];
 }
 

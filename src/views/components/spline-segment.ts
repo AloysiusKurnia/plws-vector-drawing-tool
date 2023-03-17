@@ -79,7 +79,7 @@ export class SplineSegment extends DrawingElement<BezierWrapper> {
         return out;
     }
 
-    update() {
+    updateTransform() {
         const [
             [x0, y0],
             [x1, y1],
@@ -114,9 +114,5 @@ export class SplineSegment extends DrawingElement<BezierWrapper> {
         this.element.setControlPoint0(z0x, z0y);
         this.element.setControlPoint1(z1x, z1y);
         this.element.update();
-    }
-
-    updateTransform(): void {
-        this.update();
     }
 }

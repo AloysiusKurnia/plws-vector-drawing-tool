@@ -79,8 +79,8 @@ export class ControlManager {
         });
 
         canvas.addEvent('mousemove', (event: MouseEvent) => {
-            const elemX = event.offsetX
-            const elemY = event.offsetY
+            const elemX = event.offsetX;
+            const elemY = event.offsetY;
             const { width, height } = canvas.getBoundingBox();
             const [canvasX, canvasY] = this.zoomManager.translatePosition(elemX, elemY, width, height);
             this.getCurrentState().onMouseMove(canvasX, canvasY);
@@ -93,13 +93,19 @@ export class ControlManager {
 
     registerControlPointClick(point: ControlPoint) {
         point.getElement().addEvent("mousedown",
-            () => this.getCurrentState().onControlPointClick(point)
+            (event) => {
+                event.stopPropagation();
+                this.getCurrentState().onControlPointClick(point);
+            }
         );
     }
 
     registerSegmentClick(segment: SplineSegment) {
         segment.getElement().addEvent("mousedown",
-            () => this.getCurrentState().onSegmentClick(segment)
+            (event) => {
+                event.stopPropagation();
+                this.getCurrentState().onSegmentClick(segment);
+            }
         );
     }
 

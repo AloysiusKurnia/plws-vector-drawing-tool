@@ -20,12 +20,13 @@ export class DrawingState extends AppState {
         super(tracker, factory);
         this.previousPoint = this.app.addNewPoint(pointX, pointY);
         this.currentPoint = this.app.addNewPoint(pointX, pointY);
-        this.currentPoint.makeIntangible();
         this.currentSegment = this.app.addNewSegment(
             null,
             this.previousPoint,
             this.currentPoint,
             null);
+        this.currentPoint.makeIntangible();
+        this.currentSegment.makeIntangible();
     }
 
     override onMouseMove(x: number, y: number): void {
@@ -41,9 +42,9 @@ export class DrawingState extends AppState {
         this.previousSegment = this.currentSegment;
 
         this.previousPoint.makeTangible();
+        this.previousSegment.makeTangible();
 
         this.currentPoint = this.app.addNewPoint(x, y);
-        this.currentPoint.makeIntangible();
         this.previousSegment.setNextPoint(this.currentPoint);
 
         this.currentSegment = this.app.addNewSegment(
@@ -51,6 +52,9 @@ export class DrawingState extends AppState {
             this.previousPoint,
             this.currentPoint,
             null);
+
+        this.currentPoint.makeIntangible();
+        this.currentSegment.makeIntangible();
     }
 
     private finish(): void {

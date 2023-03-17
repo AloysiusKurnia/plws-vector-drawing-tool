@@ -4,8 +4,6 @@ import { Pair, Quadruple } from "util/utility-types";
 import { ControlPoint } from "./control-point";
 import { COLOR, DIMENSION } from "constants/settings";
 
-const DARK_YELLOW = '#AAAA00';
-const BLACK = 'black';
 const NO_FILL = 'none';
 
 function getLengthFactor(x1: number, y1: number, x2: number, y2: number) {
@@ -14,6 +12,22 @@ function getLengthFactor(x1: number, y1: number, x2: number, y2: number) {
     // return 1                                 // Use for uniform CR splines
     // return Math.sqrt(Math.hypot(dx, dy));    // Use for centripetal CR splines
     return Math.hypot(dx, dy);               // Use for chordal CR splines
+}
+
+function reflectThroughBisector(
+    [px, py]: Pair<number>,
+    [p1x, p1y]: Pair<number>,
+    [p2x, p2y]: Pair<number>
+): Pair<number> {
+    const dx = p2x - p1x;
+    const dy = p2y - p1y;
+    const vx = px - p1x;
+    const vy = py - p1y;
+    const projectionScalar = (vx * dx + vy * dy) / (dx * dx + dy * dy);
+    return [
+        p1x + vx - 2 * projectionScalar * dx,
+        p1y + vy - 2 * projectionScalar * dy
+    ];
 }
 
 export class SplineSegment extends DrawingElement<BezierWrapper> {
@@ -41,12 +55,20 @@ export class SplineSegment extends DrawingElement<BezierWrapper> {
     }
 
     private getControlPointCoordinates(): Quadruple<Pair<number>> {
-        return [
-            this.p0 ? this.p0.getCoordinate() : this.p2.getCoordinateReflectedTo(this.p1),
-            this.p1.getCoordinate(),
-            this.p2.getCoordinate(),
-            this.p3 ? this.p3.getCoordinate() : this.p1.getCoordinateReflectedTo(this.p2)
-        ];
+        // return [
+        //     this.p0 ? this.p0.getCoordinate() : this.p2.getCoordinateReflectedTo(this.p1),
+        //     this.p1.getCoordinate(),
+        //     this.p2.getCoordinate(),
+        //     this.p3 ? this.p3.getCoordinate() : this.p1.getCoordinateReflectedTo(this.p2)
+        // ];
+        const p0 = this.p0?.getCoordinate();
+        const p1 = this.p1.getCoordinate();
+        const p2 = this.p2.getCoordinate();
+        const p3 = this.p3?.getCoordinate();
+        if (p0 && p3) return [p0, p1, p2, p3];
+        if (p0) return [p0, p1, p2, reflectThroughBisector(p0, p1, p2)];
+        if (p3) return [reflectThroughBisector(p3, p2, p1), p1, p2, p3];
+        return [this.p2.getCoordinateReflectedTo(this.p1), p1, p2, this.p1.getCoordinateReflectedTo(this.p2)];
     }
 
     getPoints() {
@@ -66,7 +88,7 @@ export class SplineSegment extends DrawingElement<BezierWrapper> {
         ] = this.getControlPointCoordinates();
 
         // Calculate Bezier curve control points given four points
-        // according to centripetal Catmull-Rom splines
+        // according to Catmull-Rom splines
 
         const l0 = getLengthFactor(x0, y0, x1, y1);
         const l1 = getLengthFactor(x1, y1, x2, y2);

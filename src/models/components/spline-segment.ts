@@ -5,8 +5,6 @@ import { ControlPoint } from "./control-point";
 import { COLOR, DIMENSION } from "constants/settings";
 import { SplineSegmentView } from "views/spline-segment-view";
 
-const NO_FILL = 'none';
-
 function getLengthFactor(x1: number, y1: number, x2: number, y2: number) {
     const dx = x2 - x1;
     const dy = y2 - y1;
@@ -43,9 +41,10 @@ export class SplineSegment extends DrawingElement<BezierWrapper> {
         private p0: ControlPoint | null,
         private p1: ControlPoint,
         private p2: ControlPoint,
-        private p3: ControlPoint | null
+        private p3: ControlPoint | null,
+        element: SplineSegmentView
     ) {
-        super(new SplineSegmentView());
+        super(element);
         this.updateGraphicsToDefault();
     }
 

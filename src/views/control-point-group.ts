@@ -6,8 +6,8 @@ export class ControlPointGroup extends GroupWrapper {
         super();
     }
 
-    createControlPoint(x: number, y: number) {
-        const controlPoint = new ControlPointView(x, y);
+    createControlPoint() {
+        const controlPoint = new ControlPointView();
         controlPoint.appendTo(this);
         return controlPoint;
     }

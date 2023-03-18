@@ -2,9 +2,8 @@ import { COLOR, ID } from "constants/settings";
 import { UseWrapper } from "util/svg-wrapper";
 
 export class ControlPointView extends UseWrapper {
-    constructor(x: number, y: number) {
+    constructor() {
         super(`#${ID.controlPoint}`);
-        this.setPosition(x, y);
     }
 
     graphicsToHovered() {

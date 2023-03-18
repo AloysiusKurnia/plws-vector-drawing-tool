@@ -6,15 +6,13 @@ import { SplineSegmentGroup } from "./spline-segment-group";
 
 
 export class Canvas extends SVGWrapper {
-    private segmentGroup: SplineSegmentGroup;
-    private controlPointGroup: ControlPointGroup;
+    public readonly splineSegmentGroup = new SplineSegmentGroup();
+    public readonly controlPointGroup = new ControlPointGroup();
     private defintions = new DefsWrapper();
 
     constructor(parent: HTMLElement) {
         super();
-        this.segmentGroup = new SplineSegmentGroup();
-        this.controlPointGroup = new ControlPointGroup();
-        this.segmentGroup.appendTo(this);
+        this.splineSegmentGroup.appendTo(this);
         this.controlPointGroup.appendTo(this);
 
         this.initializeDefs();
@@ -26,11 +24,10 @@ export class Canvas extends SVGWrapper {
         controlPoint.setRadius(DIMENSION.defaultPointRadius);
         this.defintions.add(controlPoint, ID.controlPoint);
         console.log(`Initialized defs`);
-        
     }
 
     addSplineSegment(segment: BezierWrapper) {
-        segment.appendTo(this.segmentGroup);
+        segment.appendTo(this.splineSegmentGroup);
     }
 
     getDefs() {

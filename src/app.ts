@@ -22,14 +22,16 @@ export class App implements StateTracker {
         this.canvas = new Canvas(parent);
         this.zoomManager = new ZoomController(this.animationController, this.canvas);
         this.controlManager = new ControlManager(this, this.zoomManager, this.canvas);
-        this.elementFactory = new ElementFactory(this.controlManager, this.canvas.getDefs());
+        this.elementFactory = new ElementFactory(
+            this.controlManager,
+            this.canvas.controlPointGroup,
+            this.canvas.splineSegmentGroup);
         this.stateFactory = new StateFactory(this, this);
         this.currentState = this.stateFactory.idle();
     }
 
     addNewPoint(x: number, y: number) {
         const point = this.elementFactory.createControlPoint(x, y);
-        this.canvas.addControlPoint(point.getElement());
         return point;
     }
 
@@ -40,7 +42,6 @@ export class App implements StateTracker {
         p3: ControlPoint | null
     ) {
         const segment = this.elementFactory.createSplineSegment(p0, p1, p2, p3);
-        this.canvas.addSplineSegment(segment.getElement());
         return segment;
     }
 

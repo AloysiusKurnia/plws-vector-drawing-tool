@@ -4,8 +4,10 @@ import { UseWrapper } from "util/svg-wrapper";
 import { ControlPointView } from "views/control-point-view";
 
 export class ControlPoint extends DrawingElement<UseWrapper> {
-    constructor(private x: number, private y: number) {
-        super(new ControlPointView(x, y));
+    constructor(private x: number, private y: number, element: ControlPointView) {
+        console.log(`Creating control point at (${x}, ${y})`);
+
+        super(element);
         this.updateGraphicsToDefault();
     }
 
@@ -28,8 +30,7 @@ export class ControlPoint extends DrawingElement<UseWrapper> {
     }
 
     updateTransform(): void {
-        this.element.setAttribute('x', `${this.x}`);
-        this.element.setAttribute('y', `${this.y}`);
+        this.element.setPosition(this.x, this.y);
     }
 
     moveTo(x: number, y: number): void {

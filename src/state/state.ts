@@ -1,4 +1,4 @@
-import { ControlPoint } from "models/components/control-point";
+import { EndPoint } from "models/components/end-point";
 import { SplineSegment } from "models/components/spline-segment";
 import { StateFactory } from "./state-factory";
 
@@ -14,7 +14,7 @@ export abstract class AppState {
 
     // These are to be overridden by the child classes. By default, they do nothing.
 
-    onControlPointClick(point: ControlPoint) { }
+    onControlPointClick(point: EndPoint) { }
     onSegmentClick(segment: SplineSegment) { }
     onEmptyClick(x: number, y: number) { }
     onMouseMove(x: number, y: number) { }

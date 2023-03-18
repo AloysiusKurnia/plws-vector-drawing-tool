@@ -1,10 +1,10 @@
 import { COLOR, DIMENSION } from "constants/settings";
 import { DrawingElement } from "models/element";
 import { UseWrapper } from "util/svg-wrapper";
-import { ControlPointView } from "views/control-point-view";
+import { EndPointView } from "views/end-point-view";
 
-export class ControlPoint extends DrawingElement<UseWrapper> {
-    constructor(private x: number, private y: number, element: ControlPointView) {
+export class EndPoint extends DrawingElement<UseWrapper> {
+    constructor(private x: number, private y: number, element: EndPointView) {
         console.log(`Creating control point at (${x}, ${y})`);
 
         super(element);
@@ -20,7 +20,7 @@ export class ControlPoint extends DrawingElement<UseWrapper> {
         return [this.x, this.y];
     }
 
-    getCoordinateReflectedTo(pivot: ControlPoint): [number, number] {
+    getCoordinateReflectedTo(pivot: EndPoint): [number, number] {
         return [2 * pivot.x - this.x, 2 * pivot.y - this.y];
     }
 

@@ -2,7 +2,7 @@ import { AppState, StateTracker } from "state/state";
 import { SVGWrapper } from "util/svg-wrapper";
 import { Triple } from "util/utility-types";
 import { Canvas } from "views/canvas";
-import { ControlPoint } from "models/components/control-point";
+import { EndPoint } from "models/components/end-point";
 import { SplineSegment } from "models/components/spline-segment";
 import { ZoomController } from "./zoom";
 
@@ -91,7 +91,7 @@ export class ControlManager {
     }
 
 
-    registerControlPointClick(point: ControlPoint) {
+    registerControlPointClick(point: EndPoint) {
         point.getElement().addEvent("mousedown",
             (event) => {
                 event.stopPropagation();

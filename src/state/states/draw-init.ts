@@ -1,7 +1,7 @@
 import { App } from "app";
 import { AppState, StateTracker } from "state/state";
 import { StateFactory } from "state/state-factory";
-import { ControlPoint } from "models/components/control-point";
+import { EndPoint } from "models/components/end-point";
 
 export class DrawInitState extends AppState {
     constructor(tracker: StateTracker, factory: StateFactory, private app: App) {
@@ -27,7 +27,7 @@ export class DrawInitState extends AppState {
         this.stateTracker.setCurrentState(this.factory.drawing(x, y));
     }
 
-    override onControlPointClick(point: ControlPoint): void {
+    override onControlPointClick(point: EndPoint): void {
         this.app.lightenCanvas();
         const [x, y] = point.getCoordinate();
         this.stateTracker.setCurrentState(this.factory.drawing(x, y, point));

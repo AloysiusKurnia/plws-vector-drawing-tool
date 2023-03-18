@@ -4,7 +4,7 @@ import { ZoomController } from "controller/zoom";
 import { AppState, StateTracker } from "state/state";
 import { StateFactory } from "state/state-factory";
 import { Canvas } from "views/canvas";
-import { ControlPoint } from "models/components/control-point";
+import { EndPoint } from "models/components/end-point";
 import { DrawingElement } from "models/element";
 import { ElementFactory } from "models/element-factory";
 
@@ -36,10 +36,10 @@ export class App implements StateTracker {
     }
 
     addNewSegment(
-        p0: ControlPoint | null,
-        p1: ControlPoint,
-        p2: ControlPoint,
-        p3: ControlPoint | null
+        p0: EndPoint | null,
+        p1: EndPoint,
+        p2: EndPoint,
+        p3: EndPoint | null
     ) {
         const segment = this.elementFactory.createSplineSegment(p0, p1, p2, p3);
         return segment;

@@ -1,12 +1,12 @@
 import { App } from "app";
 import { AppState, StateTracker } from "state/state";
 import { StateFactory } from "state/state-factory";
-import { ControlPoint } from "models/components/control-point";
+import { EndPoint } from "models/components/end-point";
 import { SplineSegment } from "models/components/spline-segment";
 
 export class DrawingState extends AppState {
-    private previousPoint: ControlPoint;
-    private currentPoint: ControlPoint;
+    private previousPoint: EndPoint;
+    private currentPoint: EndPoint;
 
     private previousSegment: SplineSegment | null = null;
     private currentSegment: SplineSegment;
@@ -16,7 +16,7 @@ export class DrawingState extends AppState {
         private app: App,
         pointX: number,
         pointY: number,
-        firstPoint: ControlPoint | null = null,
+        firstPoint: EndPoint | null = null,
     ) {
         super(tracker, factory);
         this.previousPoint = firstPoint ?? this.app.addNewPoint(pointX, pointY);
@@ -44,7 +44,7 @@ export class DrawingState extends AppState {
     }
 
     private addPoint(
-        currentPoint: ControlPoint,
+        currentPoint: EndPoint,
         removeCurrentPoint: boolean = true,
         cursorX: number, cursorY: number
     ): void {
@@ -76,7 +76,7 @@ export class DrawingState extends AppState {
     }
 
 
-    override onControlPointClick(currentPoint: ControlPoint): void {
+    override onControlPointClick(currentPoint: EndPoint): void {
         this.addPoint(currentPoint, true, ...currentPoint.getCoordinate());
     }
 

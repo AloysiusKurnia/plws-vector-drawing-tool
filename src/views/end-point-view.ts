@@ -1,7 +1,7 @@
 import { COLOR, ID } from "constants/settings";
 import { UseWrapper } from "util/svg-wrapper";
 
-export class ControlPointView extends UseWrapper {
+export class EndPointView extends UseWrapper {
     constructor() {
         super(`#${ID.controlPoint}`);
     }

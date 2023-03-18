@@ -1,7 +1,7 @@
 import { DrawingElement } from "models/element";
 import { BezierWrapper } from "util/svg-wrapper";
 import { Pair, Quadruple } from "util/utility-types";
-import { ControlPoint } from "./control-point";
+import { EndPoint } from "./end-point";
 import { COLOR, DIMENSION } from "constants/settings";
 import { SplineSegmentView } from "views/spline-segment-view";
 
@@ -38,10 +38,10 @@ function reflectThroughBisector(
 
 export class SplineSegment extends DrawingElement<BezierWrapper> {
     constructor(
-        private p0: ControlPoint | null,
-        private p1: ControlPoint,
-        private p2: ControlPoint,
-        private p3: ControlPoint | null,
+        private p0: EndPoint | null,
+        private p1: EndPoint,
+        private p2: EndPoint,
+        private p3: EndPoint | null,
         element: SplineSegmentView
     ) {
         super(element);
@@ -56,11 +56,11 @@ export class SplineSegment extends DrawingElement<BezierWrapper> {
         this.element.setStroke(COLOR.black, DIMENSION.defaultSegmentWidth);
     }
 
-    setNextPoint(point: ControlPoint | null) {
+    setNextPoint(point: EndPoint | null) {
         this.p3 = point;
     }
 
-    setCurrentPoint(point: ControlPoint) {
+    setCurrentPoint(point: EndPoint) {
         this.p2 = point;
     }
 

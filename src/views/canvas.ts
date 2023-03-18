@@ -1,13 +1,13 @@
 import { COLOR, DIMENSION, ID } from "constants/settings";
 import { BezierWrapper, CircleWrapper, DefsWrapper, SVGWrapper, UseWrapper } from "util/svg-wrapper";
-import { ControlPointGroup } from "./control-point-group";
+import { EndPointGroup } from "./end-point-group";
 import { SplineSegmentGroup } from "./spline-segment-group";
 
 
 
 export class Canvas extends SVGWrapper {
     public readonly splineSegmentGroup = new SplineSegmentGroup();
-    public readonly controlPointGroup = new ControlPointGroup();
+    public readonly controlPointGroup = new EndPointGroup();
     private defintions = new DefsWrapper();
 
     constructor(parent: HTMLElement) {

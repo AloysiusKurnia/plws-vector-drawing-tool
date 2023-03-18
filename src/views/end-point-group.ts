@@ -1,13 +1,13 @@
 import { GroupWrapper } from "util/svg-wrapper";
-import { ControlPointView } from "./control-point-view";
+import { EndPointView } from "./end-point-view";
 
-export class ControlPointGroup extends GroupWrapper {
+export class EndPointGroup extends GroupWrapper {
     constructor() {
         super();
     }
 
     createControlPoint() {
-        const controlPoint = new ControlPointView();
+        const controlPoint = new EndPointView();
         controlPoint.appendTo(this);
         return controlPoint;
     }

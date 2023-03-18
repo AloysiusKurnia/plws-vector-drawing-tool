@@ -1,15 +1,15 @@
 import { AppState } from "state/state";
-import { ControlPoint } from "models/components/control-point";
+import { EndPoint } from "models/components/end-point";
 import { SplineSegment } from "models/components/spline-segment";
 import { DrawInitState } from "./draw-init";
 
 export class IdleState extends AppState {
-    private selected: SplineSegment | ControlPoint | null = null;
+    private selected: SplineSegment | EndPoint | null = null;
 
     override onSpace(): void {
         if (this.selected instanceof SplineSegment) {
             // TODO: Drag the selected segment
-        } else if (this.selected instanceof ControlPoint) {
+        } else if (this.selected instanceof EndPoint) {
             // TODO: Drag the selected control point
         } else {
             const newState = this.factory.drawInit();
@@ -20,7 +20,7 @@ export class IdleState extends AppState {
     override onLetterB(): void {
         if (this.selected instanceof SplineSegment) {
             // TODO: split the selected segment
-        } else if (this.selected instanceof ControlPoint) {
+        } else if (this.selected instanceof EndPoint) {
             // TODO: drag the selected control point along the segment
         }
     }

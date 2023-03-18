@@ -23,12 +23,4 @@ export abstract class DrawingElement<T extends ElementWrapper<SVGElement> = Elem
     remove() {
         this.element.remove();
     }
-
-    makeIntangible(): void {
-        this.element.style.pointerEvents = 'none';
-    }
-
-    makeTangible(): void {
-        this.element.style.pointerEvents = 'auto';
-    }
 }

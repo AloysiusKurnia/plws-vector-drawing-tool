@@ -54,13 +54,11 @@ export class SplineSegment extends DrawingElement<BezierWrapper> {
         this.p3 = point;
     }
 
+    setCurrentPoint(point: ControlPoint) {
+        this.p2 = point;
+    }
+
     private getControlPointCoordinates(): Quadruple<Pair<number>> {
-        // return [
-        //     this.p0 ? this.p0.getCoordinate() : this.p2.getCoordinateReflectedTo(this.p1),
-        //     this.p1.getCoordinate(),
-        //     this.p2.getCoordinate(),
-        //     this.p3 ? this.p3.getCoordinate() : this.p1.getCoordinateReflectedTo(this.p2)
-        // ];
         const p0 = this.p0?.getCoordinate();
         const p1 = this.p1.getCoordinate();
         const p2 = this.p2.getCoordinate();

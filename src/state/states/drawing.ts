@@ -20,6 +20,7 @@ export class DrawingState extends AppState {
         super(tracker, factory);
         this.previousPoint = this.app.addNewPoint(pointX, pointY);
         this.currentPoint = this.app.addNewPoint(pointX, pointY);
+        this.currentPoint.hide();
         this.currentSegment = this.app.addNewSegment(
             null,
             this.previousPoint,
@@ -43,8 +44,35 @@ export class DrawingState extends AppState {
 
         this.previousPoint.makeTangible();
         this.previousSegment.makeTangible();
+        this.previousPoint.show();
 
         this.currentPoint = this.app.addNewPoint(x, y);
+        this.currentPoint.hide();
+        this.previousSegment.setNextPoint(this.currentPoint);
+
+        this.currentSegment = this.app.addNewSegment(
+            prepreviousPoint,
+            this.previousPoint,
+            this.currentPoint,
+            null);
+
+        this.currentPoint.makeIntangible();
+        this.currentSegment.makeIntangible();
+    }
+
+    override onControlPointClick(point: ControlPoint): void {
+        const prepreviousPoint = this.previousPoint;
+        this.previousPoint = point;
+        this.previousSegment = this.currentSegment;
+
+        this.previousPoint.makeTangible();
+        this.previousSegment.makeTangible();
+
+        this.currentPoint.remove();
+
+        this.currentPoint = this.app.addNewPoint(...point.getCoordinate());
+        this.currentPoint.hide();
+        this.previousSegment.setCurrentPoint(this.previousPoint);
         this.previousSegment.setNextPoint(this.currentPoint);
 
         this.currentSegment = this.app.addNewSegment(

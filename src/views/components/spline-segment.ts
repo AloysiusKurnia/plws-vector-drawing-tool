@@ -14,11 +14,11 @@ function getLengthFactor(x1: number, y1: number, x2: number, y2: number) {
     return Math.hypot(dx, dy);               // Use for chordal CR splines
 }
 
-function averagePoints(
+function averagePointsWeightedToSecond(
     [x1, y1]: Pair<number>,
     [x2, y2]: Pair<number>
 ): Pair<number> {
-    return [(x1 + x2) / 2, (y1 + y2) / 2];
+    return [(x1 + 2 * x2) / 3, (y1 + 2 * y2) / 3];
 }
 
 function reflectThroughBisector(
@@ -71,12 +71,12 @@ export class SplineSegment extends DrawingElement<BezierWrapper> {
         const p2 = this.p2.getCoordinate();
         const p3 = this.p3?.getCoordinate();
         if (p0 && p3) return [p0, p1, p2, p3];
-        if (p0) return [p0, p1, p2, averagePoints(
+        if (p0) return [p0, p1, p2, averagePointsWeightedToSecond(
             reflectThroughBisector(p0, p1, p2),
             this.p2.getCoordinateReflectedTo(this.p1)
         )];
         if (p3) return [
-            averagePoints(
+            averagePointsWeightedToSecond(
                 reflectThroughBisector(p3, p2, p1),
                 this.p1.getCoordinateReflectedTo(this.p2)),
             p1, p2, p3];

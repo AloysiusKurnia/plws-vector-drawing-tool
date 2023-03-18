@@ -1,13 +1,12 @@
-import { COLOR, DIMENSION } from "constants/settings";
-import { CircleWrapper } from "util/svg-wrapper";
+import { COLOR, DIMENSION, ID } from "constants/settings";
+import { CircleWrapper, DefsWrapper, UseWrapper } from "util/svg-wrapper";
 import { DrawingElement } from "../element";
 
-export class ControlPoint extends DrawingElement<CircleWrapper> {
-    constructor(private x: number, private y: number) {
-        super(new CircleWrapper());
+export class ControlPoint extends DrawingElement<UseWrapper> {
+    constructor(private x: number, private y: number, private defs: DefsWrapper) {
+        super(defs.use(ID.controlPoint));
         this.updateGraphicsToDefault();
-        this.element.setRadius(DIMENSION.defaultPointRadius);
-        this.element.setCenter(x, y);
+        this.updateTransform();
     }
 
     updateGraphicsToHovered(): void {
@@ -29,7 +28,8 @@ export class ControlPoint extends DrawingElement<CircleWrapper> {
     }
 
     updateTransform(): void {
-        this.element.setCenter(this.x, this.y);
+        this.element.setAttribute('x', `${this.x}`);
+        this.element.setAttribute('y', `${this.y}`);
     }
 
     moveTo(x: number, y: number): void {

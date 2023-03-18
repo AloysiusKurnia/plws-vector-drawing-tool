@@ -24,6 +24,10 @@ export abstract class ElementWrapper<E extends SVGElement> {
         this.element.setAttribute(name, value);
     }
 
+    setID(id: string) {
+        this.element.id = id;
+    }
+
     setStroke(color: string, width: number | null = null) {
         this.setAttribute("stroke", color);
         if (width !== null)
@@ -66,6 +70,13 @@ export abstract class ElementWrapper<E extends SVGElement> {
     }
 }
 
+export class UseWrapper extends ElementWrapper<SVGUseElement> {
+    constructor(href: string) {
+        super(createSVGFromTag("use"));
+        this.setAttribute("href", href);
+    }
+}
+
 export class GroupWrapper extends ElementWrapper<SVGGElement> {
     constructor() {
         super(createSVGFromTag("g"));
@@ -77,10 +88,8 @@ export class GroupWrapper extends ElementWrapper<SVGGElement> {
 }
 
 export class CircleWrapper extends ElementWrapper<SVGCircleElement> {
-    constructor(x = 0, y = 0, r = 0) {
+    constructor() {
         super(createSVGFromTag("circle"));
-        this.setCenter(x, y);
-        this.setRadius(r);
     }
 
     setCenter(x: number, y: number) {
@@ -147,5 +156,20 @@ export class SVGWrapper extends ElementWrapper<SVGSVGElement> {
 
     setViewBox(x: number, y: number, width: number, height: number) {
         this.setAttribute("viewBox", `${x} ${y} ${width} ${height}`);
+    }
+}
+
+export class DefsWrapper extends ElementWrapper<SVGDefsElement> {
+    constructor() {
+        super(createSVGFromTag("defs"));
+    }
+
+    add(elem: ElementWrapper<SVGElement>, id: string) {
+        elem.appendTo(this);
+        elem.setAttribute("id", id);
+    }
+
+    use(id: string) {
+        return new UseWrapper(`#${id}`);
     }
 }

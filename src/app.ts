@@ -22,7 +22,7 @@ export class App implements StateTracker {
         this.canvas = new Canvas(parent);
         this.zoomManager = new ZoomController(this.animationController, this.canvas);
         this.controlManager = new ControlManager(this, this.zoomManager, this.canvas);
-        this.elementFactory = new ElementFactory(this.controlManager);
+        this.elementFactory = new ElementFactory(this.controlManager, this.canvas.getDefs());
         this.stateFactory = new StateFactory(this, this);
         this.currentState = this.stateFactory.idle();
     }

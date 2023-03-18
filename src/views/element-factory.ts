@@ -1,12 +1,16 @@
 import { ControlManager } from "controller/event-controller";
+import { DefsWrapper } from "util/svg-wrapper";
 import { ControlPoint } from "./components/control-point";
 import { SplineSegment } from "./components/spline-segment";
 
 export class ElementFactory {
-    constructor(private readonly controlManager: ControlManager) { }
+    constructor(
+        private readonly controlManager: ControlManager,
+        private readonly defs: DefsWrapper
+    ) { }
 
     createControlPoint(x: number, y: number): ControlPoint {
-        const elem = new ControlPoint(x, y);
+        const elem = new ControlPoint(x, y, this.defs);
         this.controlManager.registerControlPointClick(elem);
         return elem;
     }

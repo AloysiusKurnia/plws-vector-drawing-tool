@@ -14,3 +14,7 @@ export const DIMENSION = {
     defaultPointStrokeWidth: 1,
     defaultSegmentWidth: 2.5,
 } as const;
+
+export const ID = {
+    controlPoint: "control-point",
+}

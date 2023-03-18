@@ -1,6 +1,7 @@
 import { App } from "app";
 import { AppState, StateTracker } from "state/state";
 import { StateFactory } from "state/state-factory";
+import { ControlPoint } from "views/components/control-point";
 
 export class DrawInitState extends AppState {
     constructor(tracker: StateTracker, factory: StateFactory, private app: App) {
@@ -24,5 +25,11 @@ export class DrawInitState extends AppState {
     override onEmptyClick(x: number, y: number): void {
         this.app.lightenCanvas();
         this.stateTracker.setCurrentState(this.factory.drawing(x, y));
+    }
+
+    override onControlPointClick(point: ControlPoint): void {
+        this.app.lightenCanvas();
+        const [x, y] = point.getCoordinate();
+        this.stateTracker.setCurrentState(this.factory.drawing(x, y, point));
     }
 }

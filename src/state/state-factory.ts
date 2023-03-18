@@ -1,4 +1,5 @@
 import { App } from "app";
+import { ControlPoint } from "views/components/control-point";
 import { AppState, StateTracker } from "./state";
 import { DrawInitState } from "./states/draw-init";
 import { DrawingState } from "./states/drawing";
@@ -18,7 +19,10 @@ export class StateFactory {
         return new DrawInitState(this.tracker, this, this.app);
     }
 
-    drawing(pointX: number, pointY: number): AppState {
-        return new DrawingState(this.tracker, this, this.app, pointX, pointY);
+    drawing(
+        pointX: number, pointY: number,
+        firstPoint: ControlPoint | null = null,
+    ): AppState {
+        return new DrawingState(this.tracker, this, this.app, pointX, pointY, firstPoint);
     }
 }

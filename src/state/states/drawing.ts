@@ -15,10 +15,11 @@ export class DrawingState extends AppState {
         factory: StateFactory,
         private app: App,
         pointX: number,
-        pointY: number
+        pointY: number,
+        firstPoint: ControlPoint | null = null,
     ) {
         super(tracker, factory);
-        this.previousPoint = this.app.addNewPoint(pointX, pointY);
+        this.previousPoint = firstPoint ?? this.app.addNewPoint(pointX, pointY);
         this.currentPoint = this.app.addNewPoint(pointX, pointY);
         this.currentPoint.hide();
         this.currentSegment = this.app.addNewSegment(
@@ -38,39 +39,27 @@ export class DrawingState extends AppState {
     }
 
     override onEmptyClick(x: number, y: number): void {
-        const prepreviousPoint = this.previousPoint;
-        this.previousPoint = this.currentPoint;
-        this.previousSegment = this.currentSegment;
-
-        this.previousPoint.makeTangible();
-        this.previousSegment.makeTangible();
-        this.previousPoint.show();
-
-        this.currentPoint = this.app.addNewPoint(x, y);
-        this.currentPoint.hide();
-        this.previousSegment.setNextPoint(this.currentPoint);
-
-        this.currentSegment = this.app.addNewSegment(
-            prepreviousPoint,
-            this.previousPoint,
-            this.currentPoint,
-            null);
-
-        this.currentPoint.makeIntangible();
-        this.currentSegment.makeIntangible();
+        this.addPoint(this.currentPoint, false, x, y);
     }
 
-    override onControlPointClick(point: ControlPoint): void {
+    private addPoint(
+        currentPoint: ControlPoint,
+        removeCurrentPoint: boolean = true,
+        cursorX: number, cursorY: number
+    ): void {
         const prepreviousPoint = this.previousPoint;
-        this.previousPoint = point;
+        this.previousPoint = currentPoint;
         this.previousSegment = this.currentSegment;
 
         this.previousPoint.makeTangible();
         this.previousSegment.makeTangible();
+        if (removeCurrentPoint) {
+            this.currentPoint.remove();
+        } else {
+            this.currentPoint.show();
+        }
 
-        this.currentPoint.remove();
-
-        this.currentPoint = this.app.addNewPoint(...point.getCoordinate());
+        this.currentPoint = this.app.addNewPoint(cursorX, cursorY);
         this.currentPoint.hide();
         this.previousSegment.setCurrentPoint(this.previousPoint);
         this.previousSegment.setNextPoint(this.currentPoint);
@@ -83,6 +72,11 @@ export class DrawingState extends AppState {
 
         this.currentPoint.makeIntangible();
         this.currentSegment.makeIntangible();
+    }
+
+
+    override onControlPointClick(currentPoint: ControlPoint): void {
+        this.addPoint(currentPoint, true, ...currentPoint.getCoordinate());
     }
 
     private finish(): void {

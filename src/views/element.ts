@@ -23,4 +23,20 @@ export abstract class DrawingElement<T extends ElementWrapper<SVGElement> = Elem
     remove() {
         this.element.remove();
     }
+
+    makeTangible() {
+        this.element.makeTangible();
+    }
+
+    makeIntangible() {
+        this.element.makeIntangible();
+    }
+
+    hide() {
+        this.element.hide();
+    }
+
+    show() {
+        this.element.show();
+    }
 }

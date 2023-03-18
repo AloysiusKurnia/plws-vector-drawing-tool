@@ -21,8 +21,8 @@ export class Canvas extends SVGWrapper {
     }
     private initializeDefs() {
         const controlPoint = new CircleWrapper();
-        controlPoint.setRadius(DIMENSION.defaultPointRadius);
-        this.defintions.add(controlPoint, ID.controlPoint);
+        controlPoint.setRadius(DIMENSION.endPointRadius);
+        this.defintions.add(controlPoint, ID.endPoint);
         console.log(`Initialized defs`);
     }
 

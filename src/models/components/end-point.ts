@@ -12,7 +12,7 @@ export class EndPoint extends DrawingElement<UseWrapper> {
     }
 
     updateGraphicsToHovered(): void {
-        this.element.setFill(COLOR.pointHover);
+        this.element.setFill(COLOR.endPointHover);
         this.element.setStroke(COLOR.lightBlack, 1);
     }
 
@@ -25,8 +25,8 @@ export class EndPoint extends DrawingElement<UseWrapper> {
     }
 
     updateGraphicsToDefault(): void {
-        this.element.setFill(COLOR.point);
-        this.element.setStroke(COLOR.black, DIMENSION.defaultPointStrokeWidth);
+        this.element.setFill(COLOR.endPoint);
+        this.element.setStroke(COLOR.black, DIMENSION.endPointStrokeWidth);
     }
 
     updateTransform(): void {

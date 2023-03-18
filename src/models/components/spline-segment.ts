@@ -49,11 +49,11 @@ export class SplineSegment extends DrawingElement<BezierWrapper> {
     }
 
     updateGraphicsToHovered(): void {
-        this.element.setStroke(COLOR.lightBlack, DIMENSION.defaultSegmentWidth);
+        this.element.setStroke(COLOR.lightBlack, DIMENSION.segmentWidth);
     }
 
     updateGraphicsToDefault(): void {
-        this.element.setStroke(COLOR.black, DIMENSION.defaultSegmentWidth);
+        this.element.setStroke(COLOR.black, DIMENSION.segmentWidth);
     }
 
     setNextPoint(point: EndPoint | null) {

@@ -3,18 +3,18 @@ import { UseWrapper } from "util/svg-wrapper";
 
 export class EndPointView extends UseWrapper {
     constructor() {
-        super(`#${ID.controlPoint}`);
+        super(`#${ID.endPoint}`);
     }
 
     graphicsToHovered() {
-        this.style.fill = COLOR.pointHover;
+        this.style.fill = COLOR.endPointHover;
     }
 
     graphicsToDefault() {
-        this.style.fill = COLOR.point;
+        this.style.fill = COLOR.endPoint;
     }
 
     graphicsToSelected() {
-        this.style.fill = COLOR.pointSelected;
+        this.style.fill = COLOR.endPointSelected;
     }
 }

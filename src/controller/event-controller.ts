@@ -2,8 +2,8 @@ import { AppState, StateTracker } from "state/state";
 import { SVGWrapper } from "util/svg-wrapper";
 import { Triple } from "util/utility-types";
 import { Canvas } from "views/canvas";
-import { ControlPoint } from "views/components/control-point";
-import { SplineSegment } from "views/components/spline-segment";
+import { ControlPoint } from "models/components/control-point";
+import { SplineSegment } from "models/components/spline-segment";
 import { ZoomController } from "./zoom";
 
 export class ControlManager {

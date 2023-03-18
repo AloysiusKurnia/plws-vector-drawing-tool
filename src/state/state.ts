@@ -1,5 +1,5 @@
-import { ControlPoint } from "views/components/control-point";
-import { SplineSegment } from "views/components/spline-segment";
+import { ControlPoint } from "models/components/control-point";
+import { SplineSegment } from "models/components/spline-segment";
 import { StateFactory } from "./state-factory";
 
 export abstract class AppState {

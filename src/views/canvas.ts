@@ -1,17 +1,19 @@
 import { COLOR, DIMENSION, ID } from "constants/settings";
-import { BezierWrapper, CircleWrapper, DefsWrapper, GroupWrapper, SVGWrapper, UseWrapper } from "util/svg-wrapper";
+import { BezierWrapper, CircleWrapper, DefsWrapper, SVGWrapper, UseWrapper } from "util/svg-wrapper";
+import { ControlPointGroup } from "./control-point-group";
+import { SplineSegmentGroup } from "./spline-segment-group";
 
 
 
 export class Canvas extends SVGWrapper {
-    private segmentGroup: GroupWrapper;
-    private controlPointGroup: GroupWrapper;
+    private segmentGroup: SplineSegmentGroup;
+    private controlPointGroup: ControlPointGroup;
     private defintions = new DefsWrapper();
 
     constructor(parent: HTMLElement) {
         super();
-        this.segmentGroup = new GroupWrapper();
-        this.controlPointGroup = new GroupWrapper();
+        this.segmentGroup = new SplineSegmentGroup();
+        this.controlPointGroup = new ControlPointGroup();
         this.segmentGroup.appendTo(this);
         this.controlPointGroup.appendTo(this);
 
@@ -23,6 +25,8 @@ export class Canvas extends SVGWrapper {
         const controlPoint = new CircleWrapper();
         controlPoint.setRadius(DIMENSION.defaultPointRadius);
         this.defintions.add(controlPoint, ID.controlPoint);
+        console.log(`Initialized defs`);
+        
     }
 
     addSplineSegment(segment: BezierWrapper) {

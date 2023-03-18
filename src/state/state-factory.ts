@@ -1,5 +1,5 @@
 import { App } from "app";
-import { ControlPoint } from "views/components/control-point";
+import { ControlPoint } from "models/components/control-point";
 import { AppState, StateTracker } from "./state";
 import { DrawInitState } from "./states/draw-init";
 import { DrawingState } from "./states/drawing";

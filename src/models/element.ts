@@ -1,6 +1,6 @@
 import { ElementWrapper } from "util/svg-wrapper";
 
-export abstract class DrawingElement<T extends ElementWrapper<SVGElement> = ElementWrapper<SVGElement>> {
+export abstract class DrawingElement<T extends ElementWrapper = ElementWrapper> {
     constructor(
         protected readonly element: T
     ) {

@@ -4,9 +4,9 @@ import { ZoomController } from "controller/zoom";
 import { AppState, StateTracker } from "state/state";
 import { StateFactory } from "state/state-factory";
 import { Canvas } from "views/canvas";
-import { ControlPoint } from "views/components/control-point";
-import { DrawingElement } from "views/element";
-import { ElementFactory } from "views/element-factory";
+import { ControlPoint } from "models/components/control-point";
+import { DrawingElement } from "models/element";
+import { ElementFactory } from "models/element-factory";
 
 export class App implements StateTracker {
     private animationController = new AnimationFrameController();

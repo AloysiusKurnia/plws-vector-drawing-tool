@@ -5,7 +5,7 @@ function createSVGFromTag<T extends keyof SVGElementTagNameMap>(tag: T): SVGElem
 
 const NONE = "none";
 
-export abstract class ElementWrapper<E extends SVGElement> {
+export abstract class ElementWrapper<E extends SVGElement = SVGElement> {
     constructor(private element: E) { }
 
     appendTo(parent: ElementWrapper<SVGElement>) {
@@ -75,6 +75,11 @@ export class UseWrapper extends ElementWrapper<SVGUseElement> {
         super(createSVGFromTag("use"));
         this.setAttribute("href", href);
     }
+
+    setPosition(x: number, y: number) {
+        this.setAttribute("x", `${x}`);
+        this.setAttribute("y", `${y}`);
+    }
 }
 
 export class GroupWrapper extends ElementWrapper<SVGGElement> {
@@ -93,12 +98,12 @@ export class CircleWrapper extends ElementWrapper<SVGCircleElement> {
     }
 
     setCenter(x: number, y: number) {
-        this.setAttribute("cx", x.toString());
-        this.setAttribute("cy", y.toString());
+        this.setAttribute("cx", `${x}`);
+        this.setAttribute("cy", `${y}`);
     }
 
     setRadius(r: number) {
-        this.setAttribute("r", r.toString());
+        this.setAttribute("r", `${r}`);
     }
 }
 

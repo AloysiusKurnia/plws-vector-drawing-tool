@@ -1,12 +1,12 @@
-import { COLOR, DIMENSION, ID } from "constants/settings";
-import { CircleWrapper, DefsWrapper, UseWrapper } from "util/svg-wrapper";
-import { DrawingElement } from "../element";
+import { COLOR, DIMENSION } from "constants/settings";
+import { DrawingElement } from "models/element";
+import { UseWrapper } from "util/svg-wrapper";
+import { ControlPointView } from "views/control-point-view";
 
 export class ControlPoint extends DrawingElement<UseWrapper> {
-    constructor(private x: number, private y: number, private defs: DefsWrapper) {
-        super(defs.use(ID.controlPoint));
+    constructor(private x: number, private y: number) {
+        super(new ControlPointView(x, y));
         this.updateGraphicsToDefault();
-        this.updateTransform();
     }
 
     updateGraphicsToHovered(): void {

@@ -1,8 +1,8 @@
 import { App } from "app";
 import { AppState, StateTracker } from "state/state";
 import { StateFactory } from "state/state-factory";
-import { ControlPoint } from "views/components/control-point";
-import { SplineSegment } from "views/components/spline-segment";
+import { ControlPoint } from "models/components/control-point";
+import { SplineSegment } from "models/components/spline-segment";
 
 export class DrawingState extends AppState {
     private previousPoint: ControlPoint;

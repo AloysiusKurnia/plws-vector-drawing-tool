@@ -1,7 +1,7 @@
 import { App } from "app";
 import { AppState, StateTracker } from "state/state";
 import { StateFactory } from "state/state-factory";
-import { ControlPoint } from "views/components/control-point";
+import { ControlPoint } from "models/components/control-point";
 
 export class DrawInitState extends AppState {
     constructor(tracker: StateTracker, factory: StateFactory, private app: App) {

@@ -1,8 +1,9 @@
-import { DrawingElement } from "views/element";
+import { DrawingElement } from "models/element";
 import { BezierWrapper } from "util/svg-wrapper";
 import { Pair, Quadruple } from "util/utility-types";
 import { ControlPoint } from "./control-point";
 import { COLOR, DIMENSION } from "constants/settings";
+import { SplineSegmentView } from "views/spline-segment-view";
 
 const NO_FILL = 'none';
 
@@ -44,8 +45,7 @@ export class SplineSegment extends DrawingElement<BezierWrapper> {
         private p2: ControlPoint,
         private p3: ControlPoint | null
     ) {
-        super(new BezierWrapper());
-        this.element.setFill(NO_FILL);
+        super(new SplineSegmentView());
         this.updateGraphicsToDefault();
     }
 

@@ -1,6 +1,6 @@
 import { AppState } from "state/state";
-import { ControlPoint } from "views/components/control-point";
-import { SplineSegment } from "views/components/spline-segment";
+import { ControlPoint } from "models/components/control-point";
+import { SplineSegment } from "models/components/spline-segment";
 import { DrawInitState } from "./draw-init";
 
 export class IdleState extends AppState {

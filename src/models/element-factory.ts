@@ -10,7 +10,7 @@ export class ElementFactory {
     ) { }
 
     createControlPoint(x: number, y: number): ControlPoint {
-        const elem = new ControlPoint(x, y, this.defs);
+        const elem = new ControlPoint(x, y);
         this.controlManager.registerControlPointClick(elem);
         return elem;
     }

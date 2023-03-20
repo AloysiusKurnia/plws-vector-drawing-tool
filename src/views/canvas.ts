@@ -5,7 +5,7 @@ import { SplineSegmentGroup } from "./spline-segment-group";
 
 
 
-export class Canvas extends SVGWrapper {
+export class SVGCanvas extends SVGWrapper {
     public readonly splineSegmentGroup = new SplineSegmentGroup();
     public readonly controlPointGroup = new EndPointGroup();
     private defintions = new DefsWrapper();

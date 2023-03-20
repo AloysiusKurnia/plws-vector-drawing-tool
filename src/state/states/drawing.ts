@@ -22,7 +22,7 @@ export class DrawingState extends AppState {
         this.previousPoint = firstPoint ?? this.elementFactory.createControlPoint(pointX, pointY);
         this.previousPoint.updateTransform();
         this.currentPoint = this.elementFactory.createControlPoint(pointX, pointY);
-        this.currentPoint.hide();
+        this.currentPoint.makeHidden();
         this.currentSegment = this.elementFactory.createSplineSegment(
             null,
             this.previousPoint,
@@ -55,13 +55,13 @@ export class DrawingState extends AppState {
         this.previousPoint.makeTangible();
         this.previousSegment.makeTangible();
         if (removeCurrentPoint) {
-            this.currentPoint.remove();
+            this.currentPoint.removeElement();
         } else {
-            this.currentPoint.show();
+            this.currentPoint.makeShown();
         }
 
         this.currentPoint = this.elementFactory.createControlPoint(cursorX, cursorY);
-        this.currentPoint.hide();
+        this.currentPoint.makeHidden();
         this.previousSegment.setCurrentPoint(this.previousPoint);
         this.previousSegment.setNextPoint(this.currentPoint);
 
@@ -80,20 +80,20 @@ export class DrawingState extends AppState {
         this.addPoint(currentPoint, true, ...currentPoint.getCoordinate());
     }
 
-    private finish(): void {
+    private finishDrawing(): void {
         this.previousSegment?.setNextPoint(null);
         this.previousSegment?.updateTransform();
-        this.currentPoint.remove();
-        this.currentSegment.remove();
+        this.currentPoint.removeElement();
+        this.currentSegment.removeElement();
     }
 
     override onEscape(): void {
-        this.finish();
+        this.finishDrawing();
         this.stateTracker.setCurrentState(this.factory.idle());
     }
 
     override onSpace(): void {
-        this.finish();
+        this.finishDrawing();
         this.stateTracker.setCurrentState(this.factory.drawInit());
     }
 }

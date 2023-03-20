@@ -6,26 +6,26 @@ function createSVGFromTag<T extends keyof SVGElementTagNameMap>(tag: T): SVGElem
 const NONE = "none";
 
 export abstract class ElementWrapper<E extends SVGElement = SVGElement> {
-    constructor(private element: E) { }
+    constructor(private wrappedElement: E) { }
 
     appendTo(parent: ElementWrapper<SVGElement>) {
-        this.appendToElement(parent.element);
+        this.appendToElement(parent.wrappedElement);
     }
 
     appendToElement(parent: SVGElement | HTMLElement) {
-        parent.appendChild(this.element);
+        parent.appendChild(this.wrappedElement);
     }
 
-    remove() {
-        this.element.remove();
+    destroy() {
+        this.wrappedElement.remove();
     }
 
     setAttribute(name: string, value: string) {
-        this.element.setAttribute(name, value);
+        this.wrappedElement.setAttribute(name, value);
     }
 
     setID(id: string) {
-        this.element.id = id;
+        this.wrappedElement.id = id;
     }
 
     setStroke(color: string, width: number | null = null) {
@@ -39,34 +39,34 @@ export abstract class ElementWrapper<E extends SVGElement = SVGElement> {
     }
 
     getBoundingBox() {
-        return this.element.getBoundingClientRect();
+        return this.wrappedElement.getBoundingClientRect();
     }
 
     get style() {
-        return this.element.style;
+        return this.wrappedElement.style;
     }
 
     addEvent<T extends keyof SVGElementEventMap>(
         eventName: T,
         listener: (ev: SVGElementEventMap[T]) => void
     ) {
-        this.element.addEventListener(eventName, listener);
+        this.wrappedElement.addEventListener(eventName, listener);
     }
 
     makeIntangible(): void {
-        this.element.style.pointerEvents = NONE;
+        this.wrappedElement.style.pointerEvents = NONE;
     }
 
     makeTangible(): void {
-        this.element.style.pointerEvents = 'auto';
+        this.wrappedElement.style.pointerEvents = 'auto';
     }
 
-    hide(): void {
-        this.element.style.display = NONE;
+    makeHidden(): void {
+        this.wrappedElement.style.display = NONE;
     }
 
-    show(): void {
-        this.element.style.display = 'block';
+    makeShown(): void {
+        this.wrappedElement.style.display = 'block';
     }
 }
 
@@ -128,8 +128,7 @@ export class BezierWrapper extends PathWrapper {
 
     update() {
         this.setD(
-            `M ${this.originX} ${this.originY}
-            C ${this.otherPoints.join(' ')}`
+            `M ${this.originX} ${this.originY}C ${this.otherPoints.join(' ')}`
         );
     }
 

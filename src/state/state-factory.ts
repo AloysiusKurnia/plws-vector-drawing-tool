@@ -1,7 +1,7 @@
 import { App } from "app";
 import { EndPoint } from "models/components/end-point";
 import { ElementFactory } from "models/element-factory";
-import { Canvas } from "views/canvas";
+import { SVGCanvas } from "views/canvas";
 import { AppState, StateTracker } from "./state";
 import { DrawInitState } from "./states/draw-init";
 import { DrawingState } from "./states/drawing";
@@ -10,7 +10,7 @@ import { IdleState } from "./states/idle";
 export class StateFactory {
     constructor(
         private tracker: StateTracker,
-        private canvas: Canvas,
+        private svgCanvas: SVGCanvas,
         private elementFactory: ElementFactory,
     ) { }
 
@@ -19,7 +19,7 @@ export class StateFactory {
     }
 
     drawInit(): AppState {
-        return new DrawInitState(this.tracker, this, this.canvas);
+        return new DrawInitState(this.tracker, this, this.svgCanvas);
     }
 
     drawing(

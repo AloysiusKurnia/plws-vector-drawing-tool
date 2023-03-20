@@ -2,10 +2,10 @@ import { ElementWrapper } from "util/svg-wrapper";
 
 export abstract class DrawingElement<T extends ElementWrapper = ElementWrapper> {
     constructor(
-        protected readonly element: T
+        protected readonly viewElement: T
     ) {
-        element.addEvent('mouseenter', () => this.updateGraphicsToHovered());
-        element.addEvent('mouseleave', () => this.updateGraphicsToDefault());
+        viewElement.addEvent('mouseenter', () => this.updateGraphicsToHovered());
+        viewElement.addEvent('mouseleave', () => this.updateGraphicsToDefault());
     }
 
     abstract updateGraphicsToHovered(): void;
@@ -13,30 +13,30 @@ export abstract class DrawingElement<T extends ElementWrapper = ElementWrapper> 
     abstract updateTransform(): void;
 
     protected addOnMouseDown(callback: (event: MouseEvent) => void) {
-        this.element.addEvent('mousedown', callback);
+        this.viewElement.addEvent('mousedown', callback);
     }
 
     getElement(): T {
-        return this.element;
+        return this.viewElement;
     }
 
-    remove() {
-        this.element.remove();
+    removeElement() {
+        this.viewElement.destroy();
     }
 
     makeTangible() {
-        this.element.makeTangible();
+        this.viewElement.makeTangible();
     }
 
     makeIntangible() {
-        this.element.makeIntangible();
+        this.viewElement.makeIntangible();
     }
 
-    hide() {
-        this.element.hide();
+    makeHidden() {
+        this.viewElement.makeHidden();
     }
 
-    show() {
-        this.element.show();
+    makeShown() {
+        this.viewElement.makeShown();
     }
 }

@@ -1,7 +1,7 @@
 import { AppState, StateTracker } from "state/state";
 import { SVGWrapper } from "util/svg-wrapper";
 import { Triple } from "util/utility-types";
-import { Canvas } from "views/canvas";
+import { SVGCanvas } from "views/canvas";
 import { EndPoint } from "models/components/end-point";
 import { SplineSegment } from "models/components/spline-segment";
 import { ZoomController } from "./zoom";
@@ -109,7 +109,7 @@ export class ControlManager {
         );
     }
 
-    registerCanvasClick(canvas: Canvas) {
+    registerCanvasClick(canvas: SVGCanvas) {
         canvas.addEvent("mousedown",
             (event: MouseEvent) => {
                 const x = event.offsetX;

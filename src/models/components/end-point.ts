@@ -5,15 +5,13 @@ import { EndPointView } from "views/end-point-view";
 
 export class EndPoint extends DrawingElement<UseWrapper> {
     constructor(private x: number, private y: number, element: EndPointView) {
-        console.log(`Creating control point at (${x}, ${y})`);
-
         super(element);
         this.updateGraphicsToDefault();
     }
 
     updateGraphicsToHovered(): void {
-        this.element.setFill(COLOR.endPointHover);
-        this.element.setStroke(COLOR.lightBlack, 1);
+        this.viewElement.setFill(COLOR.endPointHover);
+        this.viewElement.setStroke(COLOR.lightBlack, 1);
     }
 
     getCoordinate(): [number, number] {
@@ -25,12 +23,12 @@ export class EndPoint extends DrawingElement<UseWrapper> {
     }
 
     updateGraphicsToDefault(): void {
-        this.element.setFill(COLOR.endPoint);
-        this.element.setStroke(COLOR.black, DIMENSION.endPointStrokeWidth);
+        this.viewElement.setFill(COLOR.endPoint);
+        this.viewElement.setStroke(COLOR.black, DIMENSION.endPointStrokeWidth);
     }
 
     updateTransform(): void {
-        this.element.setPosition(this.x, this.y);
+        this.viewElement.setPosition(this.x, this.y);
     }
 
     moveTo(x: number, y: number): void {

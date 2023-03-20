@@ -5,47 +5,43 @@ import { DrawingElement } from "models/element";
 import { ElementFactory } from "models/element-factory";
 import { AppState, StateTracker } from "state/state";
 import { StateFactory } from "state/state-factory";
-import { Canvas } from "views/canvas";
+import { SVGCanvas } from "views/canvas";
 
 export class App implements StateTracker {
     private animationController = new AnimationFrameController();
-    private canvas: Canvas;
+    private svgCanvas: SVGCanvas;
     private zoomManager: ZoomController;
-    private currentState: AppState;
+    private currentAppState: AppState;
     private controlManager: ControlManager;
 
     private elementFactory: ElementFactory;
     private stateFactory: StateFactory;
 
     constructor(parent: HTMLElement) {
-        this.canvas = new Canvas(parent);
-        this.zoomManager = new ZoomController(this.animationController, this.canvas);
-        this.controlManager = new ControlManager(this, this.zoomManager, this.canvas);
+        this.svgCanvas = new SVGCanvas(parent);
+        this.zoomManager = new ZoomController(this.animationController, this.svgCanvas);
+        this.controlManager = new ControlManager(this, this.zoomManager, this.svgCanvas);
         this.elementFactory = new ElementFactory(
             this.controlManager,
-            this.canvas.controlPointGroup,
-            this.canvas.splineSegmentGroup);
-        this.stateFactory = new StateFactory(this, this.canvas, this.elementFactory);
-        this.currentState = this.stateFactory.idle();
+            this.svgCanvas.controlPointGroup,
+            this.svgCanvas.splineSegmentGroup);
+        this.stateFactory = new StateFactory(this, this.svgCanvas, this.elementFactory);
+        this.currentAppState = this.stateFactory.idle();
     }
 
     darkenCanvas() {
-        this.canvas.darken();
+        this.svgCanvas.darken();
     }
 
     lightenCanvas() {
-        this.canvas.lighten();
-    }
-
-    remove(element: DrawingElement) {
-        element.remove();
+        this.svgCanvas.lighten();
     }
 
     getCurrentState(): AppState {
-        return this.currentState;
+        return this.currentAppState;
     }
 
     setCurrentState(state: AppState) {
-        this.currentState = state;
+        this.currentAppState = state;
     }
 }

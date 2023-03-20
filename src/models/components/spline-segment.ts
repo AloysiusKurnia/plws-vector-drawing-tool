@@ -49,11 +49,11 @@ export class SplineSegment extends DrawingElement<BezierWrapper> {
     }
 
     updateGraphicsToHovered(): void {
-        this.element.setStroke(COLOR.lightBlack, DIMENSION.segmentWidth);
+        this.viewElement.setStroke(COLOR.lightBlack, DIMENSION.segmentWidth);
     }
 
     updateGraphicsToDefault(): void {
-        this.element.setStroke(COLOR.black, DIMENSION.segmentWidth);
+        this.viewElement.setStroke(COLOR.black, DIMENSION.segmentWidth);
     }
 
     setNextPoint(point: EndPoint | null) {
@@ -120,10 +120,10 @@ export class SplineSegment extends DrawingElement<BezierWrapper> {
         const z1x = (x3 * b0 + x2 * b1 + x1 * b2) / 3;
         const z1y = (y3 * b0 + y2 * b1 + y1 * b2) / 3;
 
-        this.element.setEndpoint0(x1, y1);
-        this.element.setEndpoint1(x2, y2);
-        this.element.setControlPoint0(z0x, z0y);
-        this.element.setControlPoint1(z1x, z1y);
-        this.element.update();
+        this.viewElement.setEndpoint0(x1, y1);
+        this.viewElement.setEndpoint1(x2, y2);
+        this.viewElement.setControlPoint0(z0x, z0y);
+        this.viewElement.setControlPoint1(z1x, z1y);
+        this.viewElement.update();
     }
 }

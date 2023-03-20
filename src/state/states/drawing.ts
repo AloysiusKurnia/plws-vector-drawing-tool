@@ -1,8 +1,8 @@
-import { App } from "app";
-import { AppState, StateTracker } from "state/state";
-import { StateFactory } from "state/state-factory";
 import { EndPoint } from "models/components/end-point";
 import { SplineSegment } from "models/components/spline-segment";
+import { ElementFactory } from "models/element-factory";
+import { AppState, StateTracker } from "state/state";
+import { StateFactory } from "state/state-factory";
 
 export class DrawingState extends AppState {
     private previousPoint: EndPoint;
@@ -12,18 +12,18 @@ export class DrawingState extends AppState {
     private currentSegment: SplineSegment;
     constructor(
         tracker: StateTracker,
-        factory: StateFactory,
-        private app: App,
+        stateFactory: StateFactory,
+        private elementFactory: ElementFactory,
         pointX: number,
         pointY: number,
         firstPoint: EndPoint | null = null,
     ) {
-        super(tracker, factory);
-        this.previousPoint = firstPoint ?? this.app.addNewPoint(pointX, pointY);
+        super(tracker, stateFactory);
+        this.previousPoint = firstPoint ?? this.elementFactory.createControlPoint(pointX, pointY);
         this.previousPoint.updateTransform();
-        this.currentPoint = this.app.addNewPoint(pointX, pointY);
+        this.currentPoint = this.elementFactory.createControlPoint(pointX, pointY);
         this.currentPoint.hide();
-        this.currentSegment = this.app.addNewSegment(
+        this.currentSegment = this.elementFactory.createSplineSegment(
             null,
             this.previousPoint,
             this.currentPoint,
@@ -60,12 +60,12 @@ export class DrawingState extends AppState {
             this.currentPoint.show();
         }
 
-        this.currentPoint = this.app.addNewPoint(cursorX, cursorY);
+        this.currentPoint = this.elementFactory.createControlPoint(cursorX, cursorY);
         this.currentPoint.hide();
         this.previousSegment.setCurrentPoint(this.previousPoint);
         this.previousSegment.setNextPoint(this.currentPoint);
 
-        this.currentSegment = this.app.addNewSegment(
+        this.currentSegment = this.elementFactory.createSplineSegment(
             prepreviousPoint,
             this.previousPoint,
             this.currentPoint,
@@ -83,8 +83,8 @@ export class DrawingState extends AppState {
     private finish(): void {
         this.previousSegment?.setNextPoint(null);
         this.previousSegment?.updateTransform();
-        this.app.remove(this.currentPoint);
-        this.app.remove(this.currentSegment);
+        this.currentPoint.remove();
+        this.currentSegment.remove();
     }
 
     override onEscape(): void {

@@ -1,12 +1,11 @@
 import { AnimationFrameController } from "controller/animation-frame-controller";
 import { ControlManager } from "controller/event-controller";
 import { ZoomController } from "controller/zoom";
+import { DrawingElement } from "models/element";
+import { ElementFactory } from "models/element-factory";
 import { AppState, StateTracker } from "state/state";
 import { StateFactory } from "state/state-factory";
 import { Canvas } from "views/canvas";
-import { EndPoint } from "models/components/end-point";
-import { DrawingElement } from "models/element";
-import { ElementFactory } from "models/element-factory";
 
 export class App implements StateTracker {
     private animationController = new AnimationFrameController();
@@ -26,23 +25,8 @@ export class App implements StateTracker {
             this.controlManager,
             this.canvas.controlPointGroup,
             this.canvas.splineSegmentGroup);
-        this.stateFactory = new StateFactory(this, this);
+        this.stateFactory = new StateFactory(this, this.canvas, this.elementFactory);
         this.currentState = this.stateFactory.idle();
-    }
-
-    addNewPoint(x: number, y: number) {
-        const point = this.elementFactory.createControlPoint(x, y);
-        return point;
-    }
-
-    addNewSegment(
-        p0: EndPoint | null,
-        p1: EndPoint,
-        p2: EndPoint,
-        p3: EndPoint | null
-    ) {
-        const segment = this.elementFactory.createSplineSegment(p0, p1, p2, p3);
-        return segment;
     }
 
     darkenCanvas() {

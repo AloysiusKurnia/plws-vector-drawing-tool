@@ -2,11 +2,12 @@ import { App } from "app";
 import { AppState, StateTracker } from "state/state";
 import { StateFactory } from "state/state-factory";
 import { EndPoint } from "models/components/end-point";
+import { Canvas } from "views/canvas";
 
 export class DrawInitState extends AppState {
-    constructor(tracker: StateTracker, factory: StateFactory, private app: App) {
+    constructor(tracker: StateTracker, factory: StateFactory, private canvas: Canvas) {
         super(tracker, factory);
-        app.darkenCanvas();
+        canvas.darken();
     }
 
     override onEscape(): void {
@@ -14,7 +15,7 @@ export class DrawInitState extends AppState {
     }
 
     private cancel(): void {
-        this.app.lightenCanvas();
+        this.canvas.lighten();
         this.stateTracker.setCurrentState(this.factory.idle());
     }
 
@@ -23,12 +24,12 @@ export class DrawInitState extends AppState {
     }
 
     override onEmptyClick(x: number, y: number): void {
-        this.app.lightenCanvas();
+        this.canvas.lighten();
         this.stateTracker.setCurrentState(this.factory.drawing(x, y));
     }
 
     override onControlPointClick(point: EndPoint): void {
-        this.app.lightenCanvas();
+        this.canvas.lighten();
         const [x, y] = point.getCoordinate();
         this.stateTracker.setCurrentState(this.factory.drawing(x, y, point));
     }

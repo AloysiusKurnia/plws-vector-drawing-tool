@@ -36,6 +36,62 @@ function reflectThroughBisector(
     ];
 }
 
+function completeCatmullRomControlPoint(
+    p0: Pair<number> | undefined,
+    p1: Pair<number>,
+    p2: Pair<number>,
+    p3: Pair<number> | undefined
+): Quadruple<Pair<number>> {
+    if (p0) {
+        return [p0, p1, p2, p3 ?? getMissingCatmullRomControlPoint(p0, p1, p2)];
+    }
+    return p3 ?
+        [getMissingCatmullRomControlPoint(p3, p2, p1), p1, p2, p3] :
+        [reflectPoint(p2, p1), p1, p2, reflectPoint(p1, p2)];
+}
+
+function reflectPoint(point: Pair<number>, pivot: Pair<number>): Pair<number> {
+    const [px, py] = point;
+    const [mx, my] = pivot;
+    return [2 * mx - px, 2 * my - py];
+}
+
+function getMissingCatmullRomControlPoint(
+    pOpposite: Pair<number>,
+    pFar: Pair<number>,
+    pNear: Pair<number>
+) {
+    return averagePointsWeightedToSecond(
+        reflectThroughBisector(pOpposite, pFar, pNear),
+        reflectPoint(pFar, pNear)
+    );
+}
+
+function calculateCatmullRomIntermediatePoints(
+    [[x0, y0], [x1, y1], [x2, y2], [x3, y3]]: Quadruple<Pair<number>>
+) {
+    const l0 = getLengthFactor(x0, y0, x1, y1);
+        const l1 = getLengthFactor(x1, y1, x2, y2);
+        const l2 = getLengthFactor(x2, y2, x3, y3);
+        const l01 = l0 + l1;
+        const l12 = l1 + l2;
+
+        const a0 = -l1 * l1 / (l01 * l0);
+        const a1 = (l1 - l0) / l0 + 3;
+        const a2 = l0 / l01;
+
+        const b0 = -l1 * l1 / (l12 * l2);
+        const b1 = (l1 - l2) / l2 + 3;
+        const b2 = l2 / l12;
+
+        const z0x = (x0 * a0 + x1 * a1 + x2 * a2) / 3;
+        const z0y = (y0 * a0 + y1 * a1 + y2 * a2) / 3;
+        const z1x = (x3 * b0 + x2 * b1 + x1 * b2) / 3;
+        const z1y = (y3 * b0 + y2 * b1 + y1 * b2) / 3;
+
+    return [[z0x, z0y], [z1x, z1y]] as Pair<Pair<number>>;
+}
+
 export class SplineSegment extends DrawingElement<BezierWrapper> {
     constructor(
         private p0: EndPoint | null,
@@ -69,17 +125,8 @@ export class SplineSegment extends DrawingElement<BezierWrapper> {
         const p1 = this.p1.getCoordinate();
         const p2 = this.p2.getCoordinate();
         const p3 = this.p3?.getCoordinate();
-        if (p0 && p3) return [p0, p1, p2, p3];
-        if (p0) return [p0, p1, p2, averagePointsWeightedToSecond(
-            reflectThroughBisector(p0, p1, p2),
-            this.p2.getCoordinateReflectedTo(this.p1)
-        )];
-        if (p3) return [
-            averagePointsWeightedToSecond(
-                reflectThroughBisector(p3, p2, p1),
-                this.p1.getCoordinateReflectedTo(this.p2)),
-            p1, p2, p3];
-        return [this.p2.getCoordinateReflectedTo(this.p1), p1, p2, this.p1.getCoordinateReflectedTo(this.p2)];
+
+        return completeCatmullRomControlPoint(p0, p1, p2, p3);
     }
 
     getPoints() {
@@ -91,34 +138,10 @@ export class SplineSegment extends DrawingElement<BezierWrapper> {
     }
 
     updateTransform() {
-        const [
-            [x0, y0],
-            [x1, y1],
-            [x2, y2],
-            [x3, y3]
-        ] = this.getControlPointCoordinates();
-
-        // Calculate Bezier curve control points given four points
-        // according to Catmull-Rom splines
-
-        const l0 = getLengthFactor(x0, y0, x1, y1);
-        const l1 = getLengthFactor(x1, y1, x2, y2);
-        const l2 = getLengthFactor(x2, y2, x3, y3);
-        const l01 = l0 + l1;
-        const l12 = l1 + l2;
-
-        const a0 = -l1 * l1 / (l01 * l0);
-        const a1 = (l1 - l0) / l0 + 3;
-        const a2 = l0 / l01;
-
-        const b0 = -l1 * l1 / (l12 * l2);
-        const b1 = (l1 - l2) / l2 + 3;
-        const b2 = l2 / l12;
-
-        const z0x = (x0 * a0 + x1 * a1 + x2 * a2) / 3;
-        const z0y = (y0 * a0 + y1 * a1 + y2 * a2) / 3;
-        const z1x = (x3 * b0 + x2 * b1 + x1 * b2) / 3;
-        const z1y = (y3 * b0 + y2 * b1 + y1 * b2) / 3;
+        const coords = this.getControlPointCoordinates();
+        const [x1, y1] = coords[1];
+        const [x2, y2] = coords[2];
+        const [[z0x, z0y], [z1x, z1y]] = calculateCatmullRomIntermediatePoints(coords);
 
         this.viewElement.setEndpoint0(x1, y1);
         this.viewElement.setEndpoint1(x2, y2);
@@ -126,4 +149,6 @@ export class SplineSegment extends DrawingElement<BezierWrapper> {
         this.viewElement.setControlPoint1(z1x, z1y);
         this.viewElement.update();
     }
+
+
 }

@@ -3,7 +3,7 @@
  */
 export const COLOR = {
     black: "#000",
-    lightBlack: "#333",
+    lightBlack: "#666",
     white: "#fff",
     darkWhite: "#ddd",
     endPoint: "#f00",

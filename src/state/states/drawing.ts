@@ -1,5 +1,5 @@
 import { EndPoint } from "models/components/end-point";
-import { SplineSegment } from "models/components/spline-segment";
+import { CatmullRomSplineBuilder, SplineSegment } from "models/components/spline-segment";
 import { ElementFactory } from "models/element-factory";
 import { AppState, StateTracker } from "state/state";
 import { StateFactory } from "state/state-factory";
@@ -10,6 +10,9 @@ export class DrawingState extends AppState {
 
     private previousSegment: SplineSegment | null = null;
     private currentSegment: SplineSegment;
+
+    private previousSegmentBuilder: CatmullRomSplineBuilder | null = null;
+    private currentSegmentBuilder: CatmullRomSplineBuilder;
     constructor(
         tracker: StateTracker,
         stateFactory: StateFactory,
@@ -20,23 +23,29 @@ export class DrawingState extends AppState {
     ) {
         super(tracker, stateFactory);
         this.previousPoint = firstPoint ?? this.elementFactory.createControlPoint(pointX, pointY);
-        this.previousPoint.updateTransform();
+        this.previousPoint.updateView();
         this.currentPoint = this.elementFactory.createControlPoint(pointX, pointY);
         this.currentPoint.makeHidden();
         this.currentSegment = this.elementFactory.createSplineSegment(
-            null,
             this.previousPoint,
-            this.currentPoint,
-            null);
+            this.currentPoint);
+        this.currentSegmentBuilder = new CatmullRomSplineBuilder(
+            null, null,
+            this.currentSegment
+        );
+        this.currentSegmentBuilder.updatePoints();
+
         this.currentPoint.makeIntangible();
         this.currentSegment.makeIntangible();
     }
 
     override onMouseMove(x: number, y: number): void {
         this.currentPoint.moveTo(x, y);
-        this.currentPoint.updateTransform();
-        this.currentSegment.updateTransform();
-        this.previousSegment?.updateTransform();
+        this.currentPoint.updateView();
+        this.currentSegmentBuilder.updatePoints();
+        this.previousSegmentBuilder?.updatePoints();
+        this.currentSegment.updateView();
+        this.previousSegment?.updateView();
     }
 
     override onEmptyClick(x: number, y: number): void {
@@ -51,6 +60,7 @@ export class DrawingState extends AppState {
         const prepreviousPoint = this.previousPoint;
         this.previousPoint = currentPoint;
         this.previousSegment = this.currentSegment;
+        this.previousSegmentBuilder = this.currentSegmentBuilder;
 
         this.previousPoint.makeTangible();
         this.previousSegment.makeTangible();
@@ -62,14 +72,17 @@ export class DrawingState extends AppState {
 
         this.currentPoint = this.elementFactory.createControlPoint(cursorX, cursorY);
         this.currentPoint.makeHidden();
-        this.previousSegment.setCurrentPoint(this.previousPoint);
-        this.previousSegment.setNextPoint(this.currentPoint);
+        this.previousSegment.endPoint1 = this.previousPoint;
+        this.previousSegmentBuilder.outerPoint1 = this.currentPoint;
 
         this.currentSegment = this.elementFactory.createSplineSegment(
-            prepreviousPoint,
             this.previousPoint,
-            this.currentPoint,
-            null);
+            this.currentPoint);
+        this.currentSegmentBuilder = new CatmullRomSplineBuilder(
+            prepreviousPoint,
+            null,
+            this.currentSegment
+        );
 
         this.currentPoint.makeIntangible();
         this.currentSegment.makeIntangible();
@@ -81,8 +94,11 @@ export class DrawingState extends AppState {
     }
 
     private finishDrawing(): void {
-        this.previousSegment?.setNextPoint(null);
-        this.previousSegment?.updateTransform();
+        if (this.previousSegmentBuilder) {
+            this.previousSegmentBuilder.outerPoint1 = null;
+            this.previousSegmentBuilder.updatePoints();
+            this.previousSegment!.updateView();
+        }
         this.currentPoint.removeElement();
         this.currentSegment.removeElement();
     }

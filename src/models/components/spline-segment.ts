@@ -37,7 +37,7 @@ function reflectThroughBisector(
     };
 }
 
-function completeCatmullRomControlPoint(
+function completeControlPoint(
     p0: Pointlike | null,
     p1: Pointlike,
     p2: Pointlike,
@@ -97,10 +97,10 @@ function calculateCatmullRomIntermediatePoints(
 
 export class SplineSegment extends DrawingElement<BezierWrapper> {
     constructor(
-        private p0: EndPoint | null,
-        private p1: EndPoint,
-        private p2: EndPoint,
-        private p3: EndPoint | null,
+        public endPoint0: EndPoint,
+        public intermediatePoint0: EndPoint,
+        public intermediatePoint1: EndPoint,
+        public endPoint1: EndPoint,
         element: SplineSegmentView
     ) {
         super(element);
@@ -115,31 +115,32 @@ export class SplineSegment extends DrawingElement<BezierWrapper> {
         this.viewElement.setStroke(COLOR.black, DIMENSION.segmentWidth);
     }
 
-    setNextPoint(point: EndPoint | null) {
-        this.p3 = point;
-    }
-
-    setCurrentPoint(point: EndPoint) {
-        this.p2 = point;
-    }
-
-    getPoints() {
-        const out = [this.p1, this.p2];
-        if (this.p0) out.unshift(this.p0);
-        if (this.p3) out.push(this.p3);
-
-        return out;
-    }
-
-    updateTransform() {
-        const coords = completeCatmullRomControlPoint(this.p0, this.p1, this.p2, this.p3);
-        const [z0, z1] = calculateCatmullRomIntermediatePoints(coords);
-        this.viewElement.endpoint0 = this.p1;
-        this.viewElement.endpoint1 = this.p2;
-        this.viewElement.intermediatePoint0 = z0;
-        this.viewElement.intermediatePoint1 = z1;
+    updateView() {
+        this.viewElement.endpoint0 = this.endPoint0;
+        this.viewElement.endpoint1 = this.endPoint1;
+        this.viewElement.intermediatePoint0 = this.intermediatePoint0;
+        this.viewElement.intermediatePoint1 = this.intermediatePoint1;
         this.viewElement.update();
     }
+}
 
+export class CatmullRomSplineBuilder {
+    public endPoint0: EndPoint
+    public endPoint1: EndPoint
+    constructor(
+        public outerPoint0: EndPoint | null,
+        public outerPoint1: EndPoint | null,
+        public readonly segment: SplineSegment
+    ) { }
 
+    updatePoints() {
+        const coords = completeControlPoint(
+            this.outerPoint0,
+            this.segment.endPoint0,
+            this.segment.endPoint1,
+            this.outerPoint1);
+        const [z0, z1] = calculateCatmullRomIntermediatePoints(coords);
+        this.segment.intermediatePoint0.copyFrom(z0);
+        this.segment.intermediatePoint1.copyFrom(z1);
+    }
 }

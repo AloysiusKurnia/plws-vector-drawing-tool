@@ -19,6 +19,11 @@ export class EndPoint extends DrawingElement<UseWrapper> implements Pointlike {
         return [this.x, this.y];
     }
 
+    copyFrom(point: Pointlike): void {
+        this.x = point.x;
+        this.y = point.y;
+    }
+
     getCoordinateReflectedTo(pivot: EndPoint): [number, number] {
         return [2 * pivot.x - this.x, 2 * pivot.y - this.y];
     }
@@ -28,7 +33,7 @@ export class EndPoint extends DrawingElement<UseWrapper> implements Pointlike {
         this.viewElement.setStroke(COLOR.black, DIMENSION.endPointStrokeWidth);
     }
 
-    updateTransform(): void {
+    updateView(): void {
         this.viewElement.setPosition(this.x, this.y);
     }
 

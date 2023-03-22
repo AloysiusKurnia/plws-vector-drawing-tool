@@ -10,7 +10,7 @@ export abstract class DrawingElement<T extends ElementWrapper = ElementWrapper> 
 
     abstract updateGraphicsToHovered(): void;
     abstract updateGraphicsToDefault(): void;
-    abstract updateTransform(): void;
+    abstract updateView(): void;
 
     protected addOnMouseDown(callback: (event: MouseEvent) => void) {
         this.viewElement.addEvent('mousedown', callback);

@@ -1,10 +1,11 @@
 import { COLOR, DIMENSION } from "constants/settings";
 import { DrawingElement } from "models/element";
 import { UseWrapper } from "util/svg-wrapper";
+import { Pointlike } from "util/utility-types";
 import { EndPointView } from "views/end-point-view";
 
-export class EndPoint extends DrawingElement<UseWrapper> {
-    constructor(private x: number, private y: number, element: EndPointView) {
+export class EndPoint extends DrawingElement<UseWrapper> implements Pointlike {
+    constructor(public x: number, public y: number, element: EndPointView) {
         super(element);
         this.updateGraphicsToDefault();
     }

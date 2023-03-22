@@ -1,3 +1,5 @@
+import { Pointlike } from "./utility-types";
+
 function createSVGFromTag<T extends keyof SVGElementTagNameMap>(tag: T): SVGElementTagNameMap[T] {
     return document.createElementNS("http://www.w3.org/2000/svg", tag);
 }
@@ -132,24 +134,24 @@ export class BezierWrapper extends PathWrapper {
         );
     }
 
-    setEndpoint0(x: number, y: number) {
-        this.originX = x;
-        this.originY = y;
+    set endpoint0(p: Pointlike) {
+        this.originX = p.x;
+        this.originY = p.y;
     }
 
-    setControlPoint0(x: number, y: number) {
-        this.otherPoints[0] = x;
-        this.otherPoints[1] = y;
+    set intermediatePoint0(p: Pointlike) {
+        this.otherPoints[0] = p.x;
+        this.otherPoints[1] = p.y;
     }
 
-    setControlPoint1(x: number, y: number) {
-        this.otherPoints[2] = x;
-        this.otherPoints[3] = y;
+    set intermediatePoint1(p: Pointlike) {
+        this.otherPoints[2] = p.x;
+        this.otherPoints[3] = p.y;
     }
 
-    setEndpoint1(x: number, y: number) {
-        this.otherPoints[4] = x;
-        this.otherPoints[5] = y;
+    set endpoint1(p: Pointlike) {
+        this.otherPoints[4] = p.x;
+        this.otherPoints[5] = p.y;
     }
 }
 

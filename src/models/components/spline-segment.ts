@@ -1,6 +1,6 @@
 import { DrawingElement } from "models/element";
 import { BezierWrapper } from "util/svg-wrapper";
-import { Pair, Quadruple } from "util/utility-types";
+import { Pair, Pointlike, Quadruple } from "util/utility-types";
 import { EndPoint } from "./end-point";
 import { COLOR, DIMENSION } from "constants/settings";
 import { SplineSegmentView } from "views/spline-segment-view";
@@ -14,34 +14,35 @@ function getLengthFactor(x1: number, y1: number, x2: number, y2: number) {
 }
 
 function averagePointsWeightedToSecond(
-    [x1, y1]: Pair<number>,
-    [x2, y2]: Pair<number>
-): Pair<number> {
-    return [(x1 + 2 * x2) / 3, (y1 + 2 * y2) / 3];
+    p1: Pointlike,
+    p2: Pointlike
+): Pointlike {
+    return { x: (p1.x + 2 * p2.x) / 3, y: (p1.y + 2 * p2.y) / 3 };
 }
 
 function reflectThroughBisector(
-    [p3x, p3y]: Pair<number>,
-    [p1x, p1y]: Pair<number>,
-    [p2x, p2y]: Pair<number>
-): Pair<number> {
-    const vx = p2x - p1x;
-    const vy = p2y - p1y;
-    const rx = p3x - p2x;
-    const ry = p3y - p2y;
+    p3: Pointlike,
+    p1: Pointlike,
+    p2: Pointlike
+): Pointlike {
+    const vx = p2.x - p1.x;
+    const vy = p2.y - p1.y;
+    const rx = p3.x - p2.x;
+    const ry = p3.y - p2.y;
+
     const projectionScalar = (rx * vx + ry * vy) / (vx * vx + vy * vy);
-    return [
-        p1x + rx - 2 * projectionScalar * vx,
-        p1y + ry - 2 * projectionScalar * vy
-    ];
+    return {
+        x: p1.x + rx - 2 * projectionScalar * vx,
+        y: p1.y + ry - 2 * projectionScalar * vy
+    };
 }
 
 function completeCatmullRomControlPoint(
-    p0: Pair<number> | undefined,
-    p1: Pair<number>,
-    p2: Pair<number>,
-    p3: Pair<number> | undefined
-): Quadruple<Pair<number>> {
+    p0: Pointlike | null,
+    p1: Pointlike,
+    p2: Pointlike,
+    p3: Pointlike | null
+): Quadruple<Pointlike> {
     if (p0) {
         return [p0, p1, p2, p3 ?? getMissingCatmullRomControlPoint(p0, p1, p2)];
     }
@@ -50,16 +51,17 @@ function completeCatmullRomControlPoint(
         [reflectPoint(p2, p1), p1, p2, reflectPoint(p1, p2)];
 }
 
-function reflectPoint(point: Pair<number>, pivot: Pair<number>): Pair<number> {
-    const [px, py] = point;
-    const [mx, my] = pivot;
-    return [2 * mx - px, 2 * my - py];
+function reflectPoint(point: Pointlike, pivot: Pointlike): Pointlike {
+    return {
+        x: 2 * pivot.x - point.x,
+        y: 2 * pivot.y - point.y
+    };
 }
 
 function getMissingCatmullRomControlPoint(
-    pOpposite: Pair<number>,
-    pFar: Pair<number>,
-    pNear: Pair<number>
+    pOpposite: Pointlike,
+    pFar: Pointlike,
+    pNear: Pointlike
 ) {
     return averagePointsWeightedToSecond(
         reflectThroughBisector(pOpposite, pFar, pNear),
@@ -68,28 +70,29 @@ function getMissingCatmullRomControlPoint(
 }
 
 function calculateCatmullRomIntermediatePoints(
-    [[x0, y0], [x1, y1], [x2, y2], [x3, y3]]: Quadruple<Pair<number>>
-) {
-    const l0 = getLengthFactor(x0, y0, x1, y1);
-        const l1 = getLengthFactor(x1, y1, x2, y2);
-        const l2 = getLengthFactor(x2, y2, x3, y3);
-        const l01 = l0 + l1;
-        const l12 = l1 + l2;
+    [p0, p1, p2, p3]: Quadruple<Pointlike>
+): Pair<Pointlike> {
+    const l0 = getLengthFactor(p0.x, p0.y, p1.x, p1.y);
+    const l1 = getLengthFactor(p1.x, p1.y, p2.x, p2.y);
+    const l2 = getLengthFactor(p2.x, p2.y, p3.x, p3.y);
+    const l01 = l0 + l1;
+    const l12 = l1 + l2;
 
-        const a0 = -l1 * l1 / (l01 * l0);
-        const a1 = (l1 - l0) / l0 + 3;
-        const a2 = l0 / l01;
+    const a0 = -l1 * l1 / (l01 * l0);
+    const a1 = (l1 - l0) / l0 + 3;
+    const a2 = l0 / l01;
 
-        const b0 = -l1 * l1 / (l12 * l2);
-        const b1 = (l1 - l2) / l2 + 3;
-        const b2 = l2 / l12;
+    const b0 = -l1 * l1 / (l12 * l2);
+    const b1 = (l1 - l2) / l2 + 3;
+    const b2 = l2 / l12;
 
-        const z0x = (x0 * a0 + x1 * a1 + x2 * a2) / 3;
-        const z0y = (y0 * a0 + y1 * a1 + y2 * a2) / 3;
-        const z1x = (x3 * b0 + x2 * b1 + x1 * b2) / 3;
-        const z1y = (y3 * b0 + y2 * b1 + y1 * b2) / 3;
+    const z0x = (p0.x * a0 + p1.x * a1 + p2.x * a2) / 3;
+    const z0y = (p0.y * a0 + p1.y * a1 + p2.y * a2) / 3;
+    const z1x = (p3.x * b0 + p2.x * b1 + p1.x * b2) / 3;
+    const z1y = (p3.y * b0 + p2.y * b1 + p1.y * b2) / 3;
 
-    return [[z0x, z0y], [z1x, z1y]] as Pair<Pair<number>>;
+    // return [[z0x, z0y], [z1x, z1y]] as Pair<Pair<number>>;
+    return [{ x: z0x, y: z0y }, { x: z1x, y: z1y }];
 }
 
 export class SplineSegment extends DrawingElement<BezierWrapper> {
@@ -120,15 +123,6 @@ export class SplineSegment extends DrawingElement<BezierWrapper> {
         this.p2 = point;
     }
 
-    private getControlPointCoordinates(): Quadruple<Pair<number>> {
-        const p0 = this.p0?.getCoordinate();
-        const p1 = this.p1.getCoordinate();
-        const p2 = this.p2.getCoordinate();
-        const p3 = this.p3?.getCoordinate();
-
-        return completeCatmullRomControlPoint(p0, p1, p2, p3);
-    }
-
     getPoints() {
         const out = [this.p1, this.p2];
         if (this.p0) out.unshift(this.p0);
@@ -138,15 +132,12 @@ export class SplineSegment extends DrawingElement<BezierWrapper> {
     }
 
     updateTransform() {
-        const coords = this.getControlPointCoordinates();
-        const [x1, y1] = coords[1];
-        const [x2, y2] = coords[2];
-        const [[z0x, z0y], [z1x, z1y]] = calculateCatmullRomIntermediatePoints(coords);
-
-        this.viewElement.setEndpoint0(x1, y1);
-        this.viewElement.setEndpoint1(x2, y2);
-        this.viewElement.setControlPoint0(z0x, z0y);
-        this.viewElement.setControlPoint1(z1x, z1y);
+        const coords = completeCatmullRomControlPoint(this.p0, this.p1, this.p2, this.p3);
+        const [z0, z1] = calculateCatmullRomIntermediatePoints(coords);
+        this.viewElement.endpoint0 = this.p1;
+        this.viewElement.endpoint1 = this.p2;
+        this.viewElement.intermediatePoint0 = z0;
+        this.viewElement.intermediatePoint1 = z1;
         this.viewElement.update();
     }
 

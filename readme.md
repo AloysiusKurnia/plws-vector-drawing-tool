@@ -4,4 +4,6 @@ This is a vector drawing tool that I made for my own use. It is not intended to 
 
 ## How to use
 
-Clone, install packages, then `npm run build` or whatever you use to run node scripts. A file will be created in the `dist` folder. Open it in your browser. (You don't need a server.)
+Clone, install packages, then `npm run build` or whatever you use to run node scripts. I personally use pnpm.
+
+A file will be created in the `dist` folder. Open `index.html` in your browser. (You don't need a server.)

@@ -1,4 +1,4 @@
-import { ControlManager } from "observers/event-controller";
+import { EventController } from "observers/event-controller";
 import { EndPointGroup } from "views/groups/end-point-group";
 import { SplineSegmentGroup } from "views/groups/spline-segment-group";
 import { EndPoint } from "./components/end-point";
@@ -6,7 +6,7 @@ import { SplineSegment } from "./components/spline-segment";
 
 export class ElementFactory {
     constructor(
-        private readonly controlManager: ControlManager,
+        private readonly controlManager: EventController,
         private readonly controlPointGroup: EndPointGroup,
         private readonly splineSegmentGroup: SplineSegmentGroup
     ) { }

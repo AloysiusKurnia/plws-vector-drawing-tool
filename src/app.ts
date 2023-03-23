@@ -1,5 +1,5 @@
 import { AnimationFrameController } from "observers/animation-frame-controller";
-import { ControlManager } from "observers/event-controller";
+import { EventController } from "observers/event-controller";
 import { ZoomController } from "observers/zoom";
 import { DrawingElement } from "controllers/element";
 import { ElementFactory } from "controllers/element-factory";
@@ -12,7 +12,7 @@ export class App implements StateTracker {
     private svgCanvas: SVGCanvas;
     private zoomManager: ZoomController;
     private currentAppState: AppState;
-    private controlManager: ControlManager;
+    private controlManager: EventController;
 
     private elementFactory: ElementFactory;
     private stateFactory: StateFactory;
@@ -20,7 +20,7 @@ export class App implements StateTracker {
     constructor(parent: HTMLElement) {
         this.svgCanvas = new SVGCanvas(parent);
         this.zoomManager = new ZoomController(this.animationController, this.svgCanvas);
-        this.controlManager = new ControlManager(this, this.zoomManager, this.svgCanvas);
+        this.controlManager = new EventController(this, this.zoomManager, this.svgCanvas);
         this.elementFactory = new ElementFactory(
             this.controlManager,
             this.svgCanvas.controlPointGroup,

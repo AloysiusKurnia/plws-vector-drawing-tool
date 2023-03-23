@@ -1,5 +1,5 @@
 import { SVGWrapper } from "util/svg-wrapper";
-import { Pair } from "util/utility-types";
+import { Pair, Procedure } from "util/utility-types";
 import { AnimationFrameController } from "./animation-frame-controller";
 
 export class ZoomController {
@@ -15,11 +15,14 @@ export class ZoomController {
     private dx = 0;
     private dy = 0;
     private dZoom = 0;
+    private toBeDoneOnPan = () => { };
+
     constructor(
         private animationController: AnimationFrameController,
         private svg: SVGWrapper,
     ) {
-        this.animationController.register(() => this.update());
+        this.animationController.register(() => this.updateIfMoving());
+        this.update();
     }
 
     addForce(
@@ -32,8 +35,15 @@ export class ZoomController {
         this.dZoom += dZoom;
     }
 
+    private updateIfMoving(): void {
+        if (this.dx === 0 && this.dy === 0 && this.dZoom === 0) {
+            return;
+        }
+        this.update();
+    }
+
     private update() {
-        const scale = this.BASE ** this.scalePower;
+        const scale = this.getScaleFactor();
         this.centerX += this.dx * this.PAN_AMOUNT_PER_FRAME * scale;
         this.centerY += this.dy * this.PAN_AMOUNT_PER_FRAME * scale;
         this.scalePower += this.dZoom * this.ZOOM_AMOUNT_PER_FRAME;
@@ -44,13 +54,17 @@ export class ZoomController {
             this.viewBoxWidth,
             this.viewBoxWidth
         );
+
+        this.toBeDoneOnPan();
     }
 
     private get viewBoxWidth(): number {
-        const scale = this.BASE ** this.scalePower;
-        return this.STANDARD_VIEWBOX_WIDTH * scale;
+        return this.STANDARD_VIEWBOX_WIDTH * this.getScaleFactor();
     }
 
+    getScaleFactor(): number {
+        return this.BASE ** this.scalePower;
+    }
 
     translatePosition(
         clientX: number, clientY: number,
@@ -84,5 +98,9 @@ export class ZoomController {
 
     reset(): void {
         this.scalePower = 1;
+    }
+
+    doOnPanning(callback: () => void): void {
+        this.toBeDoneOnPan = callback;
     }
 }

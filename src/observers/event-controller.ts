@@ -6,7 +6,7 @@ import { EndPoint } from "controllers/components/end-point";
 import { SplineSegment } from "controllers/components/spline-segment";
 import { ZoomController } from "./zoom";
 
-export class ControlManager {
+export class EventController {
     private stateTracker: StateTracker;
     private zoomManager: ZoomController;
     private stateKeyMapping: Record<string, (state: AppState) => void>;
@@ -19,9 +19,9 @@ export class ControlManager {
         "e": [0, 0, 1]
     };
 
-    private toBeDoneOnEveryFrame: Record<number, () => void> = {};
 
-    private readonly lastMousePosition = { x: 0, y: 0 };
+    private readonly lastOffsetPosition = { x: 0, y: 0 };
+    private readonly lastCanvasBoundingBox = { width: 0, height: 0 };
 
     constructor(
         stateTracker: StateTracker,
@@ -64,12 +64,6 @@ export class ControlManager {
             }
         });
 
-        requestAnimationFrame(() => {
-            for (const key in this.toBeDoneOnEveryFrame) {
-                this.toBeDoneOnEveryFrame[key]();
-            }
-        });
-
         canvas.addEvent('mousedown', (event: MouseEvent) => {
             const elemX = event.offsetX;
             const elemY = event.offsetY;
@@ -85,8 +79,22 @@ export class ControlManager {
             const [canvasX, canvasY] = this.zoomManager.translatePosition(elemX, elemY, width, height);
             this.getCurrentState().onMouseMove(canvasX, canvasY);
 
-            this.lastMousePosition.x = canvasX;
-            this.lastMousePosition.y = canvasY;
+            this.lastOffsetPosition.x = event.offsetX;
+            this.lastOffsetPosition.y = event.offsetY;
+            this.lastCanvasBoundingBox.width = width;
+            this.lastCanvasBoundingBox.height = height;
+        });
+
+        zoomManager.doOnPanning(() => {
+            console.log("panning");
+
+            const [canvasX, canvasY] = this.zoomManager.translatePosition(
+                this.lastOffsetPosition.x,
+                this.lastOffsetPosition.y,
+                this.lastCanvasBoundingBox.width,
+                this.lastCanvasBoundingBox.height
+            );
+            this.getCurrentState().onMouseMove(canvasX, canvasY);
         });
     }
 

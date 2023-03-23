@@ -24,14 +24,12 @@ export class ElementFactory {
         endPoint0: EndPoint,
         endPoint1: EndPoint
     ): SplineSegment {
-        const intermediatePoint0 = new IntermediatePoint(endPoint0, this.intermediatePointGroup);
-        const intermediatePoint1 = new IntermediatePoint(endPoint1, this.intermediatePointGroup);
+        
         const elem = new SplineSegment(
             endPoint0,
-            intermediatePoint0,
-            intermediatePoint1,
             endPoint1,
-            this.splineSegmentGroup
+            this.splineSegmentGroup,
+            this.intermediatePointGroup
         );
         this.controlManager.registerSegmentClick(elem);
         return elem;

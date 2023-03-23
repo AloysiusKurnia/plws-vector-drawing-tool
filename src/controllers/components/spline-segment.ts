@@ -1,19 +1,21 @@
 import { COLOR } from "constants/settings";
 import { DrawingElement } from "controllers/element";
 import { SplineSegmentView } from "views/component/spline-segment-view";
+import { IntermediatePointGroup } from "views/groups/intermediate-point-group";
 import { SplineSegmentGroup } from "views/groups/spline-segment-group";
 import { EndPoint } from "./end-point";
 import { IntermediatePoint } from "./intermediate-point";
 
 export class SplineSegment extends DrawingElement<SplineSegmentView> {
+    public readonly intermediatePoint0: IntermediatePoint;
+    public readonly intermediatePoint1: IntermediatePoint;
     constructor(
-        public endPoint0: EndPoint,
-        public intermediatePoint0: IntermediatePoint,
-        public intermediatePoint1: IntermediatePoint,
-        public endPoint1: EndPoint,
-        group: SplineSegmentGroup
+        public endPoint0: EndPoint, public endPoint1: EndPoint,
+        group: SplineSegmentGroup, intermediatePointGroup: IntermediatePointGroup,
     ) {
         super(new SplineSegmentView(group));
+        this.intermediatePoint0 = new IntermediatePoint(endPoint0, this, intermediatePointGroup);
+        this.intermediatePoint1 = new IntermediatePoint(endPoint1, this, intermediatePointGroup);
         this.updateGraphicsToDefault();
     }
 

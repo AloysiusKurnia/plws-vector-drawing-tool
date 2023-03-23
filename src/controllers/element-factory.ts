@@ -1,14 +1,17 @@
 import { EventController } from "observers/event-controller";
 import { EndPointGroup } from "views/groups/end-point-group";
+import { IntermediatePointGroup } from "views/groups/intermediate-point-group";
 import { SplineSegmentGroup } from "views/groups/spline-segment-group";
 import { EndPoint } from "./components/end-point";
+import { IntermediatePoint } from "./components/intermediate-point";
 import { SplineSegment } from "./components/spline-segment";
 
 export class ElementFactory {
     constructor(
         private readonly controlManager: EventController,
         private readonly controlPointGroup: EndPointGroup,
-        private readonly splineSegmentGroup: SplineSegmentGroup
+        private readonly splineSegmentGroup: SplineSegmentGroup,
+        private readonly intermediatePointGroup: IntermediatePointGroup,
     ) { }
 
     createControlPoint(x: number, y: number): EndPoint {
@@ -21,10 +24,8 @@ export class ElementFactory {
         endPoint0: EndPoint,
         endPoint1: EndPoint
     ): SplineSegment {
-        const intermediatePoint0 = this.createControlPoint(0, 0);
-        const intermediatePoint1 = this.createControlPoint(0, 0);
-        intermediatePoint0.makeHidden();
-        intermediatePoint1.makeHidden();
+        const intermediatePoint0 = new IntermediatePoint(endPoint0, this.intermediatePointGroup);
+        const intermediatePoint1 = new IntermediatePoint(endPoint1, this.intermediatePointGroup);
         const elem = new SplineSegment(
             endPoint0,
             intermediatePoint0,

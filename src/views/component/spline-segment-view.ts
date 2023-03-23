@@ -1,6 +1,6 @@
 import { BezierWrapper } from "util/svg-wrapper";
 import { Pointlike } from "util/utility-types";
-import { SplineSegmentGroup } from "./groups/spline-segment-group";
+import { SplineSegmentGroup } from "../groups/spline-segment-group";
 
 export class SplineSegmentView extends BezierWrapper {
     private isHidden = true;

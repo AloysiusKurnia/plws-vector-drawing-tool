@@ -3,8 +3,9 @@ import { DrawingElement } from "controllers/element";
 import { BezierWrapper } from "util/svg-wrapper";
 import { Pair, Pointlike, Quadruple } from "util/utility-types";
 import { SplineSegmentGroup } from "views/groups/spline-segment-group";
-import { SplineSegmentView } from "views/spline-segment-view";
+import { SplineSegmentView } from "views/component/spline-segment-view";
 import { EndPoint } from "./end-point";
+import { IntermediatePoint } from "./intermediate-point";
 
 function getLengthFactor(x1: number, y1: number, x2: number, y2: number) {
     const dx = x2 - x1;
@@ -98,8 +99,8 @@ function calculateCatmullRomIntermediatePoints(
 export class SplineSegment extends DrawingElement<BezierWrapper> {
     constructor(
         public endPoint0: EndPoint,
-        public intermediatePoint0: EndPoint,
-        public intermediatePoint1: EndPoint,
+        public intermediatePoint0: IntermediatePoint,
+        public intermediatePoint1: IntermediatePoint,
         public endPoint1: EndPoint,
         group: SplineSegmentGroup
     ) {
@@ -121,6 +122,15 @@ export class SplineSegment extends DrawingElement<BezierWrapper> {
         this.viewElement.intermediatePoint0 = this.intermediatePoint0;
         this.viewElement.intermediatePoint1 = this.intermediatePoint1;
         this.viewElement.update();
+
+        this.intermediatePoint0.updateView();
+        this.intermediatePoint1.updateView();
+    }
+
+    override removeElement(): void {
+        this.intermediatePoint0.removeElement();
+        this.intermediatePoint1.removeElement();
+        super.removeElement();
     }
 }
 

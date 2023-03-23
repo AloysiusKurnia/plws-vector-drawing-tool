@@ -1,6 +1,6 @@
 import { COLOR, ID } from "constants/settings";
 import { UseWrapper } from "util/svg-wrapper";
-import { EndPointGroup } from "./groups/end-point-group";
+import { EndPointGroup } from "../groups/end-point-group";
 
 export class EndPointView extends UseWrapper {
     constructor(group: EndPointGroup) {

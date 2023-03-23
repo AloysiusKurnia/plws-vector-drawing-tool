@@ -6,12 +6,16 @@ export const COLOR = {
     lightBlack: "#666",
     white: "#fff",
     darkWhite: "#ddd",
+
     endPoint: "#f00",
     endPointHover: "#fcc",
     endPointSelected: "#aaa",
+
     intermediatePoint: "#eee",
     intermediatePointHover: "#aaa",
     intermediatePointSelected: "#fff",
+    intermediateLine: "#aaa",
+
     segmentSelected: "#888",
 } as const;
 
@@ -20,8 +24,12 @@ export const COLOR = {
  */
 export const DIMENSION = {
     endPointRadius: 4,
-    endPointStrokeWidth: 1,
-    segmentWidth: 2.5,
+    pointStrokeWidth: 1,
+
+    intermediatePointRadius: 3,
+
+    intermediateLineWidth: 1.75,
+    segmentWidth: 2.75,
 } as const;
 
 /**
@@ -30,4 +38,4 @@ export const DIMENSION = {
 export const ID = {
     endPoint: "control-point",
     intermediatePoint: "intermediate-point",
-}
+};

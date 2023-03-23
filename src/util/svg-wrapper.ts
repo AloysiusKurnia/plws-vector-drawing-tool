@@ -154,6 +154,33 @@ export class BezierWrapper extends PathWrapper {
     }
 }
 
+export class LineWrapper extends PathWrapper {
+    public x1: number;
+    public y1: number;
+    public x2: number;
+    public y2: number;
+    constructor() {
+        super();
+        this.update();
+    }
+
+    update() {
+        this.setD(
+            `M ${this.x1} ${this.y1}L ${this.x2} ${this.y2}`
+        );
+    }
+
+    set point0(p: Pointlike) {
+        this.x1 = p.x;
+        this.y1 = p.y;
+    }
+
+    set point1(p: Pointlike) {
+        this.x2 = p.x;
+        this.y2 = p.y;
+    }
+}
+
 export class SVGWrapper extends ElementWrapper<SVGSVGElement> {
     constructor() {
         super(createSVGFromTag("svg"));

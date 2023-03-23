@@ -1,8 +1,7 @@
+import { ElementFactory } from "controllers/element-factory";
 import { AnimationFrameController } from "observers/animation-frame-controller";
 import { EventController } from "observers/event-controller";
 import { ZoomController } from "observers/zoom";
-import { DrawingElement } from "controllers/element";
-import { ElementFactory } from "controllers/element-factory";
 import { AppState, StateTracker } from "state/state";
 import { StateFactory } from "state/state-factory";
 import { SVGCanvas } from "views/canvas";
@@ -25,7 +24,8 @@ export class App implements StateTracker {
         this.elementFactory = new ElementFactory(
             this.controlManager,
             this.svgCanvas.controlPointGroup,
-            this.svgCanvas.splineSegmentGroup);
+            this.svgCanvas.splineSegmentGroup,
+            this.svgCanvas.intermediatePointGroup);
         this.stateFactory = new StateFactory(this, this.svgCanvas, this.elementFactory);
         this.currentAppState = this.stateFactory.idle();
     }

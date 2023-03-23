@@ -1,9 +1,9 @@
-import { COLOR, DIMENSION } from "constants/settings";
+import { COLOR } from "constants/settings";
 import { DrawingElement } from "controllers/element";
 import { UseWrapper } from "util/svg-wrapper";
 import { Pointlike } from "util/utility-types";
+import { EndPointView } from "views/component/end-point-view";
 import { EndPointGroup } from "views/groups/end-point-group";
-import { EndPointView } from "views/end-point-view";
 
 export class EndPoint extends DrawingElement<UseWrapper> implements Pointlike {
     constructor(

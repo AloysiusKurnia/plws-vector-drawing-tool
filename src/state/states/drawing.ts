@@ -1,6 +1,6 @@
-import { EndPoint } from "models/components/end-point";
-import { CatmullRomSplineBuilder, SplineSegment } from "models/components/spline-segment";
-import { ElementFactory } from "models/element-factory";
+import { EndPoint } from "controllers/components/end-point";
+import { CatmullRomSplineBuilder, SplineSegment } from "controllers/components/spline-segment";
+import { ElementFactory } from "controllers/element-factory";
 import { AppState, StateTracker } from "state/state";
 import { StateFactory } from "state/state-factory";
 import { Pointlike } from "util/utility-types";

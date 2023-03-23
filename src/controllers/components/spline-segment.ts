@@ -1,4 +1,4 @@
-import { DrawingElement } from "models/element";
+import { DrawingElement } from "controllers/element";
 import { BezierWrapper } from "util/svg-wrapper";
 import { Pair, Pointlike, Quadruple } from "util/utility-types";
 import { EndPoint } from "./end-point";

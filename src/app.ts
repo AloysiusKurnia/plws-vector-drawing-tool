@@ -1,8 +1,8 @@
-import { AnimationFrameController } from "controller/animation-frame-controller";
-import { ControlManager } from "controller/event-controller";
-import { ZoomController } from "controller/zoom";
-import { DrawingElement } from "models/element";
-import { ElementFactory } from "models/element-factory";
+import { AnimationFrameController } from "observers/animation-frame-controller";
+import { ControlManager } from "observers/event-controller";
+import { ZoomController } from "observers/zoom";
+import { DrawingElement } from "controllers/element";
+import { ElementFactory } from "controllers/element-factory";
 import { AppState, StateTracker } from "state/state";
 import { StateFactory } from "state/state-factory";
 import { SVGCanvas } from "views/canvas";

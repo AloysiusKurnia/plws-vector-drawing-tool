@@ -1,4 +1,4 @@
-import { EndPoint } from "models/components/end-point";
+import { EndPoint } from "controllers/components/end-point";
 import { AppState, StateTracker } from "state/state";
 import { StateFactory } from "state/state-factory";
 import { SVGCanvas } from "views/canvas";

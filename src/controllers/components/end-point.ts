@@ -1,5 +1,5 @@
 import { COLOR, DIMENSION } from "constants/settings";
-import { DrawingElement } from "models/element";
+import { DrawingElement } from "controllers/element";
 import { UseWrapper } from "util/svg-wrapper";
 import { Pointlike } from "util/utility-types";
 import { EndPointGroup } from "views/groups/end-point-group";

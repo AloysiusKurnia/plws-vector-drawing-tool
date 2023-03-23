@@ -1,5 +1,5 @@
-import { EndPoint } from "models/components/end-point";
-import { SplineSegment } from "models/components/spline-segment";
+import { EndPoint } from "controllers/components/end-point";
+import { SplineSegment } from "controllers/components/spline-segment";
 import { StateFactory } from "./state-factory";
 
 export abstract class AppState {

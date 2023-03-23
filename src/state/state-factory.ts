@@ -1,5 +1,5 @@
-import { EndPoint } from "models/components/end-point";
-import { ElementFactory } from "models/element-factory";
+import { EndPoint } from "controllers/components/end-point";
+import { ElementFactory } from "controllers/element-factory";
 import { SVGCanvas } from "views/canvas";
 import { AppState, StateTracker } from "./state";
 import { DrawInitState } from "./states/draw-init";

@@ -5,5 +5,11 @@ export abstract class AbstractGroup extends GroupWrapper {
         super();
     }
 
+    protected defaultScaleFactor = 1;
+
+    setDefaultScaleFactor(factor: number) {
+        this.defaultScaleFactor = factor;
+    }
+
     abstract rescale(zoomFactor: number): void;
 }

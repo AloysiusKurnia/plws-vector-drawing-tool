@@ -16,7 +16,7 @@ export class EndPoint extends DrawingElement<UseWrapper> implements Pointlike {
 
     updateGraphicsToHovered(): void {
         this.viewElement.setFill(COLOR.endPointHover);
-        this.viewElement.setStroke(COLOR.lightBlack, 1);
+        this.viewElement.setStroke(COLOR.lightBlack);
     }
 
     copyFrom(point: Pointlike): void {
@@ -26,7 +26,7 @@ export class EndPoint extends DrawingElement<UseWrapper> implements Pointlike {
 
     updateGraphicsToDefault(): void {
         this.viewElement.setFill(COLOR.endPoint);
-        this.viewElement.setStroke(COLOR.black, DIMENSION.endPointStrokeWidth);
+        this.viewElement.setStroke(COLOR.black);
     }
 
     updateView(): void {

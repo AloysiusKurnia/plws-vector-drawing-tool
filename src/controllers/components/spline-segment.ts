@@ -1,10 +1,10 @@
+import { COLOR } from "constants/settings";
 import { DrawingElement } from "controllers/element";
 import { BezierWrapper } from "util/svg-wrapper";
 import { Pair, Pointlike, Quadruple } from "util/utility-types";
-import { EndPoint } from "./end-point";
-import { COLOR, DIMENSION } from "constants/settings";
-import { SplineSegmentView } from "views/spline-segment-view";
 import { SplineSegmentGroup } from "views/groups/spline-segment-group";
+import { SplineSegmentView } from "views/spline-segment-view";
+import { EndPoint } from "./end-point";
 
 function getLengthFactor(x1: number, y1: number, x2: number, y2: number) {
     const dx = x2 - x1;
@@ -108,11 +108,11 @@ export class SplineSegment extends DrawingElement<BezierWrapper> {
     }
 
     updateGraphicsToHovered(): void {
-        this.viewElement.setStroke(COLOR.lightBlack, DIMENSION.segmentWidth);
+        this.viewElement.setStroke(COLOR.lightBlack);
     }
 
     updateGraphicsToDefault(): void {
-        this.viewElement.setStroke(COLOR.black, DIMENSION.segmentWidth);
+        this.viewElement.setStroke(COLOR.black);
     }
 
     updateView() {

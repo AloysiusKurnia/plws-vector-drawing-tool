@@ -1,5 +1,6 @@
 import { COLOR } from "constants/settings";
-import { BezierWrapper, SVGWrapper, UseWrapper } from "util/svg-wrapper";
+import { ZoomController } from "observers/zoom";
+import { SVGWrapper } from "util/svg-wrapper";
 import { EndPointGroup } from "./groups/end-point-group";
 import { SplineSegmentGroup } from "./groups/spline-segment-group";
 
@@ -21,5 +22,15 @@ export class SVGCanvas extends SVGWrapper {
 
     lighten() {
         this.style.backgroundColor = COLOR.white;
+    }
+
+    setupZoomingAttributes(zoomer: ZoomController) {
+        this.splineSegmentGroup.setDefaultScaleFactor(zoomer.DEFAULT_SCALE_FACTOR);
+        this.controlPointGroup.setDefaultScaleFactor(zoomer.DEFAULT_SCALE_FACTOR);
+
+        zoomer.doOnPanning(() => {
+            this.splineSegmentGroup.rescale(zoomer.getScaleFactor());
+            this.controlPointGroup.rescale(zoomer.getScaleFactor());
+        });
     }
 }

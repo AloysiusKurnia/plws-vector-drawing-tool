@@ -7,6 +7,7 @@ export class ZoomController {
     private centerX = 0;
     private centerY = 0;
 
+    readonly DEFAULT_SCALE_FACTOR: number;
     private readonly BASE = 1.2;
     private readonly STANDARD_VIEWBOX_WIDTH = 300;
     private readonly PAN_AMOUNT_PER_FRAME = 7;
@@ -15,13 +16,14 @@ export class ZoomController {
     private dx = 0;
     private dy = 0;
     private dZoom = 0;
-    private toBeDoneOnPan = () => { };
+    private toBeDoneOnPan = [] as Procedure[];
 
     constructor(
         private animationController: AnimationFrameController,
         private svg: SVGWrapper,
     ) {
         this.animationController.register(() => this.updateIfMoving());
+        this.DEFAULT_SCALE_FACTOR = this.getScaleFactor();
         this.update();
     }
 
@@ -55,7 +57,7 @@ export class ZoomController {
             this.viewBoxWidth
         );
 
-        this.toBeDoneOnPan();
+        this.toBeDoneOnPan.forEach((procedure) => procedure());
     }
 
     private get viewBoxWidth(): number {
@@ -101,6 +103,6 @@ export class ZoomController {
     }
 
     doOnPanning(callback: () => void): void {
-        this.toBeDoneOnPan = callback;
+        this.toBeDoneOnPan.push(callback);
     }
 }

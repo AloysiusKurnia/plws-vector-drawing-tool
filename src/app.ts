@@ -20,6 +20,7 @@ export class App implements StateTracker {
     constructor(parent: HTMLElement) {
         this.svgCanvas = new SVGCanvas(parent);
         this.zoomManager = new ZoomController(this.animationController, this.svgCanvas);
+        this.svgCanvas.setupZoomingAttributes(this.zoomManager);
         this.controlManager = new EventController(this, this.zoomManager, this.svgCanvas);
         this.elementFactory = new ElementFactory(
             this.controlManager,
@@ -27,14 +28,6 @@ export class App implements StateTracker {
             this.svgCanvas.splineSegmentGroup);
         this.stateFactory = new StateFactory(this, this.svgCanvas, this.elementFactory);
         this.currentAppState = this.stateFactory.idle();
-    }
-
-    darkenCanvas() {
-        this.svgCanvas.darken();
-    }
-
-    lightenCanvas() {
-        this.svgCanvas.lighten();
     }
 
     getCurrentState(): AppState {

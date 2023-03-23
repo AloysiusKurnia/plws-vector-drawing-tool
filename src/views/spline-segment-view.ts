@@ -7,8 +7,6 @@ export class SplineSegmentView extends BezierWrapper {
     constructor(group: SplineSegmentGroup) {
         super();
         group.add(this);
-        console.log('Spline segment is made');
-
         this.makeHidden();
     }
 

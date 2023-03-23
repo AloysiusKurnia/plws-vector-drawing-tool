@@ -1,5 +1,6 @@
+import { CatmullRomSplineBuilder } from "builders/spline-segment-builder";
 import { EndPoint } from "controllers/components/end-point";
-import { CatmullRomSplineBuilder, SplineSegment } from "controllers/components/spline-segment";
+import { SplineSegment } from "controllers/components/spline-segment";
 import { ElementFactory } from "controllers/element-factory";
 import { AppState, StateTracker } from "state/state";
 import { StateFactory } from "state/state-factory";

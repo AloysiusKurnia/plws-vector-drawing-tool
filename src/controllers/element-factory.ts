@@ -3,7 +3,6 @@ import { EndPointGroup } from "views/groups/end-point-group";
 import { IntermediatePointGroup } from "views/groups/intermediate-point-group";
 import { SplineSegmentGroup } from "views/groups/spline-segment-group";
 import { EndPoint } from "./components/end-point";
-import { IntermediatePoint } from "./components/intermediate-point";
 import { SplineSegment } from "./components/spline-segment";
 
 export class ElementFactory {

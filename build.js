@@ -19,6 +19,6 @@ const fs = require('fs').promises;
             },
         }
     });
-    await fs.writeFile('dist/bundle.js', minifyResult.code);
-    console.log(`Minified dist/bundle.js`);
+    await fs.writeFile('dist/bundle.min.js', minifyResult.code);
+    console.log(`Built dist/bundle.min.js`);
 })();

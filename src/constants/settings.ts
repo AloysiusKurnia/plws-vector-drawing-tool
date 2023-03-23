@@ -23,13 +23,13 @@ export const COLOR = {
  * The dimension of the elements, given that the zoom level is the default.
  */
 export const DIMENSION = {
-    endPointRadius: 4,
+    endPointRadius: 4.5,
     pointStrokeWidth: 1,
 
     intermediatePointRadius: 3,
 
-    intermediateLineWidth: 1.75,
-    segmentWidth: 2.75,
+    intermediateLineWidth: 2,
+    segmentWidth: 3.75,
 } as const;
 
 /**

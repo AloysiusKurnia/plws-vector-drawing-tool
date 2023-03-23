@@ -6,7 +6,6 @@ import { IntermediatePointGroup } from "views/groups/intermediate-point-group";
 export class IntermediatePointView extends GroupWrapper {
     private line: LineWrapper;
     private point: UseWrapper;
-    private isHidden = true;
     constructor(group: IntermediatePointGroup) {
         super();
         group.add(this);
@@ -24,11 +23,6 @@ export class IntermediatePointView extends GroupWrapper {
         this.point.setPosition(pos.x, pos.y);
         this.line.point1 = pos;
         this.line.update();
-
-        if (this.isHidden) {
-            this.makeShown();
-            this.isHidden = false;
-        }
     }
 
     moveOriginTo(pos: Pointlike) {

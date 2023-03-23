@@ -4,7 +4,6 @@ function createSVGFromTag<T extends keyof SVGElementTagNameMap>(tag: T): SVGElem
     return document.createElementNS("http://www.w3.org/2000/svg", tag);
 }
 
-
 const NONE = "none";
 
 export abstract class ElementWrapper<E extends SVGElement = SVGElement> {
@@ -56,19 +55,19 @@ export abstract class ElementWrapper<E extends SVGElement = SVGElement> {
     }
 
     makeIntangible(): void {
-        this.wrappedElement.style.pointerEvents = NONE;
+        this.style.pointerEvents = NONE;
     }
 
     makeTangible(): void {
-        this.wrappedElement.style.pointerEvents = 'auto';
+        this.style.pointerEvents = 'auto';
     }
 
     makeHidden(): void {
-        this.wrappedElement.style.display = NONE;
+        this.style.display = NONE;
     }
 
     makeShown(): void {
-        this.wrappedElement.style.display = 'block';
+        this.style.display = 'block';
     }
 }
 

@@ -8,6 +8,7 @@
       "downlevelIteration": true,
       "strictNullChecks": true,
       "baseUrl": "./src",
-      "noImplicitOverride": true
+      "noImplicitOverride": true,
+      "noEmit": true,
     }
   }

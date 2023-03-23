@@ -1,4 +1,3 @@
-import { App } from "app";
 import { EndPoint } from "models/components/end-point";
 import { ElementFactory } from "models/element-factory";
 import { SVGCanvas } from "views/canvas";

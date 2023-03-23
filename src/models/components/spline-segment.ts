@@ -91,7 +91,6 @@ function calculateCatmullRomIntermediatePoints(
     const z1x = (p3.x * b0 + p2.x * b1 + p1.x * b2) / 3;
     const z1y = (p3.y * b0 + p2.y * b1 + p1.y * b2) / 3;
 
-    // return [[z0x, z0y], [z1x, z1y]] as Pair<Pair<number>>;
     return [{ x: z0x, y: z0y }, { x: z1x, y: z1y }];
 }
 

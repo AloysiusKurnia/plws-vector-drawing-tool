@@ -1,7 +1,6 @@
-import { AppState } from "state/state";
 import { EndPoint } from "models/components/end-point";
 import { SplineSegment } from "models/components/spline-segment";
-import { DrawInitState } from "./draw-init";
+import { AppState } from "state/state";
 
 export class IdleState extends AppState {
     private selected: SplineSegment | EndPoint | null = null;

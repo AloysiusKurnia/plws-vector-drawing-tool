@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "build": "node build.js"
+    "build": "node build.js",
+    "type-check": "tsc --noEmit"
   },
   "author": "",
   "license": "ISC",

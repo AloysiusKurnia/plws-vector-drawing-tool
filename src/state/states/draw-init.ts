@@ -29,7 +29,7 @@ export class DrawInitState extends AppState {
 
     override onControlPointClick(point: EndPoint): void {
         this.svgCanvas.lighten();
-        const [x, y] = point.getCoordinate();
+        const { x, y } = point;
         this.stateTracker.setCurrentState(this.factory.drawing(x, y, point));
     }
 }

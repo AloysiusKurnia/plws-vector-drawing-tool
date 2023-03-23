@@ -3,6 +3,7 @@ import { CatmullRomSplineBuilder, SplineSegment } from "models/components/spline
 import { ElementFactory } from "models/element-factory";
 import { AppState, StateTracker } from "state/state";
 import { StateFactory } from "state/state-factory";
+import { Pointlike } from "util/utility-types";
 
 export class DrawingState extends AppState {
     private previousPoint: EndPoint;
@@ -40,7 +41,7 @@ export class DrawingState extends AppState {
     }
 
     override onMouseMove(x: number, y: number): void {
-        this.currentPoint.moveTo(x, y);
+        this.currentPoint.copyFrom({ x, y });
         this.currentPoint.updateView();
         this.currentSegmentBuilder.updatePoints();
         this.previousSegmentBuilder?.updatePoints();
@@ -49,13 +50,13 @@ export class DrawingState extends AppState {
     }
 
     override onEmptyClick(x: number, y: number): void {
-        this.addPoint(this.currentPoint, false, x, y);
+        this.addPoint(this.currentPoint, false, { x, y });
     }
 
     private addPoint(
         currentPoint: EndPoint,
         removeCurrentPoint: boolean = true,
-        cursorX: number, cursorY: number
+        cursorPosition: Pointlike
     ): void {
         const prepreviousPoint = this.previousPoint;
         this.previousPoint = currentPoint;
@@ -70,7 +71,10 @@ export class DrawingState extends AppState {
             this.currentPoint.makeShown();
         }
 
-        this.currentPoint = this.elementFactory.createControlPoint(cursorX, cursorY);
+        this.currentPoint = this.elementFactory.createControlPoint(
+            cursorPosition.x,
+            cursorPosition.y
+        );
         this.currentPoint.makeHidden();
         this.previousSegment.endPoint1 = this.previousPoint;
         this.previousSegmentBuilder.outerPoint1 = this.currentPoint;
@@ -90,7 +94,8 @@ export class DrawingState extends AppState {
 
 
     override onControlPointClick(currentPoint: EndPoint): void {
-        this.addPoint(currentPoint, true, ...currentPoint.getCoordinate());
+        if (currentPoint === this.previousPoint) { return; }
+        this.addPoint(currentPoint, true, currentPoint);
     }
 
     private finishDrawing(): void {

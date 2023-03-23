@@ -4,6 +4,7 @@ import { Pair, Pointlike, Quadruple } from "util/utility-types";
 import { EndPoint } from "./end-point";
 import { COLOR, DIMENSION } from "constants/settings";
 import { SplineSegmentView } from "views/spline-segment-view";
+import { SplineSegmentGroup } from "views/groups/spline-segment-group";
 
 function getLengthFactor(x1: number, y1: number, x2: number, y2: number) {
     const dx = x2 - x1;
@@ -100,9 +101,9 @@ export class SplineSegment extends DrawingElement<BezierWrapper> {
         public intermediatePoint0: EndPoint,
         public intermediatePoint1: EndPoint,
         public endPoint1: EndPoint,
-        element: SplineSegmentView
+        group: SplineSegmentGroup
     ) {
-        super(element);
+        super(new SplineSegmentView(group));
         this.updateGraphicsToDefault();
     }
 

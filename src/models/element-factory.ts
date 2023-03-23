@@ -1,8 +1,8 @@
 import { ControlManager } from "controller/event-controller";
-import { EndPointGroup } from "views/end-point-group";
-import { SplineSegmentGroup } from "views/spline-segment-group";
+import { EndPointGroup } from "views/groups/end-point-group";
+import { SplineSegmentGroup } from "views/groups/spline-segment-group";
 import { EndPoint } from "./components/end-point";
-import { CatmullRomSplineBuilder, SplineSegment } from "./components/spline-segment";
+import { SplineSegment } from "./components/spline-segment";
 
 export class ElementFactory {
     constructor(
@@ -12,7 +12,7 @@ export class ElementFactory {
     ) { }
 
     createControlPoint(x: number, y: number): EndPoint {
-        const elem = new EndPoint(x, y, this.controlPointGroup.createControlPoint());
+        const elem = new EndPoint(x, y, this.controlPointGroup);
         this.controlManager.registerControlPointClick(elem);
         return elem;
     }
@@ -30,7 +30,7 @@ export class ElementFactory {
             intermediatePoint0,
             intermediatePoint1,
             endPoint1,
-            this.splineSegmentGroup.createSplineSegment()
+            this.splineSegmentGroup
         );
         this.controlManager.registerSegmentClick(elem);
         return elem;

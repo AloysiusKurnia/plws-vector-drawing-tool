@@ -1,6 +1,6 @@
 import { EndPoint } from "controllers/components/end-point";
 import { SplineSegment } from "controllers/components/spline-segment";
-import { AppState } from "state/state";
+import { AppState } from "state/abstract-state";
 
 export class IdleState extends AppState {
     private selected: SplineSegment | EndPoint | null = null;

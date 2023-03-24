@@ -1,10 +1,11 @@
-import { AppState, StateTracker } from "state/state";
+import { AppState, StateTracker } from "state/abstract-state";
 import { SVGWrapper } from "util/svg-wrapper";
 import { Triple } from "util/utility-types";
 import { SVGCanvas } from "views/canvas";
 import { EndPoint } from "controllers/components/end-point";
 import { SplineSegment } from "controllers/components/spline-segment";
 import { ZoomController } from "./zoom";
+import { DrawingElement } from "controllers/element";
 
 export class EventController {
     private stateTracker: StateTracker;
@@ -65,18 +66,15 @@ export class EventController {
         });
 
         canvas.addEvent('mousedown', (event: MouseEvent) => {
-            const elemX = event.offsetX;
-            const elemY = event.offsetY;
-            const { width, height } = canvas.getBoundingBox();
-            const [canvasX, canvasY] = this.zoomManager.translatePosition(elemX, elemY, width, height);
+            const [canvasX, canvasY] = this.getCurrentMousePosition(canvas, event);
             this.getCurrentState().onEmptyClick(canvasX, canvasY);
         });
 
         canvas.addEvent('mousemove', (event: MouseEvent) => {
-            const elemX = event.offsetX;
-            const elemY = event.offsetY;
-            const { width, height } = canvas.getBoundingBox();
-            const [canvasX, canvasY] = this.zoomManager.translatePosition(elemX, elemY, width, height);
+            const [
+                canvasX, canvasY,
+                width, height
+            ] = this.getCurrentMousePosition(canvas, event);
             this.getCurrentState().onMouseMove(canvasX, canvasY);
 
             this.lastOffsetPosition.x = event.offsetX;
@@ -86,8 +84,6 @@ export class EventController {
         });
 
         zoomManager.doOnPanning(() => {
-            console.log("panning");
-
             const [canvasX, canvasY] = this.zoomManager.translatePosition(
                 this.lastOffsetPosition.x,
                 this.lastOffsetPosition.y,
@@ -96,24 +92,59 @@ export class EventController {
             );
             this.getCurrentState().onMouseMove(canvasX, canvasY);
         });
+
+        canvas.addEvent('mouseup', (event: MouseEvent) => {
+            const [canvasX, canvasY] = this.getCurrentMousePosition(canvas, event);
+            this.getCurrentState().onMouseUp(canvasX, canvasY);
+        });
     }
 
+    private getCurrentMousePosition(canvas: SVGWrapper, event: MouseEvent) {
+        const elemX = event.offsetX;
+        const elemY = event.offsetY;
+        const { width, height } = canvas.getBoundingBox();
+        const [canvasX, canvasY] = this.zoomManager.translatePosition(elemX, elemY, width, height);
+        return [canvasX, canvasY, width, height];
+    }
 
-    registerControlPointClick(point: EndPoint) {
-        point.getElement().addEvent("mousedown",
+    private registerElementMouseEvent<T extends DrawingElement>(
+        drawElement: T,
+        onMouseDown: (currentState: AppState, element: T) => void,
+        onMouseEnter: (currentState: AppState, element: T) => void,
+        onMouseLeave: (currentState: AppState, element: T) => void
+    ) {
+        const view = drawElement.getElement();
+        view.addEvent("mousedown",
             (event) => {
                 event.stopPropagation();
-                this.getCurrentState().onControlPointClick(point);
+                onMouseDown(this.getCurrentState(), drawElement);
+            }
+        );
+        view.addEvent("mouseenter",
+            () => {
+                onMouseEnter(this.getCurrentState(), drawElement);
+            }
+        );
+        view.addEvent("mouseleave",
+            () => {
+                onMouseLeave(this.getCurrentState(), drawElement);
             }
         );
     }
 
-    registerSegmentClick(segment: SplineSegment) {
-        segment.getElement().addEvent("mousedown",
-            (event) => {
-                event.stopPropagation();
-                this.getCurrentState().onSegmentClick(segment);
-            }
+    registerEndpointEvents(point: EndPoint) {
+        this.registerElementMouseEvent(point,
+            (state, point) => { state.onEndPointClick(point); },
+            (state, point) => { state.onEndPointEnter(point); },
+            (state, point) => { state.onEndPointLeave(point); }
+        );
+    }
+
+    registerSegmentEvents(segment: SplineSegment) {
+        this.registerElementMouseEvent(segment,
+            (state, segment) => { state.onSegmentClick(segment); },
+            (state, segment) => { state.onSegmentEnter(segment); },
+            (state, segment) => { state.onSegmentLeave(segment); }
         );
     }
 

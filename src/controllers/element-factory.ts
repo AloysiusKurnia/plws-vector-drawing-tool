@@ -15,7 +15,7 @@ export class ElementFactory {
 
     createControlPoint(x: number, y: number): EndPoint {
         const elem = new EndPoint(x, y, this.controlPointGroup);
-        this.controlManager.registerControlPointClick(elem);
+        this.controlManager.registerEndpointEvents(elem);
         return elem;
     }
 
@@ -30,7 +30,7 @@ export class ElementFactory {
             this.splineSegmentGroup,
             this.intermediatePointGroup
         );
-        this.controlManager.registerSegmentClick(elem);
+        this.controlManager.registerSegmentEvents(elem);
         return elem;
     }
 

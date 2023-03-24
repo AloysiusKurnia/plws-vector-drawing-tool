@@ -2,7 +2,7 @@ import { CatmullRomSplineBuilder } from "builders/spline-segment-builder";
 import { EndPoint } from "controllers/components/end-point";
 import { SplineSegment } from "controllers/components/spline-segment";
 import { ElementFactory } from "controllers/element-factory";
-import { AppState, StateTracker } from "state/state";
+import { AppState, StateTracker } from "state/abstract-state";
 import { StateFactory } from "state/state-factory";
 import { Pointlike } from "util/utility-types";
 
@@ -94,7 +94,7 @@ export class DrawingState extends AppState {
     }
 
 
-    override onControlPointClick(currentPoint: EndPoint): void {
+    override onEndPointClick(currentPoint: EndPoint): void {
         if (currentPoint === this.previousPoint) { return; }
         this.addPoint(currentPoint, true, currentPoint);
     }

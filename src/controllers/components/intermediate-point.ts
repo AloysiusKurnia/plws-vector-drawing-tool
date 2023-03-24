@@ -14,6 +14,7 @@ export class IntermediatePoint extends DrawingElement<IntermediatePointView> imp
         group: IntermediatePointGroup,
     ) {
         super(new IntermediatePointView(group));
+        endPoint.addIntermediatePoint(this);
         this.updateGraphicsToDefault();
     }
 

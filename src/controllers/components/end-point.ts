@@ -7,7 +7,7 @@ import { IntermediatePoint } from "./intermediate-point";
 
 export class EndPoint extends DrawingElement<EndPointView> implements Pointlike {
     private connectedIntermediatePoints = new Set<IntermediatePoint>();
-
+    private selected = false;
     constructor(
         public x: number, public y: number,
         group: EndPointGroup,
@@ -17,6 +17,7 @@ export class EndPoint extends DrawingElement<EndPointView> implements Pointlike 
     }
 
     updateGraphicsToHovered(): void {
+        if (this.selected) return;
         this.viewElement.setFill(COLOR.endPointHover);
         this.viewElement.setStroke(COLOR.lightBlack);
     }
@@ -27,8 +28,20 @@ export class EndPoint extends DrawingElement<EndPointView> implements Pointlike 
     }
 
     updateGraphicsToDefault(): void {
+        if (this.selected) return;
         this.viewElement.setFill(COLOR.endPoint);
         this.viewElement.setStroke(COLOR.black);
+    }
+
+    makeSelected(): void {
+        this.selected = true;
+        this.viewElement.setFill(COLOR.endPointSelected);
+        this.viewElement.setStroke(COLOR.endPointSelectedStroke);
+    }
+
+    makeDeslected(): void {
+        this.selected = false;
+        this.updateGraphicsToDefault();
     }
 
     updateView(): void {

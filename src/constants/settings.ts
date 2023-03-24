@@ -8,8 +8,9 @@ export const COLOR = {
     darkWhite: "#ddd",
 
     endPoint: "#f00",
-    endPointHover: "#fcc",
-    endPointSelected: "#aaa",
+    endPointHover: "#faa",
+    endPointSelected: "#ff0",
+    endPointSelectedStroke: "#660",
 
     intermediatePoint: "#eee",
     intermediatePointHover: "#aaa",

@@ -13,8 +13,8 @@ export class SVGCanvas extends SVGWrapper {
 
     constructor(parent: HTMLElement) {
         super();
-        this.intermediatePointGroup.appendTo(this);
         this.splineSegmentGroup.appendTo(this);
+        this.intermediatePointGroup.appendTo(this);
         this.controlPointGroup.appendTo(this);
         this.appendToElement(parent);
     }

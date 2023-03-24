@@ -15,6 +15,8 @@ export class DrawingState extends AppState {
 
     private previousSegmentBuilder: CatmullRomSplineBuilder | null = null;
     private currentSegmentBuilder: CatmullRomSplineBuilder;
+
+    private snap: Pointlike | null = null;
     constructor(
         tracker: StateTracker,
         stateFactory: StateFactory,
@@ -42,7 +44,11 @@ export class DrawingState extends AppState {
     }
 
     override onMouseMove(x: number, y: number): void {
-        this.currentPoint.copyFrom({ x, y });
+        if (this.snap) {
+            this.currentPoint.copyFrom(this.snap);
+        } else {
+            this.currentPoint.copyFrom({ x, y });
+        }
         this.currentPoint.updateView();
         this.currentSegmentBuilder.updatePoints();
         this.previousSegmentBuilder?.updatePoints();
@@ -97,6 +103,15 @@ export class DrawingState extends AppState {
     override onEndPointClick(currentPoint: EndPoint): void {
         if (currentPoint === this.previousPoint) { return; }
         this.addPoint(currentPoint, true, currentPoint);
+    }
+
+    override onEndPointEnter(point: EndPoint): void {
+        if (point === this.previousPoint) { return; }
+        this.snap = point;
+    }
+
+    override onEndPointLeave(): void {
+        this.snap = null;
     }
 
     private finishDrawing(): void {

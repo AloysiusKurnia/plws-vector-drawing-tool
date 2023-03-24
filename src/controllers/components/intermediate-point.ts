@@ -8,14 +8,24 @@ import { SplineSegment } from "./spline-segment";
 export class IntermediatePoint extends DrawingElement<IntermediatePointView> implements Pointlike {
     public x = 0;
     public y = 0;
+    private endPoint_: EndPoint;
     constructor(
-        public readonly endPoint: EndPoint,
+        endPoint: EndPoint,
         public readonly owner: SplineSegment,
         group: IntermediatePointGroup,
     ) {
         super(new IntermediatePointView(group));
+        this.endPoint_ = endPoint;
         endPoint.addIntermediatePoint(this);
         this.updateGraphicsToDefault();
+    }
+
+    get endPoint(): EndPoint { return this.endPoint_; }
+    
+    set endPoint(newEndPoint: EndPoint) {
+        this.endPoint_.removeIntermediatePoint(this);
+        newEndPoint.addIntermediatePoint(this);
+        this.endPoint_ = newEndPoint;
     }
 
     updateGraphicsToHovered(): void {

@@ -9,14 +9,31 @@ import { IntermediatePoint } from "./intermediate-point";
 export class SplineSegment extends DrawingElement<SplineSegmentView> {
     public readonly intermediatePoint0: IntermediatePoint;
     public readonly intermediatePoint1: IntermediatePoint;
+    private endPoint0_: EndPoint;
+    private endPoint1_: EndPoint;
     constructor(
-        public endPoint0: EndPoint, public endPoint1: EndPoint,
+        endPoint0: EndPoint, endPoint1: EndPoint,
         group: SplineSegmentGroup, intermediatePointGroup: IntermediatePointGroup,
     ) {
         super(new SplineSegmentView(group));
+        this.endPoint0_ = endPoint0;
+        this.endPoint1_ = endPoint1;
         this.intermediatePoint0 = new IntermediatePoint(endPoint0, this, intermediatePointGroup);
         this.intermediatePoint1 = new IntermediatePoint(endPoint1, this, intermediatePointGroup);
         this.updateGraphicsToDefault();
+    }
+
+    get endPoint0(): EndPoint { return this.endPoint0_; }
+    get endPoint1(): EndPoint { return this.endPoint1_; }
+
+    set endPoint0(endPoint: EndPoint) {
+        this.endPoint0_ = endPoint;
+        this.intermediatePoint0.endPoint = endPoint;
+    }
+
+    set endPoint1(endPoint: EndPoint) {
+        this.endPoint1_ = endPoint;
+        this.intermediatePoint1.endPoint = endPoint;
     }
 
     updateGraphicsToHovered(): void {

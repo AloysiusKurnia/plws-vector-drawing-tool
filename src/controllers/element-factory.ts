@@ -31,6 +31,8 @@ export class ElementFactory {
             this.intermediatePointGroup
         );
         this.controlManager.registerSegmentEvents(elem);
+        this.controlManager.registerIntermediatePointEvents(elem.intermediatePoint0);
+        this.controlManager.registerIntermediatePointEvents(elem.intermediatePoint1);
         return elem;
     }
 

@@ -13,8 +13,8 @@ export const COLOR = {
     endPointSelectedStroke: "#660",
 
     intermediatePoint: "#eee",
-    intermediatePointHover: "#aaa",
-    intermediatePointSelected: "#fff",
+    intermediatePointHover: "#fff",
+    intermediatePointSelected: "#ff0",
     intermediateLine: "#aaa",
 
     segmentSelected: "#888",

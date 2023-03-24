@@ -6,6 +6,7 @@ import { EndPoint } from "controllers/components/end-point";
 import { SplineSegment } from "controllers/components/spline-segment";
 import { ZoomController } from "./zoom";
 import { DrawingElement } from "controllers/element";
+import { IntermediatePoint } from "controllers/components/intermediate-point";
 
 export class EventController {
     private stateTracker: StateTracker;
@@ -147,6 +148,15 @@ export class EventController {
             (state, segment) => { state.onSegmentLeave(segment); }
         );
     }
+
+    registerIntermediatePointEvents(point: IntermediatePoint) {
+        this.registerElementMouseEvent(point,
+            (state, point) => { state.onIntermediatePointClick(point); },
+            (state, point) => { state.onIntermediatePointEnter(point); },
+            (state, point) => { state.onIntermediatePointLeave(point); }
+        );
+    }
+
 
     registerCanvasClick(canvas: SVGCanvas) {
         canvas.addEvent("mousedown",

@@ -19,6 +19,10 @@ export class IntermediatePointView extends GroupWrapper {
         this.makeHidden();
     }
 
+    override addEvent<T extends keyof SVGElementEventMap>(eventName: T, listener: (ev: SVGElementEventMap[T]) => void): void {
+        this.point.addEvent(eventName, listener);
+    }
+
     movePointTo(pos: Pointlike) {
         this.point.setPosition(pos.x, pos.y);
         this.line.point1 = pos;

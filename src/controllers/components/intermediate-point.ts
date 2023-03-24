@@ -29,7 +29,7 @@ export class IntermediatePoint extends DrawingElement<IntermediatePointView> imp
     }
 
     updateGraphicsToHovered(): void {
-        this.updateGraphicsToHovered();
+        this.viewElement.graphicsToHovered();
     }
 
     copyFrom(point: Pointlike): void {

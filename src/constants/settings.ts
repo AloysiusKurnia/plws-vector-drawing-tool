@@ -27,9 +27,9 @@ export const DIMENSION = {
     endPointRadius: 4.5,
     pointStrokeWidth: 1,
 
-    intermediatePointRadius: 3,
+    intermediatePointRadius: 3.5,
 
-    intermediateLineWidth: 2,
+    intermediateLineWidth: 2.5,
     segmentWidth: 3.75,
 } as const;
 

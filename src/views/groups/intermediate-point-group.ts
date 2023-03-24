@@ -15,6 +15,7 @@ export class IntermediatePointGroup extends AbstractGroup {
         
         this.template.setCenter(0, 0);
         this.template.style.strokeWidth = `${DIMENSION.pointStrokeWidth}`;
+        this.style.strokeWidth = `${DIMENSION.intermediateLineWidth}`;
 
         // TODO: remove next line
         this.makeIntangible();

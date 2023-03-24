@@ -103,6 +103,7 @@ export class DrawingState extends AppState {
     override onEndPointClick(currentPoint: EndPoint): void {
         if (currentPoint === this.previousPoint) { return; }
         this.addPoint(currentPoint, true, currentPoint);
+        if (this.snap) { this.snap = null; }
     }
 
     override onEndPointEnter(point: EndPoint): void {

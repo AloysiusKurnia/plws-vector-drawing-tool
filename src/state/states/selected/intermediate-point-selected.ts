@@ -1,10 +1,10 @@
 import { EndPoint } from "controllers/components/end-point";
 import { IntermediatePoint } from "controllers/components/intermediate-point";
-import { AppState, StateTracker } from "state/abstract-state";
+import { StateTracker } from "state/abstract-state";
 import { StateFactory } from "state/state-factory";
+import { AbstractSelectedState } from "./abstract-selected";
 
-export class IntermediatePointSelectedState extends AppState {
-    private dragging = true;
+export class IntermediatePointSelectedState extends AbstractSelectedState {
     constructor(tracker: StateTracker, factory: StateFactory, private intermediatePoint: IntermediatePoint) {
         super(tracker, factory);
         intermediatePoint.makeSelected();
@@ -18,26 +18,12 @@ export class IntermediatePointSelectedState extends AppState {
         }
     }
 
-    override onMouseUp(): void {
-        this.dragging = false;
-    }
-
-    private aboutToExit(): void {
+    protected override aboutToExit(): void {
         this.intermediatePoint.makeDeslected();
         this.intermediatePoint.makeHidden();
         for (const intermediatePoint of this.intermediatePoint.endPoint.getIntermediatePoints()) {
             intermediatePoint.makeHidden();
         }
-    }
-
-    override onEscape(): void {
-        this.aboutToExit();
-        this.changeState(this.factory.idle());
-    }
-
-    override onEmptyClick(): void {
-        this.aboutToExit();
-        this.changeState(this.factory.idle());
     }
 
     override onIntermediatePointClick(intermediatePoint: IntermediatePoint): void {
@@ -47,11 +33,5 @@ export class IntermediatePointSelectedState extends AppState {
             this.intermediatePoint.makeDeslected();
             this.changeState(this.factory.intermediatePointSelected(intermediatePoint));
         }
-    }
-
-    override onEndPointClick(endPoint: EndPoint): void {
-        this.intermediatePoint.makeDeslected();
-        this.aboutToExit();
-        this.changeState(this.factory.endPointSelected(endPoint));
     }
 }

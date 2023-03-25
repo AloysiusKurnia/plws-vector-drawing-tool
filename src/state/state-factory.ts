@@ -6,9 +6,9 @@ import { SVGCanvas } from "views/canvas";
 import { AppState, StateTracker } from "./abstract-state";
 import { DrawInitState } from "./states/draw-init";
 import { DrawingState } from "./states/drawing";
-import { EndPointSelectedState } from "./states/end-point-selected";
+import { EndPointSelectedState } from "./states/selected/end-point-selected";
 import { IdleState } from "./states/idle";
-import { IntermediatePointSelectedState } from "./states/intermediate-point-selected";
+import { IntermediatePointSelectedState } from "./states/selected/intermediate-point-selected";
 
 export class StateFactory {
     constructor(

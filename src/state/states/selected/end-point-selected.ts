@@ -1,12 +1,12 @@
 import { EndPoint } from "controllers/components/end-point";
 import { IntermediatePoint } from "controllers/components/intermediate-point";
-import { AppState, StateTracker } from "state/abstract-state";
+import { StateTracker } from "state/abstract-state";
 import { StateFactory } from "state/state-factory";
 import { Pointlike } from "util/utility-types";
+import { AbstractSelectedState } from "./abstract-selected";
 
-export class EndPointSelectedState extends AppState {
+export class EndPointSelectedState extends AbstractSelectedState {
     private initialLocations = new Map<IntermediatePoint, Pointlike>();
-    private dragging: boolean;
     private initialEndPointLocation: Pointlike;
     constructor(
         tracker: StateTracker,
@@ -45,30 +45,11 @@ export class EndPointSelectedState extends AppState {
         }
     }
 
-    override onMouseUp(): void {
-        this.dragging = false;
-    }
-
-    private aboutToExit(): void {
+    protected override aboutToExit(): void {
         this.endPoint.makeDeslected();
         for (const intermediatePoint of this.endPoint.getIntermediatePoints()) {
             intermediatePoint.makeHidden();
         }
-    }
-
-    override onEscape(): void {
-        this.aboutToExit();
-        this.changeState(this.factory.idle());
-    }
-
-    override onEmptyClick(): void {
-        this.aboutToExit();
-        this.changeState(this.factory.idle());
-    }
-
-    override onSpace(): void {
-        this.aboutToExit();
-        this.changeState(this.factory.drawInit());
     }
 
     override onEndPointClick(point: EndPoint): void {

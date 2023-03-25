@@ -26,9 +26,7 @@ export class CatmullRomSplineBuilder {
 function getLengthFactor(x1: number, y1: number, x2: number, y2: number) {
     const dx = x2 - x1;
     const dy = y2 - y1;
-    // return 1                                 // Use for uniform CR splines
-    // return Math.sqrt(Math.hypot(dx, dy));    // Use for centripetal CR splines
-    return Math.hypot(dx, dy);               // Use for chordal CR splines
+    return Math.hypot(dx, dy);
 }
 
 function averagePointsWeightedToSecond(

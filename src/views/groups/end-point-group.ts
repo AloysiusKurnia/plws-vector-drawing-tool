@@ -12,15 +12,17 @@ export class EndPointGroup extends AbstractGroup {
         this.template.setRadius(DIMENSION.endPointRadius);
         defintion.add(this.template, ID.endPoint);
         defintion.appendTo(this);
-        
+
         this.template.setCenter(0, 0);
         this.template.style.strokeWidth = `${DIMENSION.pointStrokeWidth}`;
     }
 
-    rescale(zoomFactor: number): void {
+    override rescale(zoomFactor: number): void {
         const factor = zoomFactor / this.defaultScaleFactor;
         this.template.setRadius(DIMENSION.endPointRadius * factor);
-        this.template.style.strokeWidth = `${DIMENSION.pointStrokeWidth * factor}`;
         this.template
+            .style
+            .strokeWidth = `${DIMENSION.pointStrokeWidth * factor}`;
+        this.template;
     }
 }

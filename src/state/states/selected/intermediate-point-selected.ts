@@ -1,4 +1,3 @@
-import { EndPoint } from "controllers/components/end-point";
 import { IntermediatePoint } from "controllers/components/intermediate-point";
 import { StateTracker } from "state/abstract-state";
 import { StateFactory } from "state/state-factory";

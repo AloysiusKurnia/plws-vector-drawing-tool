@@ -10,12 +10,16 @@ export class DrawingState extends AppState {
     private previousPoint: EndPoint;
     private currentPoint: EndPoint;
 
-    private previousSegment: SplineSegment | null = null;
     private currentSegment: SplineSegment;
 
-    private previousSegmentBuilder: CatmullRomSplineBuilder | null = null;
     private currentSegmentBuilder: CatmullRomSplineBuilder;
+    // private previousSegment: SplineSegment | null = null;
+    // private previousSegmentBuilder: CatmullRomSplineBuilder | null = null;
 
+    private previousSegment: {
+        segment: SplineSegment,
+        builder: CatmullRomSplineBuilder,
+    } | null = null;
     private snap: Pointlike | null = null;
     constructor(
         tracker: StateTracker,
@@ -51,9 +55,9 @@ export class DrawingState extends AppState {
         }
         this.currentPoint.updateView();
         this.currentSegmentBuilder.updatePoints();
-        this.previousSegmentBuilder?.updatePoints();
         this.currentSegment.updateView();
-        this.previousSegment?.updateView();
+        this.previousSegment?.builder.updatePoints();
+        this.previousSegment?.segment.updateView();
     }
 
     override onEmptyClick(x: number, y: number): void {
@@ -67,11 +71,13 @@ export class DrawingState extends AppState {
     ): void {
         const prepreviousPoint = this.previousPoint;
         this.previousPoint = currentPoint;
-        this.previousSegment = this.currentSegment;
-        this.previousSegmentBuilder = this.currentSegmentBuilder;
+        this.previousSegment = {
+            segment: this.currentSegment,
+            builder: this.currentSegmentBuilder,
+        };
 
         this.previousPoint.makeTangible();
-        this.previousSegment.makeTangible();
+        this.previousSegment.segment.makeTangible();
         if (removeCurrentPoint) {
             this.currentPoint.removeElement();
         } else {
@@ -83,8 +89,8 @@ export class DrawingState extends AppState {
             cursorPosition.y
         );
         this.currentPoint.makeHidden();
-        this.previousSegment.endPoint1 = this.previousPoint;
-        this.previousSegmentBuilder.outerPoint1 = this.currentPoint;
+        this.previousSegment.segment.endPoint1 = this.previousPoint;
+        this.previousSegment.builder.outerPoint1 = this.currentPoint;
 
         this.currentSegment = this.elementFactory.createSplineSegment(
             this.previousPoint,
@@ -116,10 +122,10 @@ export class DrawingState extends AppState {
     }
 
     private finishDrawing(): void {
-        if (this.previousSegmentBuilder) {
-            this.previousSegmentBuilder.outerPoint1 = null;
-            this.previousSegmentBuilder.updatePoints();
-            this.previousSegment!.updateView();
+        if (this.previousSegment) {
+            this.previousSegment.builder.outerPoint1 = null;
+            this.previousSegment.builder.updatePoints();
+            this.previousSegment.segment.updateView();
         }
         this.currentPoint.removeElement();
         this.currentSegment.removeElement();

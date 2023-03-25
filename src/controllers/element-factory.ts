@@ -23,7 +23,7 @@ export class ElementFactory {
         endPoint0: EndPoint,
         endPoint1: EndPoint
     ): SplineSegment {
-        
+
         const elem = new SplineSegment(
             endPoint0,
             endPoint1,
@@ -31,8 +31,10 @@ export class ElementFactory {
             this.intermediatePointGroup
         );
         this.controlManager.registerSegmentEvents(elem);
-        this.controlManager.registerIntermediatePointEvents(elem.intermediatePoint0);
-        this.controlManager.registerIntermediatePointEvents(elem.intermediatePoint1);
+        this.controlManager.registerIntermediatePointEvents(
+            elem.intermediatePoint0);
+        this.controlManager.registerIntermediatePointEvents(
+            elem.intermediatePoint1);
         return elem;
     }
 

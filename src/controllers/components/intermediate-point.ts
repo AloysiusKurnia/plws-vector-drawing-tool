@@ -9,6 +9,7 @@ export class IntermediatePoint extends DrawingElement<IntermediatePointView> imp
     public x = 0;
     public y = 0;
     private endPoint_: EndPoint;
+    private selected = false;
     constructor(
         endPoint: EndPoint,
         public readonly owner: SplineSegment,
@@ -28,7 +29,18 @@ export class IntermediatePoint extends DrawingElement<IntermediatePointView> imp
         this.endPoint_ = newEndPoint;
     }
 
+    makeSelected(): void {
+        this.viewElement.graphicsToSelected();
+        this.selected = true;
+    }
+
+    makeDeslected(): void {
+        this.selected = false;
+        this.viewElement.graphicsToDefault();
+    }
+
     updateGraphicsToHovered(): void {
+        if (this.selected) return;
         this.viewElement.graphicsToHovered();
     }
 
@@ -38,6 +50,7 @@ export class IntermediatePoint extends DrawingElement<IntermediatePointView> imp
     }
 
     updateGraphicsToDefault(): void {
+        if (this.selected) return;
         this.viewElement.graphicsToDefault()
     }
 

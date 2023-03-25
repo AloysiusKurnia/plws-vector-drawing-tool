@@ -6,10 +6,16 @@ import { Pointlike } from "util/utility-types";
 
 export class EndPointSelectedState extends AppState {
     private initialLocations = new Map<IntermediatePoint, Pointlike>();
-    private dragging = true;
+    private dragging: boolean;
     private initialEndPointLocation: Pointlike;
-    constructor(tracker: StateTracker, factory: StateFactory, private endPoint: EndPoint) {
+    constructor(
+        tracker: StateTracker,
+        factory: StateFactory,
+        private endPoint: EndPoint,
+        startAsDragging = true
+    ) {
         super(tracker, factory);
+        this.dragging = startAsDragging;
         endPoint.makeSelected();
         this.initialEndPointLocation = { x: endPoint.x, y: endPoint.y };
         for (const intermediatePoint of endPoint.getIntermediatePoints()) {
@@ -55,6 +61,11 @@ export class EndPointSelectedState extends AppState {
         this.changeState(this.factory.idle());
     }
 
+    override onEmptyClick(_x: number, _y: number): void {
+        this.aboutToExit();
+        this.changeState(this.factory.idle());
+    }
+
     override onSpace(): void {
         this.aboutToExit();
         this.changeState(this.factory.drawInit());
@@ -69,4 +80,8 @@ export class EndPointSelectedState extends AppState {
         }
     }
 
+    override onIntermediatePointClick(point: IntermediatePoint): void {
+        this.endPoint.makeDeslected();
+        this.changeState(this.factory.intermediatePointSelected(point));
+    }
 }

@@ -2,7 +2,6 @@ import { EndPoint } from "controllers/components/end-point";
 import { IntermediatePoint } from "controllers/components/intermediate-point";
 import { AppState, StateTracker } from "state/abstract-state";
 import { StateFactory } from "state/state-factory";
-import { Pointlike } from "util/utility-types";
 
 export class IntermediatePointSelectedState extends AppState {
     private dragging = true;
@@ -36,7 +35,7 @@ export class IntermediatePointSelectedState extends AppState {
         this.changeState(this.factory.idle());
     }
 
-    override onEmptyClick(_x: number, _y: number): void {
+    override onEmptyClick(): void {
         this.aboutToExit();
         this.changeState(this.factory.idle());
     }

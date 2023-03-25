@@ -24,13 +24,12 @@ export class SplineSegment extends DrawingElement<SplineSegmentView> {
     }
 
     get endPoint0(): EndPoint { return this.endPoint0_; }
-    get endPoint1(): EndPoint { return this.endPoint1_; }
-
     set endPoint0(endPoint: EndPoint) {
         this.endPoint0_ = endPoint;
         this.intermediatePoint0.endPoint = endPoint;
     }
 
+    get endPoint1(): EndPoint { return this.endPoint1_; }
     set endPoint1(endPoint: EndPoint) {
         this.endPoint1_ = endPoint;
         this.intermediatePoint1.endPoint = endPoint;

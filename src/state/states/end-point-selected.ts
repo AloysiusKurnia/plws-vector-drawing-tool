@@ -61,7 +61,7 @@ export class EndPointSelectedState extends AppState {
         this.changeState(this.factory.idle());
     }
 
-    override onEmptyClick(_x: number, _y: number): void {
+    override onEmptyClick(): void {
         this.aboutToExit();
         this.changeState(this.factory.idle());
     }

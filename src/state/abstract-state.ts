@@ -14,6 +14,9 @@ export abstract class AppState {
     }
 
     // These are to be overridden by the child classes. By default, they do nothing.
+    
+    /* eslint-disable @typescript-eslint/no-unused-vars */
+    /* eslint-disable @typescript-eslint/no-empty-function */
     onEndPointClick(point: EndPoint) { }
     onSegmentClick(segment: SplineSegment) { }
     onIntermediatePointClick(point: IntermediatePoint) { }
@@ -40,6 +43,8 @@ export abstract class AppState {
     onNumber2() { }
     onNumber3() { }
     onNumber4() { }
+    /* eslint-enable @typescript-eslint/no-unused-vars */
+    /* eslint-enable @typescript-eslint/no-empty-function */
 }
 
 export interface StateTracker {

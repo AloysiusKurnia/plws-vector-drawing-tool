@@ -62,7 +62,7 @@ export class DrawingState extends AppState {
 
     private addPoint(
         currentPoint: EndPoint,
-        removeCurrentPoint: boolean = true,
+        removeCurrentPoint = true,
         cursorPosition: Pointlike
     ): void {
         const prepreviousPoint = this.previousPoint;

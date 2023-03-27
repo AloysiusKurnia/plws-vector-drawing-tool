@@ -18,6 +18,8 @@ export class IntermediatePoint
     public y = 0;
     private endPoint_: EndPoint;
     private selected = false;
+    /** Another intermediate point that is colinear with this one. */
+    public couple: IntermediatePoint | null = null;
     /**
      * Creates a new intermediate point.
      * @param endPoint The end point that the intermediate point is attached to.
@@ -62,6 +64,16 @@ export class IntermediatePoint
     copyFrom(point: Pointlike): void {
         this.x = point.x;
         this.y = point.y;
+    }
+
+    /** Returns the distance from this point to the end point. */
+    getDistanceToEndpoint(): number {
+        return Math.hypot(this.x - this.endPoint.x, this.y - this.endPoint.y);
+    }
+
+    /** Returns the angle from this point to the end point. */
+    getAngleToEndpoint(): number {
+        return Math.atan2(this.y - this.endPoint.y, this.x - this.endPoint.x);
     }
 
     override updateGraphicsToHovered(): void {

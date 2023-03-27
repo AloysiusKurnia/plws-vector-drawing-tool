@@ -99,6 +99,10 @@ export class DrawingState extends AppState {
             this.currentSegment
         );
 
+        this.currentSegment.coupleIntermediatePoint(
+            this.previousSegment.segment
+        );
+
         this.currentPoint.makeIntangible();
         this.currentSegment.makeIntangible();
     }

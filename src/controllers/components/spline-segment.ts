@@ -37,6 +37,16 @@ export class SplineSegment extends DrawingElement<SplineSegmentView> {
         this.updateGraphicsToDefault();
     }
 
+    /**
+     * Couples the first intermediate point of this spline segment to the
+     * second intermediate point of another spline segment.
+     * @param other The other spline segment.
+     */
+    coupleIntermediatePoint(other: SplineSegment): void {
+        this.intermediatePoint0.couple = other.intermediatePoint1;
+        other.intermediatePoint1.couple = this.intermediatePoint0;
+    }
+
     /** The first end point of the spline segment. Mutable. */
     get endPoint0(): EndPoint { return this.endPoint0_; }
     set endPoint0(endPoint: EndPoint) {

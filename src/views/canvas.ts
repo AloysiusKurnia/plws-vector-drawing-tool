@@ -2,6 +2,7 @@ import { COLOR } from "constants/settings";
 import { ZoomController } from "observers/zoom-controller";
 import { SVGWrapper } from "util/svg-wrapper";
 import { EndPointGroup } from "./groups/end-point-group";
+import { GroupCarrier } from "./groups/group-carrier";
 import { IntermediatePointGroup } from "./groups/intermediate-point-group";
 import { SplineSegmentGroup } from "./groups/spline-segment-group";
 
@@ -10,9 +11,9 @@ import { SplineSegmentGroup } from "./groups/spline-segment-group";
  * This canvas will fill the entire screen, and any other SVG elements will
  * be drawn on top of it.
  */
-export class SVGCanvas extends SVGWrapper {
+export class SVGCanvas extends SVGWrapper implements GroupCarrier {
     public readonly splineSegmentGroup = new SplineSegmentGroup();
-    public readonly controlPointGroup = new EndPointGroup();
+    public readonly endPointGroup = new EndPointGroup();
     public readonly intermediatePointGroup = new IntermediatePointGroup();
 
     /**
@@ -23,7 +24,7 @@ export class SVGCanvas extends SVGWrapper {
         super();
         this.splineSegmentGroup.appendTo(this);
         this.intermediatePointGroup.appendTo(this);
-        this.controlPointGroup.appendTo(this);
+        this.endPointGroup.appendTo(this);
         this.appendToElement(parent);
     }
 
@@ -42,13 +43,9 @@ export class SVGCanvas extends SVGWrapper {
      * @param zoomer The zoom controller.
      */
     setupZoomingAttributes(zoomer: ZoomController) {
-        this.splineSegmentGroup.setDefaultScaleFactor(zoomer.DEFAULT_SCALE_FACTOR);
-        this.controlPointGroup.setDefaultScaleFactor(zoomer.DEFAULT_SCALE_FACTOR);
-        this.intermediatePointGroup.setDefaultScaleFactor(zoomer.DEFAULT_SCALE_FACTOR);
-
         zoomer.doOnPanning(() => {
             this.splineSegmentGroup.rescale(zoomer.getScaleFactor());
-            this.controlPointGroup.rescale(zoomer.getScaleFactor());
+            this.endPointGroup.rescale(zoomer.getScaleFactor());
             this.intermediatePointGroup.rescale(zoomer.getScaleFactor());
         });
     }

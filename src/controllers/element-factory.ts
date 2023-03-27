@@ -1,7 +1,5 @@
 import { EventController } from "observers/event-controller";
-import { EndPointGroup } from "views/groups/end-point-group";
-import { IntermediatePointGroup } from "views/groups/intermediate-point-group";
-import { SplineSegmentGroup } from "views/groups/spline-segment-group";
+import { GroupCarrier } from "views/groups/group-carrier";
 import { EndPoint } from "./components/end-point";
 import { SplineSegment } from "./components/spline-segment";
 
@@ -13,18 +11,11 @@ export class ElementFactory {
     /**
      * Creates a new element factory.
      * @param controlManager The event controller.
-     * @param endPointGroup
-     * The group that contains all the end points.
-     * @param splineSegmentGroup
-     * The group that contains all the spline segments.
-     * @param intermediatePointGroup
-     * The group that contains all the intermediate points.
+     * @param groupCarrier An object that holds all the groups.
      */
     constructor(
         private readonly controlManager: EventController,
-        private readonly endPointGroup: EndPointGroup,
-        private readonly splineSegmentGroup: SplineSegmentGroup,
-        private readonly intermediatePointGroup: IntermediatePointGroup,
+        private readonly groupCarrier: GroupCarrier
     ) { }
 
     /**
@@ -33,7 +24,7 @@ export class ElementFactory {
      * @param y The y-coordinate of the end point.
      */
     createEndPoint(x: number, y: number): EndPoint {
-        const elem = new EndPoint(x, y, this.endPointGroup);
+        const elem = new EndPoint(x, y, this.groupCarrier.endPointGroup);
         this.controlManager.registerEndpointEvents(elem);
         return elem;
     }
@@ -51,8 +42,8 @@ export class ElementFactory {
         const elem = new SplineSegment(
             endPoint0,
             endPoint1,
-            this.splineSegmentGroup,
-            this.intermediatePointGroup
+            this.groupCarrier.splineSegmentGroup,
+            this.groupCarrier.intermediatePointGroup
         );
         this.controlManager.registerSegmentEvents(elem);
         this.controlManager.registerIntermediatePointEvents(

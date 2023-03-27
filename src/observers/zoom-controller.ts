@@ -33,7 +33,7 @@ export class ZoomController {
         private svg: SVGWrapper,
     ) {
         this.animationController.register(() => this.updateIfMoving());
-        this.DEFAULT_SCALE_FACTOR = this.getScaleFactor();
+        this.DEFAULT_SCALE_FACTOR = this.BASE ** this.scalePower;
         this.update();
     }
 
@@ -81,13 +81,9 @@ export class ZoomController {
         return this.STANDARD_VIEWBOX_WIDTH * this.getScaleFactor();
     }
 
-    /**
-     * Returns the current scale factor.
-     */
-    // TODO: Instead of returning this number, adjust it with the default
-    // scale factor.
+    /** Returns the current scale factor. */
     getScaleFactor(): number {
-        return this.BASE ** this.scalePower;
+        return this.BASE ** this.scalePower / this.DEFAULT_SCALE_FACTOR;
     }
 
     /**

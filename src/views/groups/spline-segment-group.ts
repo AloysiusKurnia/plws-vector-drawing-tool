@@ -12,7 +12,6 @@ export class SplineSegmentGroup extends AbstractGroup {
     }
 
     override rescale(zoomFactor: number): void {
-        const factor = zoomFactor / this.defaultScaleFactor;
-        this.style.strokeWidth = `${DIMENSION.segmentWidth * factor}`;
+        this.style.strokeWidth = `${DIMENSION.segmentWidth * zoomFactor}`;
     }
 }

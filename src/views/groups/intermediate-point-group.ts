@@ -21,11 +21,11 @@ export class IntermediatePointGroup extends AbstractGroup {
     }
 
     override rescale(zoomFactor: number): void {
-        const factor = zoomFactor / this.defaultScaleFactor;
-        this.template.setRadius(DIMENSION.intermediatePointRadius * factor);
+        this.template.setRadius(DIMENSION.intermediatePointRadius * zoomFactor);
         this.template
             .style
-            .strokeWidth = `${DIMENSION.pointStrokeWidth * factor}`;
-        this.style.strokeWidth = `${DIMENSION.intermediateLineWidth * factor}`;
+            .strokeWidth = `${DIMENSION.pointStrokeWidth * zoomFactor}`;
+        this.style
+            .strokeWidth = `${DIMENSION.intermediateLineWidth * zoomFactor}`;
     }
 }

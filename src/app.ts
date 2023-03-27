@@ -23,9 +23,7 @@ export class App implements StateTracker {
         this.controlManager = new EventController(this, this.zoomManager, this.svgCanvas);
         this.elementFactory = new ElementFactory(
             this.controlManager,
-            this.svgCanvas.controlPointGroup,
-            this.svgCanvas.splineSegmentGroup,
-            this.svgCanvas.intermediatePointGroup);
+            this.svgCanvas);
         this.stateFactory = new StateFactory(this, this.svgCanvas, this.elementFactory);
         this.currentAppState = this.stateFactory.idle();
     }

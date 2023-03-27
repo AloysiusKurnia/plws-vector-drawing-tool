@@ -20,11 +20,9 @@ export class EndPointGroup extends AbstractGroup {
     }
 
     override rescale(zoomFactor: number): void {
-        const factor = zoomFactor / this.defaultScaleFactor;
-        this.template.setRadius(DIMENSION.endPointRadius * factor);
+        this.template.setRadius(DIMENSION.endPointRadius * zoomFactor);
         this.template
             .style
-            .strokeWidth = `${DIMENSION.pointStrokeWidth * factor}`;
-        this.template;
+            .strokeWidth = `${DIMENSION.pointStrokeWidth * zoomFactor}`;
     }
 }

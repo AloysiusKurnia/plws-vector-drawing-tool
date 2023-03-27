@@ -2,8 +2,15 @@ import { BezierWrapper } from "util/svg-wrapper";
 import { Pointlike } from "util/utility-types";
 import { SplineSegmentGroup } from "../groups/spline-segment-group";
 
+/**
+ * The view of a spline segment.
+ */
 export class SplineSegmentView extends BezierWrapper {
     private isHidden = true;
+    /**
+     * Creates a spline segment view.
+     * @param group The group to which this view belongs.
+     */
     constructor(group: SplineSegmentGroup) {
         super();
         group.add(this);

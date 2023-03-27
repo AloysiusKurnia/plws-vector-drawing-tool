@@ -5,6 +5,9 @@ import { StateFactory } from "state/state-factory";
 import { Pointlike } from "util/utility-types";
 import { AbstractSelectedState } from "./abstract-selected";
 
+/**
+ * The state when an end point is selected and the user is dragging it.
+ */
 export class EndPointSelectedState extends AbstractSelectedState {
     private initialLocations = new Map<IntermediatePoint, Pointlike>();
     private initialEndPointLocation: Pointlike;

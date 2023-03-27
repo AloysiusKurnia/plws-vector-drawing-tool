@@ -2,9 +2,14 @@ import { EndPoint } from "controllers/components/end-point";
 import { IntermediatePoint } from "controllers/components/intermediate-point";
 import { AppState } from "state/abstract-state";
 
+/**
+ * The state when something is selected and the user is dragging it.
+ */
 export abstract class AbstractSelectedState extends AppState {
+    /** Whether the user is dragging the selected item. */
     protected dragging = true;
 
+    /** Performs the necessary actions before exiting the state. */
     protected abstract aboutToExit(): void;
 
     override onMouseUp(): void {

@@ -3,9 +3,16 @@ import { GroupWrapper, LineWrapper, UseWrapper } from "util/svg-wrapper";
 import { Pointlike } from "util/utility-types";
 import { IntermediatePointGroup } from "views/groups/intermediate-point-group";
 
+/**
+ * The view of an intermediate point.
+ */
 export class IntermediatePointView extends GroupWrapper {
     private line: LineWrapper;
     private point: UseWrapper;
+    /**
+     * Creates an intermediate point view.
+     * @param group The group to which this view belongs.
+     */
     constructor(group: IntermediatePointGroup) {
         super();
         group.add(this);

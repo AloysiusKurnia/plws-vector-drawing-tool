@@ -6,16 +6,14 @@ import { AppState, StateTracker } from "state/abstract-state";
 import { StateFactory } from "state/state-factory";
 import { Pointlike } from "util/utility-types";
 
+/**
+ * The state when the user is drawing a new path.
+ */
 export class DrawingState extends AppState {
     private previousPoint: EndPoint;
     private currentPoint: EndPoint;
-
     private currentSegment: SplineSegment;
-
     private currentSegmentBuilder: CatmullRomSplineBuilder;
-    // private previousSegment: SplineSegment | null = null;
-    // private previousSegmentBuilder: CatmullRomSplineBuilder | null = null;
-
     private previousSegment: {
         segment: SplineSegment,
         builder: CatmullRomSplineBuilder,
@@ -30,9 +28,9 @@ export class DrawingState extends AppState {
         firstPoint: EndPoint | null = null,
     ) {
         super(tracker, stateFactory);
-        this.previousPoint = firstPoint ?? this.elementFactory.createControlPoint(pointX, pointY);
+        this.previousPoint = firstPoint ?? this.elementFactory.createEndPoint(pointX, pointY);
         this.previousPoint.updateView();
-        this.currentPoint = this.elementFactory.createControlPoint(pointX, pointY);
+        this.currentPoint = this.elementFactory.createEndPoint(pointX, pointY);
         this.currentPoint.makeHidden();
         this.currentSegment = this.elementFactory.createSplineSegment(
             this.previousPoint,
@@ -84,7 +82,7 @@ export class DrawingState extends AppState {
             this.currentPoint.makeShown();
         }
 
-        this.currentPoint = this.elementFactory.createControlPoint(
+        this.currentPoint = this.elementFactory.createEndPoint(
             cursorPosition.x,
             cursorPosition.y
         );
@@ -104,7 +102,6 @@ export class DrawingState extends AppState {
         this.currentPoint.makeIntangible();
         this.currentSegment.makeIntangible();
     }
-
 
     override onEndPointClick(currentPoint: EndPoint): void {
         if (currentPoint === this.previousPoint) { return; }

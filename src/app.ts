@@ -1,7 +1,7 @@
 import { ElementFactory } from "controllers/element-factory";
 import { AnimationFrameController } from "observers/animation-frame-controller";
 import { EventController } from "observers/event-controller";
-import { ZoomController } from "observers/zoom";
+import { ZoomController } from "observers/zoom-controller";
 import { AppState, StateTracker } from "state/abstract-state";
 import { StateFactory } from "state/state-factory";
 import { SVGCanvas } from "views/canvas";

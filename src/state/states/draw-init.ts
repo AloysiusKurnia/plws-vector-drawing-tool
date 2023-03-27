@@ -3,6 +3,9 @@ import { AppState, StateTracker } from "state/abstract-state";
 import { StateFactory } from "state/state-factory";
 import { SVGCanvas } from "views/canvas";
 
+/**
+ * The state when the user is about to start drawing a new path.
+ */
 export class DrawInitState extends AppState {
     constructor(tracker: StateTracker, factory: StateFactory, private svgCanvas: SVGCanvas) {
         super(tracker, factory);

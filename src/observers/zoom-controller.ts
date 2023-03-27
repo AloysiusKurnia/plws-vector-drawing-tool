@@ -2,6 +2,9 @@ import { SVGWrapper } from "util/svg-wrapper";
 import { Pair, Procedure } from "util/utility-types";
 import { AnimationFrameController } from "./animation-frame-controller";
 
+/**
+ * A controller that manages the zooming and panning of the canvas.
+ */
 export class ZoomController {
     private scalePower = 1;
     private centerX = 0;
@@ -18,6 +21,13 @@ export class ZoomController {
     private dZoom = 0;
     private toBeDoneOnPan = [] as Procedure[];
 
+    /**
+     * Creates a new zoom controller.
+     * @param animationController
+     * The animation frame controller that the zoom controller will use.
+     * @param svg
+     * The SVG wrapper that will use the zoom controller.
+     */
     constructor(
         private animationController: AnimationFrameController,
         private svg: SVGWrapper,
@@ -27,6 +37,13 @@ export class ZoomController {
         this.update();
     }
 
+    /**
+     * Adds a movement to the zoom controller's queue. Think of it as nudging
+     * the camera instantaneously on a space without friction.
+     * @param dx How much force given horizontally.
+     * @param dy How much force given vertically.
+     * @param dZoom How much force given to zoom.
+     */
     addForce(
         dx: number,
         dy: number,
@@ -64,10 +81,22 @@ export class ZoomController {
         return this.STANDARD_VIEWBOX_WIDTH * this.getScaleFactor();
     }
 
+    /**
+     * Returns the current scale factor.
+     */
+    // TODO: Instead of returning this number, adjust it with the default
+    // scale factor.
     getScaleFactor(): number {
         return this.BASE ** this.scalePower;
     }
 
+    /**
+     * Translates a position on the screen to a position on the canvas.
+     * @param clientX The x coordinate of the position on the screen.
+     * @param clientY The y coordinate of the position on the screen.
+     * @param width The width of the screen.
+     * @param height The height of the screen.
+     */
     translatePosition(
         clientX: number, clientY: number,
         width: number, height: number
@@ -80,28 +109,10 @@ export class ZoomController {
         return [x + this.centerX, y + this.centerY];
     }
 
-    translateMovement(
-        movementX: number, movementY: number,
-        width: number, height: number
-    ): Pair<number> {
-        const minDimension = Math.min(width, height);
-        const x = movementX / minDimension * this.viewBoxWidth;
-        const y = movementY / minDimension * this.viewBoxWidth;
-        return [x, y];
-    }
-
-    zoomIn(): void {
-        this.scalePower += 1;
-    }
-
-    zoomOut(): void {
-        this.scalePower -= 1;
-    }
-
-    reset(): void {
-        this.scalePower = 1;
-    }
-
+    /**
+     * Registers a procedure to be called when the canvas is panned.
+     * @param callback The procedure to register.
+     */
     doOnPanning(callback: () => void): void {
         this.toBeDoneOnPan.push(callback);
     }

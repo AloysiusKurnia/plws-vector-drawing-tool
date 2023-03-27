@@ -2,15 +2,37 @@ import { EndPoint } from "controllers/components/end-point";
 import { SplineSegment } from "controllers/components/spline-segment";
 import { Pointlike, Quadruple, Pair } from "util/utility-types";
 
+/**
+ * A helper class that builds a spline segment according to the chordal 
+ * Catmull-Rom spline algorithm.
+ */
 export class CatmullRomSplineBuilder {
+    /** The first end point of the spline segment. */
     public endPoint0: EndPoint
+    /** The second end point of the spline segment. */
     public endPoint1: EndPoint
+    /**
+     * Creates a new spline segment builder.
+     * 
+     * @param outerPoint0
+     * The point before the first end point of the spline segment. See how
+     * Catmull-Rom splines work for more information.
+     * 
+     * @param outerPoint1
+     * The point after the second end point of the spline segment. See how
+     * Catmull-Rom splines work for more information.
+     * 
+     * @param segment The spline segment to build.
+     */
     constructor(
         public outerPoint0: EndPoint | null,
         public outerPoint1: EndPoint | null,
         public readonly segment: SplineSegment
     ) { }
 
+    /**
+     * Updates the spline segment according to the current end points.
+     */
     updatePoints() {
         const coords = completeControlPoint(
             this.outerPoint0,

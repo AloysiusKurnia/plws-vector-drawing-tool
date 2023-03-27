@@ -2,9 +2,11 @@ import { DIMENSION, ID } from "constants/settings";
 import { CircleWrapper, DefsWrapper } from "util/svg-wrapper";
 import { AbstractGroup } from "./abstract-group";
 
+/** A group that contains end point elements. */
 export class EndPointGroup extends AbstractGroup {
     private template: CircleWrapper;
 
+    /** Creates an end point group. */
     constructor() {
         super();
         const defintion = new DefsWrapper();

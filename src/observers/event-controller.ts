@@ -4,10 +4,16 @@ import { Triple } from "util/utility-types";
 import { SVGCanvas } from "views/canvas";
 import { EndPoint } from "controllers/components/end-point";
 import { SplineSegment } from "controllers/components/spline-segment";
-import { ZoomController } from "./zoom";
+import { ZoomController } from "./zoom-controller";
 import { DrawingElement } from "controllers/element";
 import { IntermediatePoint } from "controllers/components/intermediate-point";
 
+// TODO: This thing is huge. Maybe split it up into mouse and keyboard
+//      controllers?
+/**
+ * A controller that manages the event loop.
+ * This controller is responsible for handling user input.
+ */
 export class EventController {
     private stateTracker: StateTracker;
     private zoomManager: ZoomController;
@@ -25,6 +31,15 @@ export class EventController {
     private readonly lastOffsetPosition = { x: 0, y: 0 };
     private readonly lastCanvasBoundingBox = { width: 0, height: 0 };
 
+    /**
+     * Creates a new event controller.
+     * @param stateTracker
+     * The state tracker that the event controller will use.
+     * @param zoomManager
+     * The zoom controller that the event controller will use.
+     * @param canvas
+     * The canvas that the event controller will control.
+     */
     constructor(
         stateTracker: StateTracker,
         zoomManager: ZoomController,
@@ -133,6 +148,10 @@ export class EventController {
         );
     }
 
+    /**
+     * Registers the mouse events for the given end point.
+     * @param point The end point to register the events for.
+     */
     registerEndpointEvents(point: EndPoint) {
         this.registerElementMouseEvent(point,
             (state, point) => { state.onEndPointClick(point); },
@@ -141,6 +160,10 @@ export class EventController {
         );
     }
 
+    /**
+     * Registers the mouse events for the given spline segment.
+     * @param segment The spline segment to register the events for.
+     */
     registerSegmentEvents(segment: SplineSegment) {
         this.registerElementMouseEvent(segment,
             (state, segment) => { state.onSegmentClick(segment); },
@@ -149,6 +172,10 @@ export class EventController {
         );
     }
 
+    /**
+     * Registers the mouse events for the given intermediate point.
+     * @param point The intermediate point to register the events for.
+     */
     registerIntermediatePointEvents(point: IntermediatePoint) {
         this.registerElementMouseEvent(point,
             (state, point) => { state.onIntermediatePointClick(point); },
@@ -157,7 +184,10 @@ export class EventController {
         );
     }
 
-
+    /**
+     * Registers the mouse events for the canvas.
+     * @param canvas The canvas to register the events for.
+     */
     registerCanvasClick(canvas: SVGCanvas) {
         canvas.addEvent("mousedown",
             (event: MouseEvent) => {

@@ -5,7 +5,8 @@
   "main": "src/index.ts",
   "scripts": {
     "build": "node build.js",
-    "type-check": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "watch": "node build.js --watch"
   },
   "author": "",
   "license": "ISC",
@@ -16,5 +17,6 @@
     "eslint": "^8.36.0",
     "terser": "^5.16.6",
     "typescript": "^5.0.2"
-  }
+  },
+  "type": "module"
 }

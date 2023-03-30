@@ -15,6 +15,7 @@ export const COLOR = {
     intermediatePoint: "#eee",
     intermediatePointHover: "#fff",
     intermediatePointSelected: "#ff0",
+    intermediatePointCouple: "#e8e870",
     intermediateLine: "#aaa",
 
     segmentSelected: "#888",
@@ -34,7 +35,7 @@ export const DIMENSION = {
 
     textFontSize: 12,
     textFontFamily: "consolas",
-    textMarginFromBottom: 5,
+    textMarginFromBottom: 10,
 } as const;
 
 /**

@@ -1,6 +1,7 @@
 import { IntermediatePoint } from "controllers/components/intermediate-point";
 import { StateTracker } from "state/abstract-state";
 import { StateFactory } from "state/state-factory";
+import { TextPopUp } from "views/gui/text-popup";
 import { AbstractSelectedState } from "./abstract-selected";
 
 /**
@@ -11,12 +12,16 @@ export class IntermediatePointSelectedState extends AbstractSelectedState {
     constructor(
         tracker: StateTracker,
         factory: StateFactory,
-        private intermediatePoint: IntermediatePoint
+        private intermediatePoint: IntermediatePoint,
+        private settings: {
+            dragMode: 'linear' | 'locked' | 'proportional';
+        },
+        private textPopUp: TextPopUp
     ) {
         super(tracker, factory);
         intermediatePoint.makeSelected();
         if (intermediatePoint.couple) {
-            intermediatePoint.couple.makeSelected();
+            intermediatePoint.couple.makeSelected(true);
             this.coupleDistance = intermediatePoint.couple
                 .getDistanceToEndpoint();
         }
@@ -60,5 +65,20 @@ export class IntermediatePointSelectedState extends AbstractSelectedState {
             this.intermediatePoint.couple?.makeDeslected();
             this.changeState(this.factory.intermediatePointSelected(intermediatePoint));
         }
+    }
+
+    override onNumber1(): void {
+        this.settings.dragMode = 'linear';
+        this.textPopUp.displayText('Linear drag mode');
+    }
+
+    override onNumber2(): void {
+        this.settings.dragMode = 'locked';
+        this.textPopUp.displayText('Locked drag mode');
+    }
+
+    override onNumber3(): void {
+        this.settings.dragMode = 'proportional';
+        this.textPopUp.displayText('Proportional drag mode');
     }
 }

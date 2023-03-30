@@ -15,10 +15,9 @@ export class EndPointSelectedState extends AbstractSelectedState {
         tracker: StateTracker,
         factory: StateFactory,
         private endPoint: EndPoint,
-        startAsDragging = true
     ) {
         super(tracker, factory);
-        this.dragging = startAsDragging;
+        this.dragging = true;
         endPoint.makeSelected();
         this.initialEndPointLocation = { x: endPoint.x, y: endPoint.y };
         for (const intermediatePoint of endPoint.getIntermediatePoints()) {

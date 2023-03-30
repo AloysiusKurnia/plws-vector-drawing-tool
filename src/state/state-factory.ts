@@ -9,15 +9,22 @@ import { DrawingState } from "./states/drawing";
 import { EndPointSelectedState } from "./states/selected/end-point-selected";
 import { IdleState } from "./states/idle";
 import { IntermediatePointSelectedState } from "./states/selected/intermediate-point-selected";
+import { TextPopUp } from "views/gui/text-popup";
 
 /**
  * Creates new states and initializes them with their required dependencies.
  */
 export class StateFactory {
+    private settings = {
+        intermediatePoint: {
+            dragMode: 'linear' as 'linear' | 'locked' | 'proportional'
+        }
+    };
     constructor(
         private tracker: StateTracker,
         private svgCanvas: SVGCanvas,
         private elementFactory: ElementFactory,
+        private textPopUp: TextPopUp,
     ) { }
 
     /** Creates a new idle state. */
@@ -55,9 +62,8 @@ export class StateFactory {
      * Creates a new state for when an end point is selected.
      * @param endPoint The selected end point.
      */
-    // TODO: Remove startAsDragging parameter.
-    endPointSelected(endPoint: EndPoint, startAsDragging = true): AppState {
-        return new EndPointSelectedState(this.tracker, this, endPoint, startAsDragging);
+    endPointSelected(endPoint: EndPoint): AppState {
+        return new EndPointSelectedState(this.tracker, this, endPoint);
     }
 
     /**
@@ -68,6 +74,8 @@ export class StateFactory {
         return new IntermediatePointSelectedState(
             this.tracker,
             this,
-            intermediatePoint);
+            intermediatePoint,
+            this.settings.intermediatePoint,
+            this.textPopUp);
     }
 }

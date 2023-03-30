@@ -26,15 +26,17 @@ export class App implements StateTracker {
         this.elementFactory = new ElementFactory(
             this.controlManager,
             this.svgCanvas);
-        this.stateFactory = new StateFactory(this, this.svgCanvas, this.elementFactory);
+        this.textPopUp = new TextPopUp(
+            this.svgCanvas,
+            this.zoomManager,
+            this.animationController);
+
+        this.stateFactory = new StateFactory(
+            this,
+            this.svgCanvas,
+            this.elementFactory,
+            this.textPopUp);
         this.currentAppState = this.stateFactory.idle();
-        this.textPopUp = new TextPopUp(this.svgCanvas, this.zoomManager);
-        this.textPopUp.appendTo(this.svgCanvas);
-        this.animationController.register(() => this.textPopUp.decreaseOpacity())
-        this.textPopUp.displayText("Hello World!");
-        this.zoomManager.doOnPanning(() => {
-            this.textPopUp.rescale();
-        });
     }
 
     getCurrentState(): AppState {

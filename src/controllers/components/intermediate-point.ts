@@ -46,9 +46,13 @@ export class IntermediatePoint
     }
 
     /** Selects the intermediate point. */
-    makeSelected(): void {
-        this.viewElement.graphicsToSelected();
+    makeSelected(asCouple = false): void {
         this.selected = true;
+        if (asCouple) {
+            this.viewElement.graphicsToCoupled();
+        } else {
+            this.viewElement.graphicsToSelected();
+        }
     }
 
     /** Deselects the intermediate point. */

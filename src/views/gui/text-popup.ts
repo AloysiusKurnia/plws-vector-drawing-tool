@@ -1,4 +1,5 @@
 import { COLOR, DIMENSION } from "constants/settings";
+import { AnimationFrameController } from "observers/animation-frame-controller";
 import { ZoomController } from "observers/zoom-controller";
 import { TextWrapper } from "util/svg-wrapper";
 import { SVGCanvas } from "views/canvas";
@@ -9,6 +10,7 @@ export class TextPopUp extends TextWrapper {
     constructor(
         private canvas: SVGCanvas,
         private zoomController: ZoomController,
+        animationController: AnimationFrameController,
     ) {
         super();
         this.style.display = 'none';
@@ -21,6 +23,9 @@ export class TextPopUp extends TextWrapper {
         this.style.pointerEvents = 'none';
         this.style.userSelect = 'none';
         this.rescale();
+        zoomController.doOnPanning(() => this.rescale());
+        animationController.register(() => this.decreaseOpacity());
+        this.appendTo(canvas);
     }
 
     displayText(text: string) {

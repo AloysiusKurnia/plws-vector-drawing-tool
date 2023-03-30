@@ -71,4 +71,12 @@ export class IntermediatePointView extends GroupWrapper
         this.point.style.fill = COLOR.intermediatePointSelected;
         this.point.style.stroke = COLOR.lightBlack;
     }
+
+    /**
+     * Change the graphics to when the intermediate point's couple is selected.
+     */
+    graphicsToCoupled() {
+        this.point.style.fill = COLOR.intermediatePointCouple;
+        this.point.style.stroke = COLOR.lightBlack;
+    }
 }

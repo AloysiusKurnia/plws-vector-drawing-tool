@@ -31,6 +31,10 @@ export const DIMENSION = {
 
     intermediateLineWidth: 2.5,
     segmentWidth: 3.75,
+
+    textFontSize: 12,
+    textFontFamily: "consolas",
+    textMarginFromBottom: 5,
 } as const;
 
 /**

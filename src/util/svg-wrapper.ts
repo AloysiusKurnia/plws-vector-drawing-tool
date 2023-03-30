@@ -19,7 +19,7 @@ export abstract class ElementWrapper<E extends SVGElement = SVGElement> {
      * Creates a new wrapper around the given element.
      * @param wrappedElement The element to be wrapped.
      */
-    constructor(private wrappedElement: E) { }
+    constructor(protected wrappedElement: E) { }
 
     /**
      * Appends this element to the given parent wrapper.
@@ -374,5 +374,28 @@ export class DefsWrapper extends ElementWrapper<SVGDefsElement> {
      */
     use(id: string) {
         return new UseWrapper(`#${id}`);
+    }
+}
+
+/**
+ * A wrapper around an SVG <text> element.
+ */
+export class TextWrapper extends ElementWrapper<SVGTextElement> {
+    constructor() {
+        super(createSVGFromTag("text"));
+    }
+
+    /**
+     * Sets the position of this text.
+     * @param x The x coordinate of the position.
+     * @param y The y coordinate of the position.
+     */
+    setPosition(x: number, y: number) {
+        this.setAttribute("x", `${x}`);
+        this.setAttribute("y", `${y}`);
+    }
+
+    setText(text: string) {
+        this.wrappedElement.textContent = text;
     }
 }

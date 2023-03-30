@@ -44,9 +44,10 @@ export class SVGCanvas extends SVGWrapper implements GroupCarrier {
      */
     setupZoomingAttributes(zoomer: ZoomController) {
         zoomer.doOnPanning(() => {
-            this.splineSegmentGroup.rescale(zoomer.getScaleFactor());
-            this.endPointGroup.rescale(zoomer.getScaleFactor());
-            this.intermediatePointGroup.rescale(zoomer.getScaleFactor());
+            const scaleFactor = zoomer.getScaleFactor();
+            this.splineSegmentGroup.rescale(scaleFactor);
+            this.endPointGroup.rescale(scaleFactor);
+            this.intermediatePointGroup.rescale(scaleFactor);
         });
     }
 }

@@ -5,6 +5,7 @@ import { ZoomController } from "observers/zoom-controller";
 import { AppState, StateTracker } from "state/abstract-state";
 import { StateFactory } from "state/state-factory";
 import { SVGCanvas } from "views/canvas";
+import { TextPopUp } from "views/gui/text-popup";
 
 export class App implements StateTracker {
     private animationController = new AnimationFrameController();
@@ -15,6 +16,7 @@ export class App implements StateTracker {
 
     private elementFactory: ElementFactory;
     private stateFactory: StateFactory;
+    private textPopUp: TextPopUp;
 
     constructor(parent: HTMLElement) {
         this.svgCanvas = new SVGCanvas(parent);
@@ -26,6 +28,13 @@ export class App implements StateTracker {
             this.svgCanvas);
         this.stateFactory = new StateFactory(this, this.svgCanvas, this.elementFactory);
         this.currentAppState = this.stateFactory.idle();
+        this.textPopUp = new TextPopUp(this.svgCanvas, this.zoomManager);
+        this.textPopUp.appendTo(this.svgCanvas);
+        this.animationController.register(() => this.textPopUp.decreaseOpacity())
+        this.textPopUp.displayText("Hello World!");
+        this.zoomManager.doOnPanning(() => {
+            this.textPopUp.rescale();
+        });
     }
 
     getCurrentState(): AppState {

@@ -17,7 +17,8 @@ import { TextPopUp } from "views/gui/text-popup";
 export class StateFactory {
     private settings = {
         intermediatePoint: {
-            dragMode: 'linear' as 'linear' | 'locked' | 'proportional'
+            locked: false,
+            proportional: false
         }
     };
     constructor(

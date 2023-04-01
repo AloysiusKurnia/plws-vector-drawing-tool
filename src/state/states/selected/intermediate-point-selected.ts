@@ -8,77 +8,114 @@ import { AbstractSelectedState } from "./abstract-selected";
  * The state when an intermediate point is selected and the user is dragging it.
  */
 export class IntermediatePointSelectedState extends AbstractSelectedState {
-    private coupleDistance = 0;
+    private initialDistance = 0;
+    private coupleInitialDistance = 0;
+    private initialAngle = 0;
+    private couple: IntermediatePoint | null = null;
     constructor(
         tracker: StateTracker,
         factory: StateFactory,
-        private intermediatePoint: IntermediatePoint,
+        private point: IntermediatePoint,
         private settings: {
-            dragMode: 'linear' | 'locked' | 'proportional';
+            locked: boolean;
+            proportional: boolean;
         },
         private textPopUp: TextPopUp
     ) {
         super(tracker, factory);
-        intermediatePoint.makeSelected();
-        if (intermediatePoint.couple) {
-            intermediatePoint.couple.makeSelected(true);
-            this.coupleDistance = intermediatePoint.couple
-                .getDistanceToEndpoint();
+        point.makeSelected();
+        this.initialDistance = point.getDistanceToEndpoint();
+        this.couple = point.couple;
+        this.initialAngle = point.getAbsoluteAngle();
+        if (this.couple) {
+            this.couple.makeSelected(true);
+            this.coupleInitialDistance = this.couple.getDistanceToEndpoint();
         }
     }
 
+    override onMouseUp(): void {
+        this.initialDistance = this.point.getDistanceToEndpoint();
+        this.coupleInitialDistance = this.couple?.getDistanceToEndpoint() ?? 0;
+        this.initialAngle = this.point.getAbsoluteAngle();
+        this.dragging = false;
+    }
+
     override onMouseMove(x: number, y: number): void {
+        if (this.settings.locked) {
+            const cursorDx = this.point.endPoint.x - x;
+            const cursorDy = this.point.endPoint.y - y;
+            const cursorDistance = Math.hypot(cursorDx, cursorDy);
+            const angleDiff = Math.atan2(cursorDy, cursorDx) - this.initialAngle;
+            const projectedDistance = -cursorDistance * Math.cos(angleDiff);
+            x = this.point.endPoint.x +
+                projectedDistance * Math.cos(this.initialAngle);
+            y = this.point.endPoint.y +
+                projectedDistance * Math.sin(this.initialAngle);
+        }
         if (this.dragging) {
-            this.intermediatePoint.copyFrom({ x, y });
-            this.intermediatePoint.updateView();
-            this.intermediatePoint.owner.updateView();
-            if (this.intermediatePoint.couple) {
-                const angle = this.intermediatePoint.getAngleToEndpoint() +
+            this.point.copyFrom({ x, y });
+            this.point.updateView();
+            this.point.owner.updateView();
+            if (this.couple) {
+                const coupleDistance = this.settings.proportional ? (
+                    this.coupleInitialDistance / this.initialDistance
+                    * this.point.getDistanceToEndpoint()
+                ) : this.coupleInitialDistance;
+                const angle = this.point.getAbsoluteAngle() +
                     Math.PI;
-                const coupleDx = this.coupleDistance * Math.cos(angle);
-                const coupleDy = this.coupleDistance * Math.sin(angle);
-                this.intermediatePoint.couple.copyFrom({
-                    x: this.intermediatePoint.endPoint.x + coupleDx,
-                    y: this.intermediatePoint.endPoint.y + coupleDy,
+                const coupleDx = coupleDistance * Math.cos(angle);
+                const coupleDy = coupleDistance * Math.sin(angle);
+                this.couple.copyFrom({
+                    x: this.point.endPoint.x + coupleDx,
+                    y: this.point.endPoint.y + coupleDy,
                 });
-                this.intermediatePoint.couple.updateView();
-                this.intermediatePoint.couple.owner.updateView();
+                this.couple.updateView();
+                this.couple.owner.updateView();
             }
         }
     }
 
     protected override aboutToExit(): void {
-        this.intermediatePoint.makeDeslected();
-        if (this.intermediatePoint.couple) {
-            this.intermediatePoint.couple.makeDeslected();
+        this.point.makeDeslected();
+        if (this.couple) {
+            this.couple.makeDeslected();
         }
-        for (const intermediatePoint of this.intermediatePoint.endPoint.getIntermediatePoints()) {
+        for (const intermediatePoint of this.point.endPoint.getIntermediatePoints()) {
             intermediatePoint.makeHidden();
         }
     }
 
     override onIntermediatePointClick(intermediatePoint: IntermediatePoint): void {
-        if (intermediatePoint === this.intermediatePoint) {
+        if (intermediatePoint === this.point) {
             this.dragging = true;
         } else {
-            this.intermediatePoint.makeDeslected();
-            this.intermediatePoint.couple?.makeDeslected();
+            this.point.makeDeslected();
+            this.couple?.makeDeslected();
             this.changeState(this.factory.intermediatePointSelected(intermediatePoint));
         }
     }
 
     override onNumber1(): void {
-        this.settings.dragMode = 'linear';
-        this.textPopUp.displayText('Linear drag mode');
+        this.settings.locked = false;
+        this.settings.proportional = false;
+        this.textPopUp.displayText('Drag mode: free');
     }
 
     override onNumber2(): void {
-        this.settings.dragMode = 'locked';
-        this.textPopUp.displayText('Locked drag mode');
+        this.settings.locked = true;
+        this.settings.proportional = false;
+        this.textPopUp.displayText('Drag mode: locked');
     }
 
     override onNumber3(): void {
-        this.settings.dragMode = 'proportional';
-        this.textPopUp.displayText('Proportional drag mode');
+        this.settings.locked = false;
+        this.settings.proportional = true;
+        this.textPopUp.displayText('Drag mode: proportional');
+    }
+
+    override onNumber4(): void {
+        this.settings.locked = true;
+        this.settings.proportional = true;
+        this.textPopUp.displayText('Drag mode: locked-proportional');
     }
 }

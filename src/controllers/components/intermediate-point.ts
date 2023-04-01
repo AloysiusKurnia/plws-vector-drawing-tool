@@ -75,8 +75,8 @@ export class IntermediatePoint
         return Math.hypot(this.x - this.endPoint.x, this.y - this.endPoint.y);
     }
 
-    /** Returns the angle from this point to the end point. */
-    getAngleToEndpoint(): number {
+    /** Returns the absolute angle of this point relative to the end point. */
+    getAbsoluteAngle(): number {
         return Math.atan2(this.y - this.endPoint.y, this.x - this.endPoint.x);
     }
 
